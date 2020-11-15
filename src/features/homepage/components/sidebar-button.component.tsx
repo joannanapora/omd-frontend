@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Nav, Button, Text } from "grommet";
+import { Box, Avatar, Button, Text } from "grommet";
 
-export const SidebarButton = ({ label, ...rest }) => (
+
+
+export const SidebarButton = ({image, label, ...rest}) => (
     <Button plain {...rest}>
       {({ hover }) => (
         <Box
@@ -9,6 +11,7 @@ export const SidebarButton = ({ label, ...rest }) => (
           pad={{ horizontal: 'large', vertical: 'medium' }}
         >
           <Text size="large">{label}</Text>
+          <Avatar size="large" src={image} round="large" />
         </Box>
       )}
     </Button>

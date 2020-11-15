@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {SideBar} from "../components/sidebar.component";
 import "./homepage.container.scss";
 
@@ -6,9 +6,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Articles } from '../../articles/components/artciles.component' ;
 
-import { MainMenu } from '../../main-menu/components/main-menu.component';
+import MainPage from '../../main-menu/components/main-menu.component';
 
 import { Gallery } from '../../gallery/components/gallery.component';
+
+
+
+
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {
     super(props);
@@ -16,8 +20,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
     this.state = {
       sections: [
         {
-          name: "main-menu",
-          imageUrl: "",
+          imageUrl: '',
           id: 1,
         },
         {
@@ -50,7 +53,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         <SideBar menuList={this.state.sections}/>
         <BrowserRouter>
         <Switch>
-        <Route exact path ='/' component = {MainMenu} />
+        <Route exact path ='/' component = {MainPage}/>
         <Route path = '/articles' component = {Articles} />
         <Route path = '/gallery' component = {Gallery} />
         </Switch>
