@@ -1,11 +1,25 @@
 import React from 'react';
 import './App.css';
+import HomePage from './features/homepage/containers/homepage.container';
+import { Grommet } from 'grommet';
+
+
+const theme = {
+  global: {
+    font: {
+      family: 'Roboto',
+      size: '18px',
+      height: '20px',
+    },
+  },
+};
 
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <Grommet className = "gromet" theme={theme}>
+      <HomePage/>
+    </Grommet>
   );
 }
 
