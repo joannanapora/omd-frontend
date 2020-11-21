@@ -1,0 +1,22 @@
+.menu-option {
+    display: flex;
+}
+
+.menu-button {
+    width: 100%;
+    &:focus {
+        box-shadow: none !important;
+    }
+
+}
+
+.menu-box {
+    text-align: center;
+    outline: none;
+    font-family: 'Texturina', serif;
+    
+}
+
+.box-menu {
+    outline: none;
+}

@@ -1,16 +1,22 @@
-import React from 'react';
+import React from "react";
 import { Box, Avatar, Button, Text } from "grommet";
+import { Link } from "react-router-dom";
+import "./sidebar-button.component.scss";
 
-export const SidebarButton = ({image, label, ...rest}) => (
-    <Button plain {...rest}>
+export const SidebarButton = ({ url, image, label, ...rest }) => (
+  <Link className="menu-option" to={url}>
+    <Button className=' menu-button' plain {...rest}>
       {({ hover }) => (
-        <Box
-          background={hover ? 'accent-1' : undefined}
-          pad={{ horizontal: 'large', vertical: 'medium' }}
+        <Box className = 'menu-box'
+          background={hover && !image ? "white" : undefined}
+          pad={{ horizontal: "large", vertical: "medium" }}
         >
           <Text size="large">{label}</Text>
-          <Avatar size="large" src={''} round="large" />
+          {image ? (
+            <Avatar className="logo" size="large" src={image} round="large" />
+          ) : null}
         </Box>
       )}
     </Button>
-  );
+  </Link>
+);
