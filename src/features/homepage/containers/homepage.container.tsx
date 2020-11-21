@@ -10,9 +10,8 @@ import MainPage from '../../main-menu/components/main-menu.component';
 
 import { Gallery } from '../../gallery/components/gallery.component';
 
-
-
-
+import '../plant.svg';
+ 
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {
     super(props);
@@ -20,7 +19,8 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
     this.state = {
       sections: [
         {
-          imageUrl: '',
+          name: "",
+          imageUrl: `https://www.flaticon.com/svg/static/icons/svg/628/628324.svg`,
           id: 1,
         },
         {
