@@ -5,11 +5,10 @@ import './sidebar-button.component.scss';
 import UserProfile from '../containers/user-profile.container';
 
 export const SideBar = (props: {menuList: any[]}) => ( 
-        <Box className = "box-menu" width="auto" fill direction="row">
-        <Nav background="background-color: #233329;
-          background-image: linear-gradient(315deg, #233329 0%, #63d471 74%);">
+        <Box className = "box-menu" fill direction="row">
+        <Nav background='white'>
           {props.menuList.map( element => (
-            <SidebarButton
+            <SidebarButton className= 'menu-button'
               url = {element.url}
               key={element.id}
               label={element.name}

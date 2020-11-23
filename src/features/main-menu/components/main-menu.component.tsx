@@ -1,5 +1,4 @@
-import { defaultProps, Main } from 'grommet';
-import React, { Component } from 'react';
+import React from 'react';
 import './main-menu.component.scss'
 import { Calender } from '../main-page/calender/components/calender.component';
 import { Journal } from '../main-page/journal/components/journal.component';

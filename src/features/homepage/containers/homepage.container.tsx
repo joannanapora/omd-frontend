@@ -1,15 +1,17 @@
 import React from "react";
-import {SideBar} from "../components/sidebar.component";
+import { SideBar } from "../components/sidebar.component";
 import "./homepage.container.scss";
 
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
 
-import { Articles } from '../../articles/components/artciles.component' ;
+import { Articles } from "../../articles/components/artciles.component";
 
-import MainPage from '../../main-menu/components/main-menu.component';
+import MainPage from "../../main-menu/components/main-menu.component";
 
-import { Gallery } from '../../gallery/components/gallery.component';
- 
+import { Gallery } from "../../gallery/components/gallery.component";
+
+import SignIn from "./sign-in.container";
+
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {
     super(props);
@@ -18,33 +20,34 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
       sections: [
         {
           name: "",
-          imageUrl: 'https://www.flaticon.com/svg/static/icons/svg/628/628324.svg',
+          imageUrl:
+            "https://www.flaticon.com/svg/static/icons/svg/628/628324.svg",
           id: 1,
-          url: '/'
+          url: "/",
         },
         {
-          name: "Articles",
+          name: "ARTICLES",
           imageUrl: "",
           id: 2,
-          url: '/articles'
+          url: "/articles",
         },
         {
-          name: "Gallery",
+          name: "GALLERY",
           imageUrl: "",
           id: 3,
-          url: '/gallery'
+          url: "/gallery",
         },
         {
-          name: "Shop",
+          name: "SHOP",
           imageUrl: "",
           id: 4,
-          url: '/shop'
+          url: "/shop",
         },
         {
-          name: "Profile",
+          name: "CONTACT",
           imageUrl: "",
           id: 5,
-          url: '/profile'
+          url: "/contact",
         },
       ],
     };
@@ -53,12 +56,18 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
   render() {
     return (
       <div className="homepage">
-        <SideBar menuList={this.state.sections}/>
-        <Switch>
-        <Route exact path ='/' component = {MainPage}/>
-        <Route path = '/articles' component = {Articles} />
-        <Route path = '/gallery' component = {Gallery} />
-        </Switch>
+        <div>
+          <SideBar menuList={this.state.sections} />
+        </div>
+
+        <div className="homepage-right">
+          <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route path="/articles" component={Articles} />
+            <Route path="/gallery" component={Gallery} />
+            <Route path="/sign-in" component={SignIn} />
+          </Switch>
+        </div>
       </div>
     );
   }
