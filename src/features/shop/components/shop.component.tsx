@@ -1,12 +1,12 @@
 import React from 'react';
-import './gallery.component.scss';
+import './shop.component.scss';
 import { Box } from 'grommet';
 
 
-const Gallery = () => (
+const Shop = () => (
     <Box className="articles" background="white" border gap="medium" pad="large" width="medium">
-        <h1 className="articles-box"> Gallery </h1>
+        <h1 className="articles-box"> Shop </h1>
     </Box>
 );
 
-export default Gallery;
+export default Shop;

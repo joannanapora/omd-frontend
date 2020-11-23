@@ -7,12 +7,12 @@ const theme = {
   global: {
     colors: {
       brand: "white",
-      active: "#eecc33",
+      active: "#66ad66",
     },
     font: {
-      family: "Srisakdi, cursive",
-      size: "18px",
-      height: "20px",
+      family: 'Texturina',
+      size: "1px",
+      height: "2px",
     },
   },
   button: {
@@ -25,12 +25,12 @@ const theme = {
       },
     },
     primary: {
-      background: { color: "brand" },
+      background: { color: "black" },
       border: undefined,
-      color: "text-strong",
+      color: "white",
       font: { weight: "bold" },
       padding: {
-        horizontal: ".5rem",
+        horizontal: "1.6rem",
         vertical: ".5rem",
       },
     },
@@ -64,6 +64,58 @@ const theme = {
         border: { color: "active" },
       },
     },
+  },
+  formField: {
+    border: {
+      error: {
+        color: 'border',
+      },
+      color: 'border',
+    },
+    disabled: {
+      background: {
+        color: undefined,
+      },
+      border: {
+        color: 'status-disabled',
+      },
+      label: {
+        color: 'status-disabled',
+      },
+    },
+    error: {
+      background: {
+        color: { light: '#FF404033', dark: '#FF40404D' },
+      },
+      size: 'xsmall',
+      color: 'text-weak',
+      margin: {
+        start: 'none',
+      },
+    },
+    help: {
+      size: 'xsmall',
+      color: 'text-weak',
+      margin: {
+        start: 'none',
+        bottom: 'xsmall',
+      },
+    },
+    info: {
+      size: 'xsmall',
+      color: 'text-weak',
+      margin: {
+        start: 'none',
+      },
+    },
+    label: {
+      size: 'xsmall',
+      color: 'text-weak',
+      margin: {
+        horizontal: 'none',
+      },
+    },
+    round: '4px',
   },
 };
 

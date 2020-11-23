@@ -1,14 +1,15 @@
 import React from 'react';
 import './main-menu.component.scss'
-import { Calender } from '../main-page/calender/components/calender.component';
-import { Journal } from '../main-page/journal/components/journal.component';
+
+import Calender from '../main-page/calender/components/calender.component';
+import Journal from '../main-page/journal/components/journal.component';
 
 
 class MainPage extends React.Component<{}, { calender: any[], journal: any[] }> {
     constructor(props) {
-      super(props);
+        super(props);
 
-      
+
 
         this.state = {
             calender: [],
@@ -17,10 +18,10 @@ class MainPage extends React.Component<{}, { calender: any[], journal: any[] }> 
     };
 
     render() {
-        return (<div className = "main-menu">
-            <Journal></Journal>
-            <Calender></Calender>
-            </div>)
+        return (<div className="main-menu">
+            <Calender />
+            <Journal />
+        </div>)
     };
 }
 

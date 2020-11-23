@@ -7,7 +7,7 @@ export const SidebarButton = ({ url, image, label, ...rest }) => (
   <Link className="menu-option" to={url}>
     <Button className=' menu-button' plain {...rest}>
       {({ hover }) => (
-        <Box className = 'menu-box'
+        <Box className='menu-box'
           background={hover && !image ? "none" : undefined}
           pad={{ horizontal: "large", vertical: "medium" }}
         >

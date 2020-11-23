@@ -15,11 +15,11 @@ class UserProfile extends React.Component<{}, { avatar: any; userName: any }> {
   render() {
     return (
       <div className="user-area">
-        <div className = 'coala' >
-          <img alt="user-profile" src ="https://www.flaticon.com/svg/static/icons/svg/3069/3069172.svg" />
+        <div className='coala' >
+          <img alt="user-profile" src="https://www.flaticon.com/svg/static/icons/svg/3069/3069172.svg" />
         </div>
-        <Link>
-          <h1>Sign In</h1>
+        <Link to='/sign-in'>
+          <h1>sign in</h1>
         </Link>
       </div>
     );

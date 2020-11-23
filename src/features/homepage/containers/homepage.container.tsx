@@ -1,15 +1,16 @@
 import React from "react";
-import { SideBar } from "../components/sidebar.component";
 import "./homepage.container.scss";
 
 import { Switch, Route } from "react-router-dom";
 
-import { Articles } from "../../articles/components/artciles.component";
-
+import { SideBar } from "../components/sidebar.component";
 import MainPage from "../../main-menu/components/main-menu.component";
+import Articles from "../../articles/components/artciles.component";
+import Gallery from "../../gallery/components/gallery.component";
+import Shop from "../../shop/components/shop.component";
+import Contact from "../../contact/components/contact.components";
 
-import { Gallery } from "../../gallery/components/gallery.component";
-
+import Register from "./register.container";
 import SignIn from "./sign-in.container";
 
 class HomePage extends React.Component<{}, { sections: any[] }> {
@@ -59,13 +60,15 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         <div>
           <SideBar menuList={this.state.sections} />
         </div>
-
         <div className="homepage-right">
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/articles" component={Articles} />
             <Route path="/gallery" component={Gallery} />
+            <Route path="/shop" component={Shop} />
+            <Route path='/contact' component={Contact} />
             <Route path="/sign-in" component={SignIn} />
+            <Route path='/register' component={Register} />
           </Switch>
         </div>
       </div>

@@ -1,8 +1,12 @@
 import React from 'react';
-import './journal.component';
+import './journal.component.scss';
+import { Box } from 'grommet';
 
-export const Journal = () => (
-    <div className = 'journal'>
-        Journal
-    </div>
+
+const Journal = () => (
+    <Box className="articles" background="white" border gap="medium" pad="large" width="medium">
+        <h1 className="articles-box"> Journal </h1>
+    </Box>
 );
+
+export default Journal;
