@@ -3,15 +3,15 @@ import "./homepage.container.scss";
 
 import { Switch, Route } from "react-router-dom";
 
-import { SideBar } from "../components/sidebar.component";
-import MainPage from "../../main-menu/components/main-menu.component";
-import Articles from "../../articles/components/artciles.component";
-import Gallery from "../../gallery/components/gallery.component";
-import Shop from "../../shop/components/shop.component";
-import Contact from "../../contact/components/contact.components";
+import SideBar from "../homepage/sidebar/sidebar.component";
+import MainPage from "../features/main-menu/main-menu.component";
+import Articles from "../features/articles/artciles.component";
+import Gallery from "../features/gallery/gallery.component";
+import Shop from "../features/shop/shop.component";
+import Contact from "../features/contact/contact.components";
 
-import Register from "./register.container";
-import SignIn from "./sign-in.container";
+import Register from "../features/sign-up/register.container";
+import SignIn from "../features/sign-in/sign-in.container";
 
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {

@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Button } from "grommet";
 
-const CustomButton = ({ children, ...otherProps }: any) => (
+export const CustomButton = ({ children, ...otherProps }: any) => (
   <Box align="center" pad="xsmall">
     <Button className='custom-button' primary
 
@@ -11,5 +11,3 @@ const CustomButton = ({ children, ...otherProps }: any) => (
     </Button>
   </Box>
 );
-
-export default CustomButton;

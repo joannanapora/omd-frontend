@@ -1,26 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import './register.container.scss'
 
-import './sign-in.container.scss';
-import CustomButton from '../components/custom-button.component'
-
-
+import { CustomButton } from '../../shared';
 import { Box, Form, FormField, TextInput } from 'grommet';
 
-class SignIn extends React.Component<{}, { password: any, email: any }> {
+
+class Register extends React.Component<{}, { password: any, email: any, confirmPassword: any }> {
     constructor(props) {
         super(props);
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            confirmPassword: "",
         }
     }
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
+        const { email, password, confirmPassword } = this.state;
 
-        this.setState({ email: '', password: '' })
-    };
+        if (password !== confirmPassword) {
+            alert("passwords don't match");
+            return;
+        }
+
+        this.setState({ email: '', password: '' });
+
+    }
 
     handleChange = (event: { target: { value: string; name: string } }) => {
         type nameTypes = 'email';
@@ -32,11 +38,12 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
 
 
     render() {
+        const { email, password, confirmPassword } = this.state;
         return (
-            <div className='sign-in'>
-                <Form className='form' onChange={this.handleChange}>
-                    <Box className="sign-in-box" background="white" border gap="medium" pad="large" width="medium">
-                        <h1>Sign in</h1>
+            <div className='register'>
+                <Form className='form'>
+                    <Box className="register-box" background="white" border gap="medium" pad="large" width="medium">
+                        <h1>Sign up</h1>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
                                 className="form-input"
@@ -54,11 +61,16 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
                                 placeholder="Password"
                             />
                         </FormField>
-                        <CustomButton onChange={this.handleSubmit} type='submit'>Log in</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='facebook-button' type='submit' >Log in with Facebook</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='google-button' type='submit' >Log in with Google</CustomButton>
-                        <h1>or</h1>
-                        <Link to='/register'><CustomButton type='submit' label='Register with email'></CustomButton></Link>
+                        <FormField htmlFor="enabled-id" name="enabled" label="">
+                            <TextInput
+                                type='password'
+                                className="form-input"
+                                id="enabled-id"
+                                name="enabled"
+                                placeholder="Confirm Password"
+                            />
+                        </FormField>
+                        <CustomButton onChange={this.handleSubmit} type='submit' label='Submit'></CustomButton>
                     </Box>
 
                 </Form>
@@ -79,5 +91,5 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
 
 }
 
-export default SignIn;
+export default Register;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import HomePage from "./features/homepage/containers/homepage.container";
+import HomePage from "./homepage/homepage.container";
 import { Grommet } from "grommet";
 
 const theme = {

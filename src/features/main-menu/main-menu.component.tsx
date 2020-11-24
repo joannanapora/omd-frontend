@@ -1,8 +1,8 @@
 import React from 'react';
 import './main-menu.component.scss'
 
-import Calender from '../main-page/calender/components/calender.component';
-import Journal from '../main-page/journal/components/journal.component';
+import Calender from './calender/calender.component';
+import Journal from './journal/journal.component';
 
 
 class MainPage extends React.Component<{}, { calender: any[], journal: any[] }> {

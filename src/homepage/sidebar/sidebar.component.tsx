@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Nav } from "grommet";
-import { SidebarButton } from './sidebar-button.component';
-import './sidebar-button.component.scss';
-import UserProfile from '../containers/user-profile.container';
+import SidebarButton from '../sidebar-button/sidebar-button.component';
+import './sidebar.component.scss';
+import UserProfile from '../../features/user-profile/user-profile.container';
 
-export const SideBar = (props: { menuList: any[] }) => (
+const SideBar = (props: { menuList: any[] }) => (
   <Box className="box-menu" fill direction="row">
     <Nav background='white'>
       {props.menuList.map(element => (
@@ -17,5 +17,6 @@ export const SideBar = (props: { menuList: any[] }) => (
       <UserProfile />
     </Nav>
   </Box>
+);
 
-)
+export default SideBar;

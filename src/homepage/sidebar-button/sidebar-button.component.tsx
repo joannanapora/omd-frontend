@@ -3,7 +3,7 @@ import { Box, Avatar, Button, Text } from "grommet";
 import { Link } from "react-router-dom";
 import "./sidebar-button.component.scss";
 
-export const SidebarButton = ({ url, image, label, ...rest }) => (
+const SidebarButton = ({ url, image, label, ...rest }) => (
   <Link className="menu-option" to={url}>
     <Button className=' menu-button' plain {...rest}>
       {({ hover }) => (
@@ -20,3 +20,5 @@ export const SidebarButton = ({ url, image, label, ...rest }) => (
     </Button>
   </Link>
 );
+
+export default SidebarButton;
