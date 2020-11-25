@@ -1,3 +1,5 @@
+@import "../../shared/custom-styles/styles";
+
 .sign-in {
     text-align: center;
     font-family: 'Texturina', serif;
@@ -17,13 +19,13 @@
 
 .facebook-button {
     &:hover {
-        background-color: #4285f4 !important;
+        background-color: $facebookColor !important;
         color: white !important;
     }
 }
 .google-button {
         &:hover {
-            background-color: #c43131 !important;
+            background-color: $googleColor !important;
             color: white !important;
         }
   }

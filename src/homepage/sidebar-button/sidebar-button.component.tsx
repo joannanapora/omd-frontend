@@ -9,7 +9,7 @@ const SidebarButton = ({ url, image, label, ...rest }) => (
       {({ hover }) => (
         <Box className='menu-box'
           background={hover && !image ? "none" : undefined}
-          pad={{ horizontal: "large", vertical: "medium" }}
+          pad={{ horizontal: "medium", vertical: "medium" }}
         >
           <Text size="large">{label}</Text>
           {image ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import './register.container.scss'
 
-import { CustomButton } from '../../shared';
+import CustomButton from '../../shared/custom-button/custom-button.component';
 import { Box, Form, FormField, TextInput } from 'grommet';
 
 

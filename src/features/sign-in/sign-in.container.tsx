@@ -4,7 +4,7 @@ import './sign-in.container.scss';
 import { Link } from 'react-router-dom'
 import { Box, Form, FormField, TextInput } from 'grommet';
 
-import { CustomButton } from '../../shared';
+import CustomButton from '../../shared/custom-button/custom-button.component';
 
 
 

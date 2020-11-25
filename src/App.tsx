@@ -1,13 +1,14 @@
 import React from "react";
 import "./App.css";
 import HomePage from "./homepage/homepage.container";
-import { Grommet } from "grommet";
+import { Grommet, ThemeType } from "grommet";
+
 
 const theme = {
   global: {
     colors: {
-      brand: "white",
-      active: "#66ad66",
+      brand: "#d6702b",
+      active: "#d6702b",
     },
     font: {
       family: 'Texturina',
@@ -17,6 +18,7 @@ const theme = {
   },
   button: {
     default: {
+      background: { color: "white" },
       color: "text",
       border: undefined,
       padding: {
@@ -35,7 +37,7 @@ const theme = {
       },
     },
     secondary: {
-      border: { color: "brand", width: "4px" },
+      border: { color: "black", width: "4px" },
       color: "text",
       padding: {
         horizontal: "8px",
@@ -43,7 +45,7 @@ const theme = {
       },
     },
     active: {
-      background: { color: "brand-contrast" },
+      background: { color: "black" },
       color: "text",
       secondary: {
         background: "none",
@@ -64,6 +66,11 @@ const theme = {
         border: { color: "active" },
       },
     },
+  },
+  select: {
+    background: {
+      color: "black"
+    }
   },
   formField: {
     border: {

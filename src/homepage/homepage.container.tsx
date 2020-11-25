@@ -5,8 +5,8 @@ import { Switch, Route } from "react-router-dom";
 
 import SideBar from "../homepage/sidebar/sidebar.component";
 import MainPage from "../features/main-menu/main-menu.component";
-import Articles from "../features/articles/artciles.component";
-import Gallery from "../features/gallery/gallery.component";
+import Info from "../features/articles/artciles.component";
+import WhoNeedsMe from "../features/gallery/gallery.component";
 import Shop from "../features/shop/shop.component";
 import Contact from "../features/contact/contact.components";
 
@@ -22,30 +22,30 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         {
           name: "",
           imageUrl:
-            "https://www.flaticon.com/svg/static/icons/svg/628/628324.svg",
+            "https://freesvg.org/img/1554815735.png",
           id: 1,
           url: "/",
         },
         {
-          name: "ARTICLES",
+          name: "INFO",
           imageUrl: "",
           id: 2,
           url: "/articles",
         },
         {
-          name: "GALLERY",
+          name: "Who needs me?",
           imageUrl: "",
-          id: 3,
+          id: 4,
           url: "/gallery",
         },
         {
-          name: "SHOP",
+          name: "DOGallery",
           imageUrl: "",
-          id: 4,
+          id: 3,
           url: "/shop",
         },
         {
-          name: "CONTACT",
+          name: "Contact Us",
           imageUrl: "",
           id: 5,
           url: "/contact",
@@ -63,8 +63,8 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         <div className="homepage-right">
           <Switch>
             <Route exact path="/" component={MainPage} />
-            <Route path="/articles" component={Articles} />
-            <Route path="/gallery" component={Gallery} />
+            <Route path="/articles" component={Info} />
+            <Route path="/gallery" component={WhoNeedsMe} />
             <Route path="/shop" component={Shop} />
             <Route path='/contact' component={Contact} />
             <Route path="/sign-in" component={SignIn} />
