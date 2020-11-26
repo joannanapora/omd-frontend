@@ -6,7 +6,7 @@ import { Switch, Route } from "react-router-dom";
 import SideBar from "../homepage/sidebar/sidebar.component";
 import MainPage from "../features/main-menu/main-menu.component";
 import Info from "../features/articles/artciles.component";
-import WhoNeedsMe from "../features/gallery/gallery.component";
+import WhoNeedsMe from "../features/filters/gallery.component";
 import Shop from "../features/shop/shop.component";
 import Contact from "../features/contact/contact.components";
 
@@ -20,16 +20,9 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
     this.state = {
       sections: [
         {
-          name: "",
-          imageUrl:
-            "https://freesvg.org/img/1554815735.png",
-          id: 1,
-          url: "/",
-        },
-        {
           name: "INFO",
           imageUrl: "",
-          id: 2,
+          id: 1,
           url: "/articles",
         },
         {
@@ -57,7 +50,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
   render() {
     return (
       <div className="homepage">
-        <div>
+        <div className='sidebar'>
           <SideBar menuList={this.state.sections} />
         </div>
         <div className="homepage-right">

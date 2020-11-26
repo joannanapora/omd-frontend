@@ -6,7 +6,7 @@ import UserProfile from '../../features/user-profile/user-profile.container';
 
 const SideBar = (props: { menuList: any[] }) => (
   <Box className="box-menu" fill direction="row">
-    <Nav background='white'>
+    <Nav justify='center' background='white'>
       {props.menuList.map(element => (
         <SidebarButton className='menu-button'
           url={element.url}

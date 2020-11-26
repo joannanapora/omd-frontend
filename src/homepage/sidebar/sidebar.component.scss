@@ -1,4 +1,7 @@
 .menu-button {
+    
+    display:flex;
+    flex-direction: flex-end;
     width: 100%;
     &:focus {
         box-shadow: none !important;
@@ -10,6 +13,8 @@
 }
 
 .box-menu {
+    display:flex;
+    justify-content: center;
     outline: none;
     width: 0%;
     opacity: 0.6;

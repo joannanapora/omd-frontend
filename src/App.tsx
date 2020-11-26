@@ -69,7 +69,7 @@ const theme = {
   },
   select: {
     background: {
-      color: "black"
+      color: "white"
     }
   },
   formField: {
