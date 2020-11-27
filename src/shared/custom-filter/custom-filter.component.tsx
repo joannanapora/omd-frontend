@@ -1,44 +1,44 @@
 import React from 'react';
 
-import './dog-size-filter.component'
 
 import { FormClose } from 'grommet-icons';
-import { Box, Button, Grommet, Select, Text } from 'grommet';
-import CustomButton from '../../../shared/custom-button/custom-button.component';
+import { Box, Select, Text } from 'grommet';
+import CustomButton from '../custom-button/custom-button.component';
 
 
-class SizeFilter extends React.Component<{}, { allWeights: any[], selected: any[] }> {
+class Filter extends React.Component<{ options: string[], name: string }, { listOfOptions: string[], selectedOptions: any[], placeholder: string }> {
     constructor(props) {
         super(props);
 
         this.state = {
-            allWeights: ['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg'],
-            selected: []
+            placeholder: props.name,
+            listOfOptions: props.options,
+            selectedOptions: [],
         }
 
     };
 
     onSelect = (props) => {
         console.log(props)
-        this.setState({ selected: props })
+        this.setState({ selectedOptions: props })
         console.log(this.state)
     };
 
-    onRemoveSeason = season => {
-        const seasonIndex = this.state.allWeights.indexOf(season);
+    removeOption = season => {
+        const seasonIndex = this.state.listOfOptions.indexOf(season);
         this.onSelect(
-            this.state.selected.filter(selectedSeason => selectedSeason !== seasonIndex),
+            this.state.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex),
         );
     };
 
-    renderSeason = season => (
+    renderOptions = season => (
         <CustomButton
             key={`season_tag_${season}`}
             href="#"
             onClick={event => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.onRemoveSeason(season);
+                this.removeOption(season);
             }}
             onFocus={event => event.stopPropagation()}
         >
@@ -76,20 +76,20 @@ class SizeFilter extends React.Component<{}, { allWeights: any[], selected: any[
                     multiple
                     value={
                         <Box wrap direction="row" width="small">
-                            {this.state.selected && this.state.selected.length ? (
-                                this.state.selected.map(index => this.renderSeason(this.state.allWeights[index]))
+                            {this.state.selectedOptions && this.state.selectedOptions.length ? (
+                                this.state.selectedOptions.map(index => this.renderOptions(this.state.listOfOptions[index]))
                             ) : (
                                     <Box
                                         pad={{ vertical: 'small', horizontal: 'small' }}
                                         margin="small"
                                     >
-                                        Weight
+                                        {this.state.placeholder}
                                     </Box>
                                 )}
                         </Box>
                     }
-                    options={this.state.allWeights}
-                    selected={this.state.selected}
+                    options={this.state.listOfOptions}
+                    selected={this.state.selectedOptions}
                     onChange={({ selected: nextSelected }) => {
                         this.onSelect([...nextSelected].sort());
                     }}
@@ -101,4 +101,4 @@ class SizeFilter extends React.Component<{}, { allWeights: any[], selected: any[
     };
 }
 
-export default SizeFilter;
+export default Filter;
