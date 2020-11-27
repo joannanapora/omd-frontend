@@ -1,5 +1,5 @@
 import React from 'react';
-import './artciles.component.scss';
+import './info.component.scss';
 import { Box, Text } from 'grommet';
 
 

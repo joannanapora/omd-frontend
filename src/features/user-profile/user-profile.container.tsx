@@ -1,7 +1,9 @@
 import React from "react";
-import "./user-profile.container.scss";
 import { Link } from "react-router-dom";
-import { ReactComponent as Paw } from '../../assets/Paw_Print.svg';
+
+
+import "./user-profile.container.scss";
+
 
 class UserProfile extends React.Component<{}, { avatar: any; userName: any }> {
   constructor(props: any) {

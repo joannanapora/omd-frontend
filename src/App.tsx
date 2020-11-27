@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import HomePage from "./homepage/homepage.container";
-import { Grommet, ThemeType } from "grommet";
+import { Grommet, grommet } from "grommet";
 
 
 const theme = {
@@ -15,11 +15,25 @@ const theme = {
       size: "1px",
       height: "2px",
     },
+    focus: {
+      border: {
+        color: 'none',
+      },
+      outline: {
+        color: 'none',
+        // size: string,
+      },
+      shadow: {
+        color: 'none',
+        // size: string,
+      },
+    },
   },
   button: {
     default: {
+      active: "#d6702b",
       background: { color: "white" },
-      color: "text",
+      color: "black",
       border: undefined,
       padding: {
         horizontal: "30px",
@@ -27,6 +41,7 @@ const theme = {
       },
     },
     primary: {
+      active: "#d6702b",
       background: { color: "black" },
       border: undefined,
       color: "white",
@@ -37,6 +52,7 @@ const theme = {
       },
     },
     secondary: {
+      active: "#d6702b",
       border: { color: "black", width: "4px" },
       color: "text",
       padding: {
@@ -46,30 +62,36 @@ const theme = {
     },
     active: {
       background: { color: "black" },
-      color: "text",
+      color: "d6702b",
       secondary: {
         background: "none",
         border: {
-          color: "brand-contrast",
+
+          active: "#d6702b", color: "brand",
         },
       },
     },
     disabled: {
       opacity: 0.3,
       secondary: {
+        active: "#d6702b",
         border: { color: "text-weak" },
       },
     },
     hover: {
       background: { color: "active" },
       secondary: {
+
+        active: "#d6702b",
         border: { color: "active" },
       },
     },
   },
   select: {
+    active: "#d6702b",
+    color: 'black',
     background: {
-      color: "white"
+      color: "d6702b"
     }
   },
   formField: {
@@ -84,9 +106,11 @@ const theme = {
         color: undefined,
       },
       border: {
+        active: "#d6702b",
         color: 'status-disabled',
       },
       label: {
+        active: "#d6702b",
         color: 'status-disabled',
       },
     },

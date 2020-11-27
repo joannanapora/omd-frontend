@@ -1,5 +1,6 @@
 import React from 'react';
-import './register.container.scss'
+import './register.container.scss';
+import { Link, Router } from 'react-router-dom';
 
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { Box, Form, FormField, TextInput } from 'grommet';
@@ -17,16 +18,14 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
     }
     handleSubmit = async event => {
         event.preventDefault();
-        const { email, password, confirmPassword } = this.state;
+        const { password, confirmPassword } = this.state;
 
         if (password !== confirmPassword) {
             alert("passwords don't match");
             return;
         }
-
-        this.setState({ email: '', password: '' });
-
-    }
+        this.setState({ email: '', password: '', confirmPassword: '' });
+    };
 
     handleChange = (event: { target: { value: string; name: string } }) => {
         type nameTypes = 'email';
@@ -41,51 +40,49 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
         const { email, password, confirmPassword } = this.state;
         return (
             <div className='register'>
-                <Form className='form'>
+                <Form className='form' onSubmit={this.handleSubmit}>
                     <Box className="register-box" background="white" border gap="medium" pad="large" width="medium">
                         <h1>Sign up</h1>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
+                                onChange={this.handleChange}
+                                value={this.state.email}
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="email"
                                 placeholder="Email"
                             />
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
+                                onChange={this.handleChange}
+                                value={this.state.password}
                                 type='password'
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="password"
                                 placeholder="Password"
                             />
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
+                                value={this.state.confirmPassword}
                                 type='password'
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="confirmPassword"
                                 placeholder="Confirm Password"
+                                onChange={this.handleChange}
                             />
                         </FormField>
-                        <CustomButton onChange={this.handleSubmit} type='submit' label='Submit'></CustomButton>
+                        <Link to='/confirmation'>
+                            <CustomButton
+                                disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}
+                                type='submit'>Submit</CustomButton>
+                        </Link>
                     </Box>
-
                 </Form>
-
-                {/* <form onSubmit={this.handleSubmit}>
-
-                    <label>EMAIL</label>
-                    <input name='email' type='email' value={this.state.email} onChange={this.handleChange} required />
-
-                    <label>PASSWORD</label>
-                    <input name='password' type='password' value={this.state.password} onChange={this.handleChange} required />
-
-                    <CustomButton />
-                </form> */}
-            </div>
+            </div >
         )
     }
 

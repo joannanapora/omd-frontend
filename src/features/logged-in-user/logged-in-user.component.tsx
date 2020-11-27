@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './logged-in-user.component.scss'
-import { Box, Grommet, CheckBox } from 'grommet';
+
+import { Box, CheckBox } from 'grommet';
 import OwnerPage from './owner-page.component';
 import WalkerPage from './walker-page.component';
 
-import CustomButton from '../../shared/custom-button/custom-button.component';
 
 class SimpleCheckBox extends React.Component<{}, { isCheckedOwner: boolean, isCheckedWalker: boolean }> {
     constructor(props) {

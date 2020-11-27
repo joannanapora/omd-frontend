@@ -1,11 +1,7 @@
 import React from 'react';
 
-import { CaretDown } from 'grommet-icons';
-import { Box, Select } from 'grommet';
-import SimpleCheckBox from '../logged-in-user/logged-in-user.component';
-import { Form, FormField, TextInput, Text, Button } from 'grommet';
+import { Box, Form, FormField, Select, TextInput, Text, } from 'grommet';
 
-import CustomButton from '../../shared/custom-button/custom-button.component';
 
 
 

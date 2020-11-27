@@ -14,7 +14,8 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+
         }
     }
     handleSubmit = event => {
@@ -35,31 +36,36 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
     render() {
         return (
             <div className='sign-in'>
-                <Form className='form' onChange={this.handleChange}>
+                <Form className='form' onSubmit={this.handleSubmit}>
                     <Box className="sign-in-box" background="white" border gap="medium" pad="large" width="medium">
                         <h1>Sign in</h1>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
+                                onChange={this.handleChange}
+                                value={this.state.email}
+                                type='text'
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="email"
                                 placeholder="Email"
                             />
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
+                                onChange={this.handleChange}
+                                value={this.state.password}
                                 type='password'
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="password"
                                 placeholder="Password"
                             />
                         </FormField>
                         <CustomButton onChange={this.handleSubmit} type='submit'>Log in</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='facebook-button' type='submit' >Log in with Facebook</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='google-button' type='submit' >Log in with Google</CustomButton>
+                        <CustomButton onChange={this.handleSubmit} className='facebook-button' name='fb' type='submit' >Log in with Facebook</CustomButton>
+                        <CustomButton onChange={this.handleSubmit} className='google-button' name='google' type='submit' >Log in with Google</CustomButton>
                         <h1>or</h1>
-                        <Link to='/register'><CustomButton type='submit' label='Register with email'></CustomButton></Link>
+                        <Link to='/register'><CustomButton onChange={this.handleSubmit} type='submit'>Register with email</CustomButton></Link>
                     </Box>
 
                 </Form>

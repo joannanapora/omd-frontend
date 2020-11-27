@@ -24,6 +24,8 @@ class Contact extends React.Component<{}, { message: any, options: string[], isS
         this.setState({ selectedOption: option });
     };
 
+
+
     onPopUpClose = () => {
         this.setState({ isOpen: false })
     };
@@ -72,15 +74,15 @@ class Contact extends React.Component<{}, { message: any, options: string[], isS
                             align="center"
                             direction="row"
                             gap="small"
-                            justify="between"
+                            justify="center"
                             round="medium"
                             elevation="medium"
-                            pad={{ vertical: 'xsmall', horizontal: 'small' }}
+                            pad={{ vertical: 'small', horizontal: 'small' }}
                             background="status-ok"
                         >
-                            <Box align="center" direction="row" gap="xsmall">
+                            <Box justify='center' align="center" direction="row" gap="xsmall">
                                 <StatusGood />
-                                <Text>A new virtual machine has been successfully added</Text>
+                                <Text>Message has been sent.</Text>
                             </Box>
                             <Button icon={<FormClose />} onClick={this.onPopUpClose} plain />
                         </Box>
