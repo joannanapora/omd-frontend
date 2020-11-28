@@ -5,7 +5,6 @@ import { Link, Router } from 'react-router-dom';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { Box, Form, FormField, TextInput } from 'grommet';
 
-
 class Register extends React.Component<{}, { password: any, email: any, confirmPassword: any }> {
     constructor(props) {
         super(props);
@@ -18,12 +17,20 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
     }
     handleSubmit = async event => {
         event.preventDefault();
-        const { password, confirmPassword } = this.state;
+      
+        const { email, password, confirmPassword } = this.state;
+
+        
+        if (!this.validateEmail(email)) {
+            alert("email is wrong");
+            return;
+        }
 
         if (password !== confirmPassword) {
             alert("passwords don't match");
             return;
         }
+
         this.setState({ email: '', password: '', confirmPassword: '' });
     };
 
@@ -35,6 +42,11 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
         this.setState({ [castName]: value });
     };
 
+    validateEmail(email: string): boolean {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+      
 
     render() {
         const { email, password, confirmPassword } = this.state;
@@ -51,7 +63,7 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
                                 id="enabled-id"
                                 name="email"
                                 placeholder="Email"
-                            />
+                        ></TextInput>
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
@@ -75,11 +87,11 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
                                 onChange={this.handleChange}
                             />
                         </FormField>
-                        <Link to='/confirmation'>
+                        
                             <CustomButton
                                 disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}
                                 type='submit'>Submit</CustomButton>
-                        </Link>
+                        
                     </Box>
                 </Form>
             </div >

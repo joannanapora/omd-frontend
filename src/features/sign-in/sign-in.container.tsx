@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import { Box, Form, FormField, TextInput } from 'grommet';
 
 import CustomButton from '../../shared/custom-button/custom-button.component';
+import { setCurrentUser } from '../../store/user';
+import { connect } from 'react-redux';
 
-
-
-class SignIn extends React.Component<{}, { password: any, email: any }> {
+class SignIn extends React.Component<{dispatchSetCurrentUser}, { password: any, email: any }> {
     constructor(props) {
         super(props);
 
@@ -21,7 +21,16 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
     handleSubmit = event => {
         event.preventDefault();
 
-        this.setState({ email: '', password: '' })
+        // USE API TO LOGIN
+        // GET USER OBJECT
+
+        const user = {
+            email: this.state.email,
+            name: this.state.email
+        };
+        this.props.dispatchSetCurrentUser(user);
+
+        this.setState({ email: '', password: '' });
     };
 
     handleChange = (event: { target: { value: string; name: string } }) => {
@@ -31,6 +40,7 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
 
         this.setState({ [castName]: value });
     };
+
 
 
     render() {
@@ -48,7 +58,7 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
                                 id="enabled-id"
                                 name="email"
                                 placeholder="Email"
-                            />
+                            ></TextInput>
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
@@ -69,22 +79,18 @@ class SignIn extends React.Component<{}, { password: any, email: any }> {
                     </Box>
 
                 </Form>
-
-                {/* <form onSubmit={this.handleSubmit}>
-
-                    <label>EMAIL</label>
-                    <input name='email' type='email' value={this.state.email} onChange={this.handleChange} required />
-
-                    <label>PASSWORD</label>
-                    <input name='password' type='password' value={this.state.password} onChange={this.handleChange} required />
-
-                    <CustomButton />
-                </form> */}
             </div>
         )
     }
 
 }
 
-export default SignIn;
+const mapDispatchToProps = dispatch => ({
+    dispatchSetCurrentUser: (user) => dispatch(setCurrentUser(user))
+});
+
+export default connect(
+    null,
+    mapDispatchToProps)
+(SignIn);
 
