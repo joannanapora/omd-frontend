@@ -1,6 +1,6 @@
 import React from 'react';
+import axios from 'axios';
 import './register.container.scss';
-import { Link, Router } from 'react-router-dom';
 
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { Box, Form, FormField, TextInput } from 'grommet';
@@ -17,10 +17,10 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
     }
     handleSubmit = async event => {
         event.preventDefault();
-      
+
         const { email, password, confirmPassword } = this.state;
 
-        
+
         if (!this.validateEmail(email)) {
             alert("email is wrong");
             return;
@@ -31,7 +31,26 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
             return;
         }
 
-        this.setState({ email: '', password: '', confirmPassword: '' });
+        // Simple POST request with a JSON body using fetch
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         username: email,
+        //         password: password,
+        //     })
+        // };
+
+        axios.post('http://localhost:4000/auth/signup', {
+            username: this.state.email,
+            password: this.state.password,
+        })
+            .then((data) => {
+                alert("USER CREATED!");
+                this.setState({ email: '', password: '', confirmPassword: '' });
+            })
+            .catch(error => { alert("Something went wrong") })
+
     };
 
     handleChange = (event: { target: { value: string; name: string } }) => {
@@ -46,7 +65,7 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
-      
+
 
     render() {
         const { email, password, confirmPassword } = this.state;
@@ -63,7 +82,7 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
                                 id="enabled-id"
                                 name="email"
                                 placeholder="Email"
-                        ></TextInput>
+                            ></TextInput>
                         </FormField>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
@@ -87,11 +106,11 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
                                 onChange={this.handleChange}
                             />
                         </FormField>
-                        
-                            <CustomButton
-                                disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}
-                                type='submit'>Submit</CustomButton>
-                        
+
+                        <CustomButton
+                            disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}
+                            type='submit'>Submit</CustomButton>
+
                     </Box>
                 </Form>
             </div >

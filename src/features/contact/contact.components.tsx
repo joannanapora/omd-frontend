@@ -1,12 +1,10 @@
 import React from 'react';
 import './contact.components.scss';
 import CustomButton from '../../shared/custom-button/custom-button.component';
-import { Box, FormField, Button, TextInput, Select, Text, TextArea, Layer } from 'grommet';
-import { Add, FormClose, StatusGood, Target } from 'grommet-icons';
-import { opendir } from 'fs';
+import { Box, FormField, Select, TextArea } from 'grommet';
+import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 
-
-class Contact extends React.Component<{}, { message: any, options: string[], isSelectOpen: boolean, isClose: boolean, isOpen: boolean, selectedOption: string }> {
+class Contact extends React.Component<{}, { message: any, options: string[], isSelectOpen: boolean, showNotification: boolean, selectedOption: string }> {
     constructor(props) {
         super(props);
 
@@ -15,8 +13,7 @@ class Contact extends React.Component<{}, { message: any, options: string[], isS
             options: ['Problem with Walker', 'Problem with Owner', 'Technical Problem', 'Other issue'],
             selectedOption: "",
             isSelectOpen: false,
-            isClose: true,
-            isOpen: false,
+            showNotification: false,
         }
     };
 
@@ -26,12 +23,9 @@ class Contact extends React.Component<{}, { message: any, options: string[], isS
 
 
 
-    onPopUpClose = () => {
-        this.setState({ isOpen: false })
-    };
 
     onSubmit = () => {
-        this.setState({ isOpen: true })
+        this.setState({ showNotification: true })
         this.setState({ message: '', selectedOption: "" })
     };
 
@@ -61,32 +55,15 @@ class Contact extends React.Component<{}, { message: any, options: string[], isS
                         Send
                         </CustomButton>
                 </Box>
-                {this.state.isOpen && (
-                    <Layer
-                        position="bottom"
-                        modal={false}
-                        margin={{ vertical: 'medium', horizontal: 'small' }}
-                        onEsc={this.onPopUpClose}
-                        responsive={false}
-                        plain
-                    >
-                        <Box
-                            align="center"
-                            direction="row"
-                            gap="small"
-                            justify="center"
-                            round="medium"
-                            elevation="medium"
-                            pad={{ vertical: 'small', horizontal: 'small' }}
-                            background="status-ok"
-                        >
-                            <Box justify='center' align="center" direction="row" gap="xsmall">
-                                <StatusGood />
-                                <Text>Message has been sent.</Text>
-                            </Box>
-                            <Button icon={<FormClose />} onClick={this.onPopUpClose} plain />
-                        </Box>
-                    </Layer>)}
+                {
+                    this.state.showNotification ?
+                        <Notification
+                            status={Status.SUCCESS}
+                            text={"Message has been sent"}>
+                        </Notification>
+                        :
+                        null
+                }
             </Box>
         );
     };

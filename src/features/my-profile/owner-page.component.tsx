@@ -3,13 +3,13 @@ import React from 'react';
 import { Box, Form, FormField, Select, TextInput, Text, } from 'grommet';
 
 
-
-
-class OwnerPage extends React.Component<{}, { weights: any[], ages: any[], locations: any[], value: string }> {
+class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string, weights: any[], ages: any[], locations: any[], value: string }> {
     constructor(props) {
         super(props);
 
         this.state = {
+            dogName: "",
+            dogBreed: "",
             weights: [
 
                 { label: ' < 4kg', value: 1 },
@@ -48,10 +48,14 @@ class OwnerPage extends React.Component<{}, { weights: any[], ages: any[], locat
         this.setState({ value: this.state.value })
     );
 
+    handleSubmit = () => (
+        console.log("lol")
+    );
+
     render() {
         return (
             <div className='dog-info'>
-                <Form className='form'>
+                <Form onChange={this.handleSubmit} className='form'>
                     <Box className="account-information" background="white" gap="small" pad="medium" width="medium">
                         <Text>Dog Information</Text>
                         <FormField htmlFor="enabled-id" name="Name" label="">

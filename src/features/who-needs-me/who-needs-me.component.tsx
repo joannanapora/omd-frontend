@@ -21,6 +21,7 @@ class WhoNeedsMe extends React.Component<{}, {}> {
                     <Filter options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} name="Weight"></Filter>
                 </div>
                 <h1>All avalible quotes: </h1>
+
             </Box>
         )
     };

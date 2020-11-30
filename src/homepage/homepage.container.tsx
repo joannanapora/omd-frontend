@@ -6,9 +6,8 @@ import { Switch, Route } from "react-router-dom";
 import SideBar from "../homepage/sidebar/sidebar.component";
 import Info from '../features/info/info.component';
 import WhoNeedsMe from "../features/who-needs-me/who-needs-me.component";
-import Shop from "../features/shop/shop.component";
 import Contact from "../features/contact/contact.components";
-
+import MyProfile from "../features/my-profile/my-profile.component";
 import Register from "../features/sign-up/register.container";
 import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
@@ -32,10 +31,10 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
           url: "/gallery",
         },
         {
-          name: "DOGallery",
+          name: "My Profile",
           imageUrl: "",
           id: 3,
-          url: "/shop",
+          url: "/my-profile",
         },
         {
           name: "Contact Us",
@@ -57,7 +56,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
           <Switch>
             <Route path="/articles" component={Info} />
             <Route path="/gallery" component={WhoNeedsMe} />
-            <Route path="/shop" component={Shop} />
+            <Route path="/my-profile" component={MyProfile} />
             <Route path='/contact' component={Contact} />
             <Route path="/sign-in" component={SignIn} />
             <Route path='/register' component={Register} />

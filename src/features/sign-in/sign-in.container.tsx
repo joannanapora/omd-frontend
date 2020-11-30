@@ -1,6 +1,6 @@
 import React from 'react';
 import './sign-in.container.scss';
-
+import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { Box, Form, FormField, TextInput } from 'grommet';
 
@@ -8,7 +8,7 @@ import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setCurrentUser } from '../../store/user';
 import { connect } from 'react-redux';
 
-class SignIn extends React.Component<{dispatchSetCurrentUser}, { password: any, email: any }> {
+class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any, email: any }> {
     constructor(props) {
         super(props);
 
@@ -18,19 +18,43 @@ class SignIn extends React.Component<{dispatchSetCurrentUser}, { password: any, 
 
         }
     }
+
+    handleErrors(response) {
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        return response;
+    }
     handleSubmit = event => {
         event.preventDefault();
 
-        // USE API TO LOGIN
-        // GET USER OBJECT
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         username: this.state.email,
+        //         password: this.state.password,
+        //     })
+        // };
 
-        const user = {
-            email: this.state.email,
-            name: this.state.email
-        };
-        this.props.dispatchSetCurrentUser(user);
 
-        this.setState({ email: '', password: '' });
+
+        axios.post('http://localhost:4000/auth/signin', {
+            username: this.state.email,
+            password: this.state.password,
+        })
+            .then((data) => {
+                if (data) {
+                    console.log(data);
+                    alert("USER LOGGED IN");
+                    this.setState({ email: '', password: '' });
+                    const user = {
+                        email: this.state.email,
+                        name: this.state.email
+                    };
+                    this.props.dispatchSetCurrentUser(user);
+                }
+            }).catch(error => { alert("Wrong email or password") })
     };
 
     handleChange = (event: { target: { value: string; name: string } }) => {
@@ -92,5 +116,5 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     null,
     mapDispatchToProps)
-(SignIn);
+    (SignIn);
 
