@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './register.container.scss';
+import { validateEmail } from '../../shared/index';
 
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { Box, Form, FormField, TextInput } from 'grommet';
@@ -21,7 +22,7 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
         const { email, password, confirmPassword } = this.state;
 
 
-        if (!this.validateEmail(email)) {
+        if (!validateEmail(email)) {
             alert("email is wrong");
             return;
         }
@@ -60,12 +61,6 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
 
         this.setState({ [castName]: value });
     };
-
-    validateEmail(email: string): boolean {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    }
-
 
     render() {
         const { email, password, confirmPassword } = this.state;

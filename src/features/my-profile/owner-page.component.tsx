@@ -1,9 +1,8 @@
 import React from 'react';
-
 import { Box, Form, FormField, Select, TextInput, Text, } from 'grommet';
+import './owner-page.component.scss';
 
-
-class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string, weights: any[], ages: any[], locations: any[], value: string }> {
+class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string, weights: any[], ages: any[], locations: any[] }> {
     constructor(props) {
         super(props);
 
@@ -37,7 +36,6 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
                 { label: 'West', value: 17 },
                 { label: 'East', value: 18 },
             ],
-            value: ""
         }
     }
 
@@ -45,7 +43,8 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
         console.log("lol")
     );
     handleChange = () => (
-        this.setState({ value: this.state.value })
+        console.log()
+        // this.setState({ value: this.state.value })
     );
 
     handleSubmit = () => (
@@ -56,71 +55,67 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
         return (
             <div className='dog-info'>
                 <Form onChange={this.handleSubmit} className='form'>
-                    <Box className="account-information" background="white" gap="small" pad="medium" width="medium">
-                        <Text>Dog Information</Text>
-                        <FormField htmlFor="enabled-id" name="Name" label="">
+                    <Text className="header">Dog Information</Text>
+                    <Box className="account-information" background="white" gap="small" pad="medium">
+                        <FormField name="dog-name">
                             <TextInput
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="dog-name"
                                 placeholder="Name"
                             />
                         </FormField>
-                        <FormField htmlFor="enabled-id" name="Rase" label="">
+                        <FormField name="dog-breed">
                             <TextInput
                                 className="form-input"
                                 id="enabled-id"
-                                name="enabled"
+                                name="breed"
                                 placeholder="Breed"
                             />
                         </FormField>
                     </Box>
                 </Form>
-                <Form
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    onSubmit={() => console.log('Submit', this.state.value)}
-                >
-                    <FormField name="select">
-                        <Select
-                            name="select"
-                            placeholder="Weight"
-                            options={this.state.weights}
-                            labelKey="label"
-                            valueKey="value"
-                        />
-                    </FormField>
-                </Form>
-                <Form
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    onSubmit={() => console.log('Submit', this.state.value)}
-                >
-                    <FormField name="select">
-                        <Select
-                            name="select"
-                            placeholder="Age"
-                            options={this.state.ages}
-                            labelKey="label"
-                            valueKey="value"
-                        />
-                    </FormField>
-                </Form>
-                <Form
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    onSubmit={() => console.log('Submit', this.state.value)}
-                >
-                    <FormField name="select">
-                        <Select
-                            name="select"
-                            placeholder="Location"
-                            options={this.state.locations}
-                            labelKey="label"
-                            valueKey="value"
-                        />
-                    </FormField>
-                </Form>
+                <div className="selectors">
+                    <Form
+                        onChange={this.handleChange}
+                    >
+                        <FormField className='select-weight'>
+                            <Select
+                                name="select"
+                                placeholder="Weight"
+                                options={this.state.weights}
+                                labelKey="label"
+                                valueKey="value"
+                            />
+                        </FormField>
+                    </Form>
+                    <Form
+                        onChange={this.handleChange}
+                    >
+                        <FormField className='select-age'>
+                            <Select
+                                name="select"
+                                placeholder="Age"
+                                options={this.state.ages}
+                                labelKey="label"
+                                valueKey="value"
+                            />
+                        </FormField>
+                    </Form>
+                    <Form
+                        onChange={this.handleChange}
+                    >
+                        <FormField className='select-location'>
+                            <Select
+                                name="select"
+                                placeholder="Location"
+                                options={this.state.locations}
+                                labelKey="label"
+                                valueKey="value"
+                            />
+                        </FormField>
+                    </Form>
+                </div>
             </div>
         );
     }

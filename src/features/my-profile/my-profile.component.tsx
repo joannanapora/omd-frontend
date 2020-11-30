@@ -96,14 +96,14 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
                         </Form>
                     </div>
                     <div className="walker-owner">
-                        <Box align='center' pad="large">
+                        <Box align='center' pad="small">
                             <CheckBox disabled={!(this.state.name && this.state.surname ||
                                 this.state.isReadOnly)} label='Owner' name='owner' checked={this.state.isCheckedOwner} onChange={this.onChange} />
                             {this.state.isCheckedOwner ?
                                 <OwnerPage /> : null
                             }
                         </Box>
-                        <Box align='center' pad="large">
+                        <Box align='center' pad="small">
                             <CheckBox disabled={!(this.state.name && this.state.surname ||
                                 this.state.isReadOnly)} label='Walker' name='walker' checked={this.state.isCheckedWalker} onChange={this.onChange} />
                             {this.state.isCheckedWalker ?
