@@ -1,32 +1,54 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 import "./user-profile.container.scss";
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../../store/user';
 
-
-class UserProfile extends React.Component<{}, { avatar: any; userName: any }> {
+class UserProfile extends React.Component<{ currentUser, dispatchSetCurrentUser }, { email: string; password: string }> {
   constructor(props: any) {
     super(props);
 
+
     this.state = {
-      avatar: "",
-      userName: "Sign in",
-    };
+      email: "",
+      password: "",
+    }
   }
+
+
+  handleLogout = event => {
+    event.preventDefault();
+    this.props.dispatchSetCurrentUser(null);
+  }
+
 
   render() {
     return (
       <div className="user-area">
-        <div className='coala' >
-          <img alt="user-profile" src="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg" />
+        <div className='img-container' >
+          <img onClick={this.handleLogout} alt="paw" src="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg" />
         </div>
-        <Link to='/sign-in'>
-          <h1>sign in</h1>
-        </Link>
+        {
+          this.props.currentUser ?
+            <button onClick={this.handleLogout} className='status'>Sign Out</button>
+            :
+            <button><Link to='/sign-in' ><div className='status' > Sign In</div></Link></button>
+        }
       </div>
     );
   }
 }
 
-export default UserProfile;
+const mapStateToProps = ({ user: { currentUser } }) => ({
+  currentUser,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSetCurrentUser: (user) => dispatch(setCurrentUser(user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)
+  (UserProfile);

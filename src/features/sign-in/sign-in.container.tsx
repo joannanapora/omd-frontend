@@ -37,8 +37,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
         //     })
         // };
 
-
-
         axios.post('http://localhost:4000/auth/signin', {
             username: this.state.email,
             password: this.state.password,
@@ -47,11 +45,11 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
                 if (data) {
                     console.log(data);
                     alert("USER LOGGED IN");
-                    this.setState({ email: '', password: '' });
                     const user = {
                         email: this.state.email,
                         name: this.state.email
                     };
+                    this.setState({ email: '', password: '' });
                     this.props.dispatchSetCurrentUser(user);
                 }
             }).catch(error => { alert("Wrong email or password") })

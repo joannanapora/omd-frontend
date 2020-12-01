@@ -5,22 +5,9 @@
     margin-top: 30px;
 }
 
-.avatar-box {
-    width: 100%;
-}
-
-.coala {
-    display: flex;
-    align-items: center;
-}
-
-.user-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 img {
     height: 72px;
     width: 72px;
+    padding: 3px;
+    margin-bottom: 10px;
 }

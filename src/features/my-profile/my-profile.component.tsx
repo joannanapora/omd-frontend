@@ -3,12 +3,13 @@ import './my-profile.component.scss'
 
 import OwnerPage from './owner-page.component';
 import WalkerPage from './walker-page.component';
-import { Box, CheckBox, Form, FormField, TextInput } from 'grommet';
+import { Box, CheckBox, Form, FormField, TextInput, Text, MaskedInput } from 'grommet';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
+import { Target } from 'grommet-icons';
 
 
-class MyProfile extends React.Component<{}, { showNotification: boolean, name: string, surname: string, isCheckedOwner: boolean, isCheckedWalker: boolean, isReadOnly: boolean }> {
+class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, postCode: any, showNotification: boolean, name: string, surname: string, value: string, isCheckedOwner: boolean, isCheckedWalker: boolean, isReadOnly: boolean }> {
     constructor(props) {
         super(props);
 
@@ -17,8 +18,12 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
             isCheckedWalker: false,
             name: "",
             surname: "",
+            email: "",
+            postCode: "",
+            phoneNumber: "",
             isReadOnly: false,
             showNotification: false,
+            value: "",
         }
     }
 
@@ -48,6 +53,10 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
     handleSubmit = () => {
         this.setState({ isReadOnly: true, showNotification: true })
     };
+    handleEdit = () => {
+        this.setState({ isReadOnly: false });
+        this.setState({ showNotification: false });
+    }
 
     handleChange = (event) => {
         if (event.target.name === "name") {
@@ -60,8 +69,24 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
                 surname: event.target.value
             }
             )
+        } if (event.target.name === "email") {
+            this.setState({
+                email: event.target.value
+            }
+            )
+        } if (event.target.name === "postCode") {
+            this.setState({
+                postCode: event.target.value
+            }
+            )
+        } if (event.target.name === "phoneNumber") {
+            this.setState({
+                phoneNumber: event.target.value
+            }
+            )
         }
     }
+
     render() {
         return (
             <div className='account-information'>
@@ -76,7 +101,7 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
                                     className="form-input"
                                     id="enabled-id"
                                     value={this.state.name}
-                                    placeholder="Name"
+                                    placeholder="Name*"
                                     name="name"
                                     disabled={this.state.isReadOnly}
                                 />
@@ -87,31 +112,65 @@ class MyProfile extends React.Component<{}, { showNotification: boolean, name: s
                                     className="form-input"
                                     id="enabled-id"
                                     value={this.state.surname}
-                                    placeholder="Surname"
+                                    placeholder="Surname*"
                                     name="surname"
                                     disabled={this.state.isReadOnly}
                                 />
                             </FormField>
-
+                            <FormField htmlFor="enabled-id" label="">
+                                <TextInput
+                                    onChange={this.handleChange}
+                                    className="form-input"
+                                    id="enabled-id"
+                                    value={this.state.postCode}
+                                    placeholder="Post Code"
+                                    name="postCode"
+                                    disabled={this.state.isReadOnly}
+                                />
+                            </FormField>
+                            <FormField htmlFor="enabled-id" label="">
+                                <TextInput
+                                    onChange={this.handleChange}
+                                    className="form-input"
+                                    id="enabled-id"
+                                    value={this.state.email}
+                                    placeholder="E-mail"
+                                    name="email"
+                                    disabled={this.state.isReadOnly}
+                                />
+                            </FormField>
+                            <FormField htmlFor="enabled-id" label="">
+                                <MaskedInput
+                                    mask={[
+                                        {
+                                            length: 5,
+                                            regexp: /^[0-9]{1,5}$/,
+                                            placeholder: 'Phone',
+                                        },
+                                        { fixed: '-' },
+                                        {
+                                            length: 6,
+                                            regexp: /^[0-9]{1,6}$/,
+                                            placeholder: 'number',
+                                        },
+                                    ]}
+                                    value={this.state.phoneNumber}
+                                    onChange={this.handleChange}
+                                    className="form-input"
+                                    id="enabled-id"
+                                    placeholder=""
+                                    name="phoneNumber"
+                                    disabled={this.state.isReadOnly}
+                                />
+                            </FormField>
                         </Form>
                     </div>
-                    <div className="walker-owner">
-                        <Box align='center' pad="small">
-                            <CheckBox disabled={!(this.state.name && this.state.surname ||
-                                this.state.isReadOnly)} label='Owner' name='owner' checked={this.state.isCheckedOwner} onChange={this.onChange} />
-                            {this.state.isCheckedOwner ?
-                                <OwnerPage /> : null
-                            }
-                        </Box>
-                        <Box align='center' pad="small">
-                            <CheckBox disabled={!(this.state.name && this.state.surname ||
-                                this.state.isReadOnly)} label='Walker' name='walker' checked={this.state.isCheckedWalker} onChange={this.onChange} />
-                            {this.state.isCheckedWalker ?
-                                <WalkerPage /> : null
-                            }
-                        </Box>
+                    <Text margin={{ left: 'small' }} size="small" color="status-critical">
+                        * Required field.</Text>
+                    <div className='buttons'>
+                        <CustomButton onClick={this.handleEdit}>Edit</CustomButton>
+                        <CustomButton type='submit' onClick={this.handleSubmit} disabled={!(this.state.name && this.state.surname) || this.state.isReadOnly}>Save</CustomButton>
                     </div>
-                    <CustomButton type='submit' onClick={this.handleSubmit} disabled={!(this.state.name && this.state.surname) || this.state.isReadOnly}>Save</CustomButton>
                 </Box>
                 {
                     this.state.showNotification ?

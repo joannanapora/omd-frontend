@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layer, Box, Button, Text } from 'grommet';
 import { FormClose, StatusGood, } from 'grommet-icons';
+import { TIMEOUT } from 'dns';
 
 export enum Status {
     "SUCCESS",
@@ -23,11 +24,13 @@ class Notification extends React.Component<{ text: string, status: Status }, { i
 
     componentDidMount() {
         this.setState({ isOpen: true })
+        setTimeout(() => {
+            this.setState({ isOpen: false });
+        }, 5000);
     }
 
-
-
     render() {
+
         return (
             <div className='notification'>
                 {this.state.isOpen && (
