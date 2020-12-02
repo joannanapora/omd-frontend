@@ -23,7 +23,7 @@ const theme = {
         color: 'brand',
       },
       shadow: {
-        color: 'brand',
+        color: 'none',
       },
     },
   },
@@ -40,7 +40,7 @@ const theme = {
     },
     primary: {
       active: "#d6702b",
-      background: { color: "white" },
+      background: { color: "#d6702b" },
       color: "white",
       font: { weight: "bold" },
       padding: {

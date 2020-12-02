@@ -7,27 +7,32 @@ import CustomButton from '../custom-button/custom-button.component';
 
 
 
-class Filter extends React.Component<{ options: string[], name: string }, { listOfOptions: string[], selectedOptions: any[], placeholder: string }> {
+class Filter extends React.Component<{ selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
     constructor(props) {
         super(props);
 
         this.state = {
-            placeholder: props.name,
+            name: props.name,
+            placeholder: props.placeholder,
             listOfOptions: props.options,
-            selectedOptions: [],
         }
 
     };
 
     onSelect = (props) => {
-        this.setState({ selectedOptions: props })
+        // this.setState({ selectedOptions: props });
+        this.props.onChange({ name: this.props.name, value: props });
     };
 
     removeOption = season => {
         const seasonIndex = this.state.listOfOptions.indexOf(season);
-        this.onSelect(
-            this.state.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex),
-        );
+        const newList = this.props.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex);
+
+        this.props.onChange({ name: this.props.name, value: newList });
+
+        // this.onSelect(
+        //     this.state.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex),
+        // );
     };
 
     renderOptions = season => (
@@ -71,12 +76,13 @@ class Filter extends React.Component<{ options: string[], name: string }, { list
         return (
             <Box fill align="center" justify="center">
                 <Select
+                    name=""
                     closeOnChange={false}
                     multiple
                     value={
                         <Box wrap direction="row" width="small">
-                            {this.state.selectedOptions && this.state.selectedOptions.length ? (
-                                this.state.selectedOptions.map(index => this.renderOptions(this.state.listOfOptions[index]))
+                            {this.props.selectedOptions && this.props.selectedOptions.length ? (
+                                this.props.selectedOptions.map(index => this.renderOptions(this.state.listOfOptions[index]))
                             ) : (
                                     <Box
                                         pad={{ vertical: 'small', horizontal: 'small' }}
@@ -88,7 +94,7 @@ class Filter extends React.Component<{ options: string[], name: string }, { list
                         </Box>
                     }
                     options={this.state.listOfOptions}
-                    selected={this.state.selectedOptions}
+                    selected={this.props.selectedOptions}
                     onChange={({ selected: nextSelected }) => {
                         this.onSelect([...nextSelected].sort());
                     }}
