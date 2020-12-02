@@ -39,22 +39,10 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
         }
     }
 
-    useCallback = () => (
-        console.log("lol")
-    );
-    handleChange = () => (
-        console.log()
-        // this.setState({ value: this.state.value })
-    );
-
-    handleSubmit = () => (
-        console.log("lol")
-    );
-
     render() {
         return (
             <div className='dog-info'>
-                <Form onChange={this.handleSubmit} className='form'>
+                <Form className='form'>
                     <Text className="header">Dog Information</Text>
                     <Box className="account-information" background="white" gap="small" pad="medium">
                         <FormField name="dog-name">
@@ -76,9 +64,7 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
                     </Box>
                 </Form>
                 <div className="selectors">
-                    <Form
-                        onChange={this.handleChange}
-                    >
+                    <Form>
                         <FormField className='select-weight'>
                             <Select
                                 name="select"
@@ -89,9 +75,7 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
                             />
                         </FormField>
                     </Form>
-                    <Form
-                        onChange={this.handleChange}
-                    >
+                    <Form>
                         <FormField className='select-age'>
                             <Select
                                 name="select"
@@ -102,9 +86,7 @@ class OwnerPage extends React.Component<{}, { dogName: string, dogBreed: string,
                             />
                         </FormField>
                     </Form>
-                    <Form
-                        onChange={this.handleChange}
-                    >
+                    <Form>
                         <FormField className='select-location'>
                             <Select
                                 name="select"

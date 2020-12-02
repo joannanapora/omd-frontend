@@ -17,15 +17,13 @@ const theme = {
     },
     focus: {
       border: {
-        color: 'none',
+        color: 'brand',
       },
       outline: {
-        color: 'none',
-        // size: string,
+        color: 'brand',
       },
       shadow: {
-        color: 'none',
-        // size: string,
+        color: 'brand',
       },
     },
   },
@@ -42,8 +40,7 @@ const theme = {
     },
     primary: {
       active: "#d6702b",
-      background: { color: "black" },
-      border: undefined,
+      background: { color: "white" },
       color: "white",
       font: { weight: "bold" },
       padding: {
@@ -97,9 +94,9 @@ const theme = {
   formField: {
     border: {
       error: {
-        color: 'border',
+        color: 'brand',
       },
-      color: 'border',
+      color: 'brand',
     },
     disabled: {
       background: {

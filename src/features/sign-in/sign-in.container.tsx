@@ -43,7 +43,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
         })
             .then((data) => {
                 if (data) {
-                    console.log(data);
                     alert("USER LOGGED IN");
                     const user = {
                         email: this.state.email,

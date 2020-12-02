@@ -1,8 +1,8 @@
 import React from 'react';
 import './who-needs-me.component.scss';
 import Filter from '../../shared/custom-filter/custom-filter.component';
-import { Accordion, AccordionPanel, Box, DataTable, Text } from 'grommet';;
-
+import { Box, Button, DataTable, TextInput } from 'grommet';
+import { Add, BackTen, FormPreviousLink } from 'grommet-icons';
 
 
 interface IQuote {
@@ -54,14 +54,37 @@ class WhoNeedsMe extends React.Component<{ animate: any, multiple: any }, { quot
 
     render() {
         return (
-            <Box className="who-needs-me" background="white" border gap="medium" pad="medium" width="xlarge">
-                <h1>Who needs me?</h1>
+
+            <Box className="who-needs-me" background="white" border gap="medium" pad="large" width="xlarge">
+                <div className="add-quote">
+                    <Button
+                        color="brand"
+                        primary
+                        icon={<Add />}
+                        label="Add Quote"
+                        onClick={() => { }}
+                    />
+                </div>
+                <h1>Who needs help?</h1>
+                <div className="inputs">
+                    <div>
+                        <TextInput size='medium' className=' filter_text' placeholder="Name"></TextInput>
+
+                    </div>
+                    <div>
+                        <TextInput size='medium' className='filter_text' placeholder="Breed"></TextInput>
+
+                    </div>
+                    <div>
+                        <TextInput size='medium' className='filter_text' placeholder="Owner"></TextInput>
+
+                    </div>
+                </div>
                 <div className="filters">
+                    <Filter options={['today - 2 days', '3-7 days', '8-15 days', 'in the future']} name="When?"></Filter>
                     <Filter options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} name="Location"></Filter>
-                    <Filter options={['one-time help', 'more than 1 day', 'more than week', 'more than month']} name="Duration"></Filter>
                     <Filter options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} name="Weight"></Filter>
                 </div>
-                <h1>All avalible quotes: </h1>
                 <Box align="center" pad="large">
                     <DataTable
                         columns={this.state.columns}
@@ -77,7 +100,7 @@ class WhoNeedsMe extends React.Component<{ animate: any, multiple: any }, { quot
                         rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
                     />
                 </Box>
-            </Box>
+            </Box >
         )
     };
 };

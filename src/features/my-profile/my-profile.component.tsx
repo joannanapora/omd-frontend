@@ -1,24 +1,20 @@
 import React from 'react';
 import './my-profile.component.scss'
+import axios from 'axios';
 
-import OwnerPage from './owner-page.component';
-import WalkerPage from './walker-page.component';
 import { Box, CheckBox, Form, FormField, TextInput, Text, MaskedInput } from 'grommet';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
-import { Target } from 'grommet-icons';
 
 
-class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, postCode: any, showNotification: boolean, name: string, surname: string, value: string, isCheckedOwner: boolean, isCheckedWalker: boolean, isReadOnly: boolean }> {
+
+class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, showNotification: boolean, name: string, surname: string, value: string, isReadOnly: boolean }> {
     constructor(props) {
         super(props);
 
         this.state = {
-            isCheckedOwner: false,
-            isCheckedWalker: false,
             name: "",
             surname: "",
-            email: "",
             postCode: "",
             phoneNumber: "",
             isReadOnly: false,
@@ -28,7 +24,6 @@ class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, p
     }
 
     componentDidMount() {
-        // API CALLS FOR USER DETAILS
         if (this.state.name !== "" &&
             this.state.surname !== "") {
             this.setState({ isReadOnly: true })
@@ -38,20 +33,21 @@ class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, p
         }
     }
 
-    onChange = (event) => {
-        if (event.target.name === "owner") {
-            this.setState({
-                isCheckedOwner: event.target.checked
-            })
-        } else {
-            this.setState({
-                isCheckedWalker: event.target.checked
-            })
-        }
-    }
 
     handleSubmit = () => {
-        this.setState({ isReadOnly: true, showNotification: true })
+        const config = {
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiMWFkOGYzNjctZDAwZC00ODNmLThiMjAtMTY0NjJjOGVkZTc4IiwiaWF0IjoxNjA2OTEzNjY0LCJleHAiOjE2MDY5MTcyNjR9.Uo8xGSNb07fod0ySTtcaSo_-SEMEwFT1qd8_a3-i2lk` }
+        };
+
+        axios.patch('http://localhost:4000/user', {
+            name: this.state.name,
+            surname: this.state.surname,
+            phoneNumber: this.state.phoneNumber
+        }, config).then(() => {
+            this.setState({ isReadOnly: true, showNotification: true })
+        }).catch(e => {
+            console.log(e);
+        })
     };
     handleEdit = () => {
         this.setState({ isReadOnly: false });
@@ -69,11 +65,6 @@ class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, p
                 surname: event.target.value
             }
             )
-        } if (event.target.name === "email") {
-            this.setState({
-                email: event.target.value
-            }
-            )
         } if (event.target.name === "postCode") {
             this.setState({
                 postCode: event.target.value
@@ -87,90 +78,79 @@ class MyProfile extends React.Component<{}, { email: string, phoneNumber: any, p
         }
     }
 
+    FormFieldLabel = props => {
+        const { required, label, ...rest } = props;
+        return (
+            <FormField
+                label={
+                    required ? (
+                        <Box direction="row">
+                            <Text>{label}</Text>
+                            <Text color="status-critical">*</Text>
+                        </Box>
+                    ) : (
+                            label
+                        )
+                }
+                required={required}
+                {...rest}
+            />
+        );
+    };
+
+
+
     render() {
         return (
             <div className='account-information'>
                 <Box className="account-information" background="white" border gap="medium" pad="large" width="large">
                     <h1>Account information.</h1>
+                    <Text>
+                        The following data will not be visible on your profile. We collect them for the safety of users.
+                        </Text>
                     <div className="name-surname-form">
                         <Form onSubmit={this.handleSubmit} className='form'>
+                            <this.FormFieldLabel label="Name" required
+                                onChange={this.handleChange}
+                                className="form-input"
+                                id="10"
+                                value={this.state.name}
+                                name="name"
+                                message="string"
+                                disabled={this.state.isReadOnly}>
+                            </this.FormFieldLabel>
+                            <this.FormFieldLabel label="Surname" required
+                                onChange={this.handleChange}
+                                className="form-input"
+                                id="20"
+                                value={this.state.surname}
+                                name="surname"
+                                disabled={this.state.isReadOnly}>
+                            </this.FormFieldLabel>
+                            <this.FormFieldLabel label="Post Code" required
+                                onChange={this.handleChange}
+                                className="form-input"
+                                id="30"
+                                value={this.state.postCode}
+                                name="postCode"
+                                disabled={this.state.isReadOnly}>
+                            </this.FormFieldLabel>
+                            <this.FormFieldLabel label="Phone Number" required
+                                value={this.state.phoneNumber}
+                                onChange={this.handleChange}
+                                className="form-input"
+                                id="40"
+                                name="phoneNumber"
+                                disabled={this.state.isReadOnly}>
 
-                            <FormField htmlFor="enabled-id" label="">
-                                <TextInput
-                                    onChange={this.handleChange}
-                                    className="form-input"
-                                    id="enabled-id"
-                                    value={this.state.name}
-                                    placeholder="Name*"
-                                    name="name"
-                                    disabled={this.state.isReadOnly}
-                                />
-                            </FormField>
-                            <FormField htmlFor="enabled-id" label="">
-                                <TextInput
-                                    onChange={this.handleChange}
-                                    className="form-input"
-                                    id="enabled-id"
-                                    value={this.state.surname}
-                                    placeholder="Surname*"
-                                    name="surname"
-                                    disabled={this.state.isReadOnly}
-                                />
-                            </FormField>
-                            <FormField htmlFor="enabled-id" label="">
-                                <TextInput
-                                    onChange={this.handleChange}
-                                    className="form-input"
-                                    id="enabled-id"
-                                    value={this.state.postCode}
-                                    placeholder="Post Code"
-                                    name="postCode"
-                                    disabled={this.state.isReadOnly}
-                                />
-                            </FormField>
-                            <FormField htmlFor="enabled-id" label="">
-                                <TextInput
-                                    onChange={this.handleChange}
-                                    className="form-input"
-                                    id="enabled-id"
-                                    value={this.state.email}
-                                    placeholder="E-mail"
-                                    name="email"
-                                    disabled={this.state.isReadOnly}
-                                />
-                            </FormField>
-                            <FormField htmlFor="enabled-id" label="">
-                                <MaskedInput
-                                    mask={[
-                                        {
-                                            length: 5,
-                                            regexp: /^[0-9]{1,5}$/,
-                                            placeholder: 'Phone',
-                                        },
-                                        { fixed: '-' },
-                                        {
-                                            length: 6,
-                                            regexp: /^[0-9]{1,6}$/,
-                                            placeholder: 'number',
-                                        },
-                                    ]}
-                                    value={this.state.phoneNumber}
-                                    onChange={this.handleChange}
-                                    className="form-input"
-                                    id="enabled-id"
-                                    placeholder=""
-                                    name="phoneNumber"
-                                    disabled={this.state.isReadOnly}
-                                />
-                            </FormField>
+                            </this.FormFieldLabel>
+                            <div className='buttons'>
+                                <CustomButton onClick={this.handleEdit}>Edit</CustomButton>
+                                <CustomButton disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit}>Save</CustomButton>
+                            </div>
                         </Form>
                     </div>
-                    <Text margin={{ left: 'small' }} size="small" color="status-critical">
-                        * Required field.</Text>
-                    <div className='buttons'>
-                        <CustomButton onClick={this.handleEdit}>Edit</CustomButton>
-                        <CustomButton type='submit' onClick={this.handleSubmit} disabled={!(this.state.name && this.state.surname) || this.state.isReadOnly}>Save</CustomButton>
-                    </div>
+
                 </Box>
                 {
                     this.state.showNotification ?

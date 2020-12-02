@@ -1,9 +1,10 @@
 import React from 'react';
 
-
 import { FormClose } from 'grommet-icons';
 import { Box, Select, Text } from 'grommet';
+
 import CustomButton from '../custom-button/custom-button.component';
+
 
 
 class Filter extends React.Component<{ options: string[], name: string }, { listOfOptions: string[], selectedOptions: any[], placeholder: string }> {
@@ -19,9 +20,7 @@ class Filter extends React.Component<{ options: string[], name: string }, { list
     };
 
     onSelect = (props) => {
-        console.log(props)
         this.setState({ selectedOptions: props })
-        console.log(this.state)
     };
 
     removeOption = season => {
