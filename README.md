@@ -1,4 +1,4 @@
-# plants-lover
+# OhMyDog!
 
 # Getting Started with Create React App
 
