@@ -20,7 +20,7 @@ const theme = {
         color: 'brand',
       },
       outline: {
-        color: 'brand',
+        color: 'none',
       },
       shadow: {
         color: 'none',

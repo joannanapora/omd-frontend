@@ -29,10 +29,6 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
         const newList = this.props.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex);
 
         this.props.onChange({ name: this.props.name, value: newList });
-
-        // this.onSelect(
-        //     this.state.selectedOptions.filter(selectedSeason => selectedSeason !== seasonIndex),
-        // );
     };
 
     renderOptions = season => (

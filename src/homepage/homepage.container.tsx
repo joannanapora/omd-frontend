@@ -5,12 +5,13 @@ import { Switch, Route } from "react-router-dom";
 
 import SideBar from "../homepage/sidebar/sidebar.component";
 import Info from '../features/info/info.component';
-import WhoNeedsMe from "../features/who-needs-me/who-needs-me.component";
+import Services from "../features/services/services.component";
 import Contact from "../features/contact/contact.components";
 import MyProfile from "../features/my-profile/my-profile.component";
 import Register from "../features/sign-up/register.container";
 import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
+import AddService from '../features/services/create-quote.component';
 
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {
@@ -19,16 +20,16 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
     this.state = {
       sections: [
         {
-          name: "INFO",
+          name: "About us",
           imageUrl: "",
           id: 1,
-          url: "/articles",
+          url: "/info",
         },
         {
-          name: "Who needs me?",
+          name: "Services",
           imageUrl: "",
           id: 4,
-          url: "/gallery",
+          url: "/services",
         },
         {
           name: "My Profile",
@@ -40,7 +41,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
           name: "Contact Us",
           imageUrl: "",
           id: 5,
-          url: "/contact",
+          url: "/contact-us",
         },
       ],
     };
@@ -54,13 +55,14 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         </div>
         <div className="homepage-right">
           <Switch>
-            <Route path="/articles" component={Info} />
-            <Route path="/gallery" component={WhoNeedsMe} />
+            <Route path="/info" component={Info} />
+            <Route path="/services" component={Services} />
             <Route path="/my-profile" component={MyProfile} />
-            <Route path='/contact' component={Contact} />
+            <Route path='/contact-us' component={Contact} />
             <Route path="/sign-in" component={SignIn} />
             <Route path='/register' component={Register} />
             <Route path='/confirmation' component={AccountCreated} />
+            <Route path='/add-service' component={AddService} />
           </Switch>
         </div>
       </div>

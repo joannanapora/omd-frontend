@@ -1,12 +1,17 @@
 import React from 'react';
-import axios from 'axios';
-import './register.container.scss';
-import { validateEmail } from '../../shared/index';
+import { withRouter } from 'react-router-dom';
 
+import axios from 'axios';
+
+import './register.container.scss';
+
+import { validateEmail } from '../../shared/index';
 import CustomButton from '../../shared/custom-button/custom-button.component';
+
 import { Box, Form, FormField, TextInput } from 'grommet';
 
-class Register extends React.Component<{}, { password: any, email: any, confirmPassword: any }> {
+
+class Register extends React.Component<{ history }, { password: any, email: any, confirmPassword: any }> {
     constructor(props) {
         super(props);
 
@@ -32,27 +37,23 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
             return;
         }
 
-        // Simple POST request with a JSON body using fetch
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         username: email,
-        //         password: password,
-        //     })
-        // };
 
         axios.post('http://localhost:4000/auth/signup', {
-            username: this.state.email,
+            email: this.state.email,
             password: this.state.password,
         })
             .then((data) => {
-                alert("USER CREATED!");
                 this.setState({ email: '', password: '', confirmPassword: '' });
+                this.redirectToAccountCreated();
             })
             .catch(error => { alert("Something went wrong") })
 
     };
+
+    redirectToAccountCreated = () => {
+        const { history } = this.props;
+        if (history) history.push('/confirmation');
+    }
 
     handleChange = (event: { target: { value: string; name: string } }) => {
         type nameTypes = 'email';
@@ -63,12 +64,11 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
     };
 
     render() {
-        const { email, password, confirmPassword } = this.state;
         return (
             <div className='register'>
                 <Form className='form' onSubmit={this.handleSubmit}>
                     <Box className="register-box" background="white" border gap="medium" pad="large" width="medium">
-                        <h1>Sign up</h1>
+                        <h1>Create an account</h1>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
                                 onChange={this.handleChange}
@@ -114,5 +114,5 @@ class Register extends React.Component<{}, { password: any, email: any, confirmP
 
 }
 
-export default Register;
+export default withRouter(Register);
 

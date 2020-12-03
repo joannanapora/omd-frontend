@@ -1,10 +1,12 @@
 import React from 'react';
-import './who-needs-me.component.scss';
+import './services.styles.scss';
 import Filter from '../../shared/custom-filter/custom-filter.component';
 import { Box, Button, DataTable, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
 import { setUserFilters } from '../../store/filters';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import AddService from './create-quote.component';
 
 interface IQuote {
     dogName: string;
@@ -17,7 +19,7 @@ interface IQuote {
     weight: string;
 }
 
-class WhoNeedsMe extends React.Component<{ dispatchSetUserFilters, animate: any, multiple: any }, { quotes: IQuote[], columns: any[], filters: any }> {
+class Services extends React.Component<{ history, currentFilters, dispatchSetUserFilters, animate: any, multiple: any }, { quotes: IQuote[], columns: any[], filters: any }> {
     constructor(props) {
         super(props);
 
@@ -60,6 +62,19 @@ class WhoNeedsMe extends React.Component<{ dispatchSetUserFilters, animate: any,
                 }]
         }
     }
+
+    redirectToAddService = () => {
+        const { history } = this.props;
+        if (history) history.push('/add-service');
+    }
+
+    componentDidMount() {
+        if (this.props.currentFilters) {
+            this.setState({ filters: this.props.currentFilters })
+        }
+
+    }
+
     handleChange = (event) => {
         if (event.target.name === "name") {
             this.setState({
@@ -106,7 +121,6 @@ class WhoNeedsMe extends React.Component<{ dispatchSetUserFilters, animate: any,
         this.setState({ filters: { location: [] } });
         this.setState({ filters: { date: [] } });
         this.setState({ filters: { weight: [] } });
-
     }
 
 
@@ -123,7 +137,8 @@ class WhoNeedsMe extends React.Component<{ dispatchSetUserFilters, animate: any,
                             size='medium'
                             className=' filter_text'
                             placeholder="Name"
-                            name="name">
+                            name="name"
+                        >
                         </TextInput>
                     </div>
                     <div>
@@ -145,8 +160,8 @@ class WhoNeedsMe extends React.Component<{ dispatchSetUserFilters, animate: any,
                         color="brand"
                         primary
                         icon={<Add />}
-                        label="Add Quote"
-                        onClick={() => { }}
+                        label="Add Serivce"
+                        onClick={this.redirectToAddService}
                     />
                     <Button
                         color="brand"
@@ -180,8 +195,11 @@ const mapDispatchToProps = dispatch => ({
     dispatchSetUserFilters: (filter) => dispatch(setUserFilters(filter))
 });
 
+const mapStateToProps = ({ filter: { currentFilters } }) => ({
+    currentFilters,
+});
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps)
-    (WhoNeedsMe);
+    (Services);
