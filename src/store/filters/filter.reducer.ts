@@ -1,4 +1,3 @@
-import { StringLiteral } from 'typescript';
 import { FilterActionTypes } from './filter.types';
 
 interface IState {

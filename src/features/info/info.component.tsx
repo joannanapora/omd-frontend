@@ -5,10 +5,9 @@ import { Box, Text } from 'grommet';
 
 const Info = () => (
     <Box className="info-text" background="white" border gap="medium" pad="large" width="medium">
-        <Text><h1 className="info-title">
-            OH MY DOG!</h1>
-        </Text>
-        <Text className="info-descript">
+        <Text>
+            <h1 className="info-title">
+                OH MY DOG!</h1>
             Search for your dog walking assistance with Oh My Dog!
             We operate throughout London. With us you can easly add a service request,
             perform a serive or just

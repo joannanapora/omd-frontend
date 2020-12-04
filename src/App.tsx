@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.css";
 import HomePage from "./homepage/homepage.container";
-import { Grommet, grommet } from "grommet";
+import { Grommet } from "grommet";
 
 
 const theme = {
   global: {
     colors: {
       brand: "#d6702b",
-      active: "#d6702b",
+      active: 'brand',
     },
     font: {
       family: 'Texturina',
@@ -20,7 +20,7 @@ const theme = {
         color: 'brand',
       },
       outline: {
-        color: 'none',
+        color: 'transparent',
       },
       shadow: {
         color: 'none',
@@ -32,10 +32,10 @@ const theme = {
       active: "#d6702b",
       background: { color: "white" },
       color: "black",
-      border: undefined,
+      border: { color: "#d6702b" },
       padding: {
-        horizontal: "30px",
-        vertical: "23px",
+        horizontal: "1.6rem",
+        vertical: ".5rem",
       },
     },
     primary: {
@@ -50,7 +50,7 @@ const theme = {
     },
     secondary: {
       active: "#d6702b",
-      border: { color: "black", width: "4px" },
+      border: { color: "#d6702b", width: "4px" },
       color: "text",
       padding: {
         horizontal: "8px",
@@ -58,13 +58,14 @@ const theme = {
       },
     },
     active: {
+
       background: { color: "black" },
       color: "d6702b",
       secondary: {
         background: "none",
         border: {
 
-          active: "#d6702b", color: "brand",
+          active: "#d6702b", color: "#d6702b",
         },
       },
     },
@@ -80,13 +81,13 @@ const theme = {
       secondary: {
 
         active: "#d6702b",
-        border: { color: "active" },
+        border: { color: "#d6702b" },
       },
     },
   },
   select: {
     active: "#d6702b",
-    color: 'black',
+    color: '#d6702b',
     background: {
       color: "d6702b"
     }

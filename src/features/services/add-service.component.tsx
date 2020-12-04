@@ -1,9 +1,12 @@
 import React from 'react';
-import './create-quote.styles.scss';
-import CustomButton from '../../shared/custom-button/custom-button.component';
-import { Box, DateInput, Form, FormField, Select, TextInput } from 'grommet';
+import ImageUploading from 'react-images-uploading'
 
-class AddService extends React.Component<{}, { selectedDate: string, isSelectOpen: boolean, selectedLocation: string, selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], date: string, weight: any[], }> {
+import { Box, DateInput, Form, FormField, Select, Text, TextInput } from 'grommet';
+
+import CustomButton from '../../shared/custom-button/custom-button.component';
+import './add-service.styles.scss';
+
+class AddService extends React.Component<{}, { images: any, selectedDate: string, isSelectOpen: boolean, selectedLocation: string, selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], date: string, weight: any[], }> {
     constructor(props) {
         super(props);
 
@@ -19,9 +22,15 @@ class AddService extends React.Component<{}, { selectedDate: string, isSelectOpe
             selectedWeight: null,
             selectedDate: null,
             isSelectOpen: false,
+            images: null,
         }
     };
 
+
+    onSelectImage = (imageList, addUpdateIndex) => {
+        console.log(imageList, addUpdateIndex);
+        this.setState({ images: imageList });
+    };
 
     handleSubmit = event => {
         this.setState({
@@ -73,9 +82,9 @@ class AddService extends React.Component<{}, { selectedDate: string, isSelectOpe
     render() {
         return (
             <Box className="service-box" background="white" border gap="medium" pad="large" width="large" >
-                <Form className='form' onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit}>
                     <h1>Add new service</h1>
-                    <Box direction="row" flex className="service-box" background="white" gap="medium" pad="large" width="large">
+                    <Box className='form' direction="row" flex background="white" gap="medium" pad="large" width="large">
                         <div className='add-service-left'>
                             <FormField required={false}>
                                 <TextInput
@@ -121,24 +130,65 @@ class AddService extends React.Component<{}, { selectedDate: string, isSelectOpe
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
                             </FormField>
-                        </div>
-                        <div className='add-service-right'> UPLOAD IMAGE
-                        <FormField required={false}>
+                            <FormField required={false}>
                                 <TextInput
                                     value={this.state.owner}
                                     type='text'
                                     className="form-input"
                                     name="owner"
-                                    placeholder="Owner's Name"
+                                    placeholder="Owner/s Name"
                                     onChange={this.handleChange}
                                 />
                             </FormField>
+                        </div>
+                        <div className='add-service-right'>
+                            <Text>Show your doggie!</Text>
+                            <ImageUploading
+                                multiple
+                                value={this.state.images}
+                                onChange={this.onSelectImage}
+                                maxNumber={1}
+                                dataURLKey="data_url"
+                            >
+                                {({
+                                    imageList,
+                                    onImageUpload,
+                                    onImageRemoveAll,
+                                    onImageUpdate,
+                                    onImageRemove,
+                                    isDragging,
+                                    dragProps,
+                                }) => (
+                                        // write your building UI
+                                        <div className="upload__image-wrapper">
+                                            <CustomButton
+                                                size='small'
+                                                style={isDragging ? { color: 'red' } : undefined}
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                            >
+                                                Click or Drop here
+                                            </CustomButton>
+                                            &nbsp;
+                                            {imageList.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image['data_url']} alt="" width="250" />
+                                                    <div className="image-item__btn-wrapper">
+                                                        <CustomButton size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
+                                                        <CustomButton size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                            </ImageUploading>
                         </div>
                     </Box>
                     <CustomButton
                         disabled={!(this.state.breed && this.state.owner && this.state.name)}
                         type='submit'>Submit</CustomButton>
                 </Form>
+
             </Box >
         )
     }

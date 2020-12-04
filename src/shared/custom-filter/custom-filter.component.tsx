@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormClose } from 'grommet-icons';
-import { Box, Select, Text } from 'grommet';
+import { Box, FormField, Select, Text } from 'grommet';
 
 import CustomButton from '../custom-button/custom-button.component';
 
@@ -70,7 +70,7 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
 
     render() {
         return (
-            <Box fill align="center" justify="center">
+            <FormField>
                 <Select
                     name=""
                     closeOnChange={false}
@@ -97,7 +97,7 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
                 >
                     {this.renderOption}
                 </Select>
-            </Box>
+            </FormField>
         );
     };
 }

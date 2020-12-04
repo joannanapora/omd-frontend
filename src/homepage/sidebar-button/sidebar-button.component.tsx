@@ -11,7 +11,8 @@ const SidebarButton = ({ url, image, label, ...rest }) => (
           background={hover && !image ? "none" : undefined}
           pad={{ horizontal: "medium", vertical: "medium" }}
         >
-          <Text size="large">{label}</Text>
+          <Text
+            size="large">{label}</Text>
           {image ? (
             <Avatar className="logo" size="large" src={image} round="large" />
           ) : null}

@@ -1,22 +1,14 @@
-.info {
-    display: flex;
-    justify-content: center;
-}
-
-.info-contain {
-    display: flex;
-}
-
-.info-img {
-    height: inherit;
-    width: 40%;
-}
-
 .info-text {
     opacity: 0.8;
     display: flex;
 }
-
 .info-title {
     line-height: 3rem;
 }
+
+.info-footer {
+    display: flex;
+    padding: 1rem;
+}
+
+

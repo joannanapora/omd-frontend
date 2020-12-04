@@ -1,17 +1,13 @@
 
-.name-surname-form {
-    align-self: center;
-    display: flex;
+.my-profile-form {
+    display: block;
 }
 
-.account-information {
-    align-items: center;
+.my-profile {
     opacity: 0.9;
 }
-.walker-owner {
-    display: flex;
-    align-self: center;
+
+.my-profile-buttons {
+    display:flex;
+    margin-top: 40px;
 }
-.buttons {
-    display: flex;
-    align-content: center;}

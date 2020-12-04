@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layer, Box, Button, Text } from 'grommet';
 import { FormClose, StatusGood, } from 'grommet-icons';
-import { TIMEOUT } from 'dns';
 
 export enum Status {
     "SUCCESS",

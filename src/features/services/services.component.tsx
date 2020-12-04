@@ -1,12 +1,11 @@
 import React from 'react';
 import './services.styles.scss';
 import Filter from '../../shared/custom-filter/custom-filter.component';
-import { Box, Button, DataTable, TextInput } from 'grommet';
+import { Box, DataTable, FormField, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
 import { setUserFilters } from '../../store/filters';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AddService from './create-quote.component';
+import CustomButton from '../../shared/custom-button/custom-button.component';
 
 interface IQuote {
     dogName: string;
@@ -23,6 +22,125 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
     constructor(props) {
         super(props);
 
+        const quotes = [
+            {
+                dogName: "Dusty",
+                breed: "Border Collie",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Adrianna",
+                location: "West",
+                date: "15.11.2020",
+                id: 41,
+                weight: "10kg"
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 42
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 43
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 54
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 75
+            }, {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 56
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 87
+            }, {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 98
+            }, {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 1009
+            }, {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 13210
+            },
+            {
+                dogName: "Kropek",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 11321
+            },
+            {
+                dogName: "Kropek 12",
+                breed: "White Shepherd",
+                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
+                owner: "Joanna",
+                location: "North-West",
+                date: "12.05.2020",
+                weight: "4kg",
+                id: 32122
+            },
+        ];
+
         this.state = {
             filters: {
                 breed: "",
@@ -33,33 +151,14 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                 weight: [],
             },
             columns: [
+                // { header: "#id", property: 'id' },
                 { header: "Name", property: 'dogName' },
                 { header: "Breed", property: 'breed' },
                 { header: "Weight", property: "weight" },
                 { header: "Location", property: "location" },
                 { header: "Date", property: "date" },
                 { header: "Owner", property: "owner" }],
-            quotes: [
-                {
-                    dogName: "Dusty",
-                    breed: "Border Collie",
-                    dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                    owner: "Adrianna",
-                    location: "West",
-                    date: "15.11.2020",
-                    id: 1,
-                    weight: "10kg"
-                },
-                {
-                    dogName: "Kropek",
-                    breed: "White Shepherd",
-                    dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                    owner: "Joanna",
-                    location: "North-West",
-                    date: "12.05.2020",
-                    weight: "4kg",
-                    id: 2
-                }]
+            quotes
         }
     }
 
@@ -127,43 +226,38 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
     render() {
         return (
 
-            <Box className="who-needs-me" background="white" border gap="medium" pad="large" width="xlarge">
-                <h1>Who needs help?</h1>
+            <Box className="services" background="white" border gap="medium" pad="large" width="large">
+                <h1>Services</h1>
                 <div className="inputs">
-                    <div>
+                    <FormField>
                         <TextInput
-                            value={this.state.filters.name}
-                            onChange={this.handleChange}
-                            size='medium'
+                            value={this.state.filters.name} onChange={this.handleChange}
                             className=' filter_text'
                             placeholder="Name"
-                            name="name"
-                        >
+                            name="name">
                         </TextInput>
-                    </div>
-                    <div>
-                        <TextInput value={this.state.filters.breed} onChange={this.handleChange} size='medium' className='filter_text' placeholder="Breed" name="breed"></TextInput>
-
-                    </div>
-                    <div>
-                        <TextInput value={this.state.filters.owner} onChange={this.handleChange} size='medium' className='filter_text' placeholder="Owner" name="owner"></TextInput>
-
-                    </div>
+                    </FormField>
+                    <FormField>
+                        <TextInput value={this.state.filters.breed} onChange={this.handleChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
+                    </FormField>
+                    <FormField>
+                        <TextInput value={this.state.filters.owner} onChange={this.handleChange} className='filter_text' placeholder="Owner" name="owner"></TextInput>
+                    </FormField>
                 </div>
                 <div className="filters">
                     <Filter selectedOptions={this.state.filters.date} name="date" onChange={this.handleFilters} options={['today - 2 days', '3-7 days', '8-15 days', 'in the future']} placeholder="When?"></Filter>
                     <Filter selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location"></Filter>
                     <Filter selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></Filter>
                 </div>
-                <div className="add-quote">
-                    <Button
+                <div className="add-service">
+                    <CustomButton
                         color="brand"
                         primary
                         icon={<Add />}
                         label="Add Serivce"
                         onClick={this.redirectToAddService}
                     />
-                    <Button
+                    <CustomButton
                         color="brand"
                         primary
                         icon={<Subtract />}
@@ -171,21 +265,24 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                         onClick={this.clearFilters}
                     />
                 </div>
-                <Box align="center" pad="large">
-                    <DataTable
-                        columns={this.state.columns}
-                        data={this.state.quotes}
-                        step={10}
-                        pad={{ horizontal: 'large', vertical: 'medium' }}
-                        background={{
-                            header: 'dark-3',
-                            body: ['light-1', 'light-3'],
-                            footer: 'dark-3',
-                        }}
-                        border={{ body: 'bottom' }}
-                        rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
-                    />
-                </Box>
+                <div className='services-table'>
+                    <Box align="center" pad="large">
+                        <DataTable
+                            primaryKey='id'
+                            columns={this.state.columns}
+                            data={this.state.quotes}
+                            step={25}
+                            pad={{ horizontal: 'medium', vertical: 'xsmall' }}
+                            background={{
+                                header: 'dark-3',
+                                body: ['light-1', 'light-3'],
+                                footer: 'dark-3',
+                            }}
+                            border={{ body: 'bottom' }}
+                            rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
+                        />
+                    </Box>
+                </div>
             </Box >
         )
     };

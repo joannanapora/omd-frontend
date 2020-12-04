@@ -11,7 +11,7 @@ import MyProfile from "../features/my-profile/my-profile.component";
 import Register from "../features/sign-up/register.container";
 import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
-import AddService from '../features/services/create-quote.component';
+import AddService from '../features/services/add-service.component';
 
 class HomePage extends React.Component<{}, { sections: any[] }> {
   constructor(props: any) {
@@ -28,13 +28,19 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
         {
           name: "Services",
           imageUrl: "",
-          id: 4,
+          id: 2,
           url: "/services",
+        },
+        {
+          name: "Messages",
+          imageUrl: "",
+          id: 3,
+          url: "/info",
         },
         {
           name: "My Profile",
           imageUrl: "",
-          id: 3,
+          id: 4,
           url: "/my-profile",
         },
         {

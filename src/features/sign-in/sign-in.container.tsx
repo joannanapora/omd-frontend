@@ -1,12 +1,14 @@
 import React from 'react';
-import './sign-in.container.scss';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+
 import { Box, Form, FormField, TextInput } from 'grommet';
+import { Google, Facebook, MailOption } from 'grommet-icons';
 
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setCurrentUser } from '../../store/user';
-import { connect } from 'react-redux';
+import './sign-in.container.scss';
 
 class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any, email: any }> {
     constructor(props) {
@@ -27,15 +29,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
     }
     handleSubmit = event => {
         event.preventDefault();
-
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         username: this.state.email,
-        //         password: this.state.password,
-        //     })
-        // };
 
         axios.post('http://localhost:4000/auth/signin', {
             email: this.state.email,
@@ -69,8 +62,8 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
             <div className='sign-in'>
                 <Form className='form' onSubmit={this.handleSubmit}>
                     <Box className="sign-in-box" background="white" border gap="medium" pad="large" width="medium">
-                        <h1>Sign in</h1>
-                        <FormField htmlFor="enabled-id" name="enabled" label="">
+                        <h1>Log in.</h1>
+                        <FormField>
                             <TextInput
                                 onChange={this.handleChange}
                                 value={this.state.email}
@@ -81,7 +74,7 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
                                 placeholder="Email"
                             ></TextInput>
                         </FormField>
-                        <FormField htmlFor="enabled-id" name="enabled" label="">
+                        <FormField>
                             <TextInput
                                 onChange={this.handleChange}
                                 value={this.state.password}
@@ -92,11 +85,11 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
                                 placeholder="Password"
                             />
                         </FormField>
-                        <CustomButton onChange={this.handleSubmit} type='submit'>Log in</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='facebook-button' name='fb' type='submit' >Log in with Facebook</CustomButton>
-                        <CustomButton onChange={this.handleSubmit} className='google-button' name='google' type='submit' >Log in with Google</CustomButton>
+                        <CustomButton onChange={this.handleSubmit} type='submit' label='Log in' />
+                        <CustomButton icon={<Facebook />} onChange={this.handleSubmit} className='facebook-button' name='fb' type='submit' label="Log in with Facebook" />
+                        <CustomButton icon={<Google />} onChange={this.handleSubmit} className='google-button' name='google' type='submit' label="Log in with Google" />
                         <h1>or</h1>
-                        <Link to='/register'><CustomButton onChange={this.handleSubmit} type='submit'>Register with email</CustomButton></Link>
+                        <Link to='/register'><CustomButton icon={<MailOption />} onChange={this.handleSubmit} type='submit' label="Register with email" /></Link>
                     </Box>
 
                 </Form>

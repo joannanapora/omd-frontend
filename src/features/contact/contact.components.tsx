@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import { Box, FormField, Select, TextArea } from 'grommet';
+import { Send } from 'grommet-icons';
 
 import './contact.components.scss';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
@@ -79,7 +80,8 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
                     <TextArea onChange={this.handleMessageChange} value={this.state.message} placeholder="Message..." />
                 </FormField>
                 <Box fill align="center" justify="center">
-                    <CustomButton disabled={!(this.state.message && this.state.selectedOption)} onClick={this.onSubmit} >
+                    <CustomButton disabled={!(this.state.message && this.state.selectedOption)}
+                        onClick={this.onSubmit} icon={<Send />} label="Send">
                         Send
                         </CustomButton>
                 </Box>

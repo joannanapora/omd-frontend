@@ -1,8 +1,9 @@
 import React from 'react';
 import './my-profile.component.scss'
 import axios from 'axios';
+import { FormEdit, FormCheckmark } from 'grommet-icons';
 
-import { Box, CheckBox, Form, FormField, TextInput, Text, MaskedInput } from 'grommet';
+import { Box, Form, FormField, Text } from 'grommet';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 
@@ -102,66 +103,57 @@ class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, s
 
     render() {
         return (
-            <div className='account-information'>
-                <Box className="account-information" background="white" border gap="medium" pad="large" width="large">
-                    <h1>Account information.</h1>
-                    <Text>
-                        The following data will not be visible on your profile. We collect them for the safety of users.
-                        </Text>
-                    <div className="name-surname-form">
-                        <Form onSubmit={this.handleSubmit} className='form'>
-                            <this.FormFieldLabel label="Name" required
-                                onChange={this.handleChange}
-                                className="form-input"
-                                id="10"
-                                value={this.state.name}
-                                name="name"
-                                message="string"
-                                disabled={this.state.isReadOnly}>
-                            </this.FormFieldLabel>
-                            <this.FormFieldLabel label="Surname" required
-                                onChange={this.handleChange}
-                                className="form-input"
-                                id="20"
-                                value={this.state.surname}
-                                name="surname"
-                                disabled={this.state.isReadOnly}>
-                            </this.FormFieldLabel>
-                            <this.FormFieldLabel label="Post Code" required
-                                onChange={this.handleChange}
-                                className="form-input"
-                                id="30"
-                                value={this.state.postCode}
-                                name="postCode"
-                                disabled={this.state.isReadOnly}>
-                            </this.FormFieldLabel>
-                            <this.FormFieldLabel label="Phone Number" required
-                                value={this.state.phoneNumber}
-                                onChange={this.handleChange}
-                                className="form-input"
-                                id="40"
-                                name="phoneNumber"
-                                disabled={this.state.isReadOnly}>
-
-                            </this.FormFieldLabel>
-                            <div className='buttons'>
-                                <CustomButton onClick={this.handleEdit}>Edit</CustomButton>
-                                <CustomButton disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit}>Save</CustomButton>
-                            </div>
-                        </Form>
+            <Box className="my-profile" background="white" border gap="medium" pad="large" width="medium">
+                <h1>My profile</h1>
+                <Form onSubmit={this.handleSubmit} className='my-profile-form'>
+                    <this.FormFieldLabel label="Name" required
+                        onChange={this.handleChange}
+                        className="form-input"
+                        id="10"
+                        value={this.state.name}
+                        name="name"
+                        message="string"
+                        disabled={this.state.isReadOnly}>
+                    </this.FormFieldLabel>
+                    <this.FormFieldLabel label="Surname" required
+                        onChange={this.handleChange}
+                        className="form-input"
+                        id="20"
+                        value={this.state.surname}
+                        name="surname"
+                        disabled={this.state.isReadOnly}>
+                    </this.FormFieldLabel>
+                    <this.FormFieldLabel label="Post Code" required
+                        onChange={this.handleChange}
+                        className="form-input"
+                        id="30"
+                        value={this.state.postCode}
+                        name="postCode"
+                        disabled={this.state.isReadOnly}>
+                    </this.FormFieldLabel>
+                    <this.FormFieldLabel label="Phone Number" required
+                        value={this.state.phoneNumber}
+                        onChange={this.handleChange}
+                        className="form-input"
+                        id="40"
+                        name="phoneNumber"
+                        disabled={this.state.isReadOnly}>
+                    </this.FormFieldLabel>
+                    <div className='my-profile-buttons'>
+                        <CustomButton icon={<FormEdit />} label='Edit' onClick={this.handleEdit} />
+                        <CustomButton icon={<FormCheckmark />} label='Save' disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit} />
                     </div>
-
-                </Box>
-                {
-                    this.state.showNotification ?
-                        <Notification
-                            status={Status.SUCCESS}
-                            text={"Information saved."}>
-                        </Notification>
-                        :
-                        null
-                }
-            </div>
+                    {
+                        this.state.showNotification ?
+                            <Notification
+                                status={Status.SUCCESS}
+                                text={"Information saved."}>
+                            </Notification>
+                            :
+                            null
+                    }
+                </Form>
+            </Box>
         );
     }
 };
