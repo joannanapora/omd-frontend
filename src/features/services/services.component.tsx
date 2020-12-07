@@ -223,10 +223,11 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
     }
 
 
+
     render() {
         return (
 
-            <Box className="services" background="white" border gap="medium" pad="large" width="large">
+            <Box className="services" background="white" border gap="small" pad="medium" width="large">
                 <h1>Services</h1>
                 <div className="inputs">
                     <FormField>

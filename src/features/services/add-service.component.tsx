@@ -1,12 +1,13 @@
 import React from 'react';
 import ImageUploading from 'react-images-uploading'
 
-import { Box, DateInput, Form, FormField, Select, Text, TextInput } from 'grommet';
+import { Box, Form, FormField, Select, Text, TextInput } from 'grommet';
 
+import CustomDate from '../../shared/custom-date/custom-date.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import './add-service.styles.scss';
 
-class AddService extends React.Component<{}, { images: any, selectedDate: string, isSelectOpen: boolean, selectedLocation: string, selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], date: string, weight: any[], }> {
+class AddService extends React.Component<{}, { dateFrom: string, dateTo: string, timeFrom: string, timeTo: string, images: any, selectedDate: string, isSelectOpen: boolean, selectedLocation: string, selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], weight: any[], }> {
     constructor(props) {
         super(props);
 
@@ -14,7 +15,6 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
             name: "",
             breed: "",
             owner: "",
-            date: "",
             location: ['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east'],
             weight: ['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg'],
             showNotification: false,
@@ -23,6 +23,10 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
             selectedDate: null,
             isSelectOpen: false,
             images: null,
+            timeFrom: "",
+            dateFrom: "",
+            timeTo: "",
+            dateTo: "",
         }
     };
 
@@ -39,7 +43,9 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
             owner: "",
             location: [],
             weight: [],
-            date: ""
+            dateFrom: "",
+            dateTo: "",
+
         })
     }
 
@@ -63,9 +69,6 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
         }
     };
 
-    handleDate = (event: any) => {
-        this.setState({ date: event.value })
-    }
 
     handleSelectChange = (event) => {
         if (event.target.name === "weight") {
@@ -79,13 +82,36 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
         }
     };
 
+    handleDateChange = ({ time, date, name }) => {
+        if (name === 'from') {
+            this.setState({ dateFrom: date, timeFrom: time })
+        }
+        if (name === "to") {
+            this.setState({ dateTo: date, timeTo: time })
+        }
+    }
+
+    test = () => {
+        this.setState({ dateFrom: "" })
+    }
+
     render() {
         return (
-            <Box className="service-box" background="white" border gap="medium" pad="large" width="large" >
+            <Box className="service-box" background="white" border gap="medium" pad="xlarge" width="large" >
                 <Form onSubmit={this.handleSubmit}>
                     <h1>Add new service</h1>
                     <Box className='form' direction="row" flex background="white" gap="medium" pad="large" width="large">
                         <div className='add-service-left'>
+                            <FormField required={false}>
+                                <TextInput
+                                    value={this.state.owner}
+                                    type='text'
+                                    className="form-input"
+                                    name="owner"
+                                    placeholder="Owner Name"
+                                    onChange={this.handleChange}
+                                />
+                            </FormField>
                             <FormField required={false}>
                                 <TextInput
                                     onChange={this.handleChange}
@@ -93,7 +119,7 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
                                     className="form-input"
                                     id="enabled-id"
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Dog Name"
                                 ></TextInput>
                             </FormField>
                             <FormField required={false} >
@@ -103,22 +129,19 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
                                     type='text'
                                     className="form-input"
                                     name="breed"
-                                    placeholder="Breed"
+                                    placeholder="Dog Breed"
                                 />
                             </FormField>
                             <FormField required={false}>
                                 <Select
                                     id="select"
                                     name="weight"
-                                    placeholder="Weight"
+                                    placeholder="Dog Weight"
                                     open={this.state.isSelectOpen}
                                     value={this.state.selectedWeight}
                                     options={this.state.weight}
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
-                            </FormField>
-                            <FormField required={false} >
-                                <DateInput onChange={this.handleDate} name="date" value={this.state.date} format="mm/dd/yyyy" />
                             </FormField>
                             <FormField required={false} >
                                 <Select
@@ -130,19 +153,15 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
                             </FormField>
-                            <FormField required={false}>
-                                <TextInput
-                                    value={this.state.owner}
-                                    type='text'
-                                    className="form-input"
-                                    name="owner"
-                                    placeholder="Owner/s Name"
-                                    onChange={this.handleChange}
-                                />
+                            <FormField label="From">
+                                <CustomDate date={this.state.dateFrom} time={this.state.timeFrom} name="from" onChange={this.handleDateChange} />
+                            </FormField>
+                            <FormField label="To">
+                                <CustomDate date={this.state.dateTo} time={this.state.timeTo} name="to" onChange={this.handleDateChange} />
                             </FormField>
                         </div>
                         <div className='add-service-right'>
-                            <Text>Show your doggie!</Text>
+                            <Text>Place for Dog Image</Text>
                             <ImageUploading
                                 multiple
                                 value={this.state.images}
@@ -153,7 +172,6 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
                                 {({
                                     imageList,
                                     onImageUpload,
-                                    onImageRemoveAll,
                                     onImageUpdate,
                                     onImageRemove,
                                     isDragging,
@@ -187,12 +205,16 @@ class AddService extends React.Component<{}, { images: any, selectedDate: string
                     <CustomButton
                         disabled={!(this.state.breed && this.state.owner && this.state.name)}
                         type='submit'>Submit</CustomButton>
-                </Form>
 
+                    <CustomButton
+                        onClick={this.test}
+                    >Test</CustomButton>
+                </Form>
+                <Box align="center">
+                </Box>
             </Box >
         )
     }
-
 }
 
 

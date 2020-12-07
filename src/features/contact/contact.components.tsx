@@ -43,7 +43,7 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
 
     onSubmit = () => {
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiMWFkOGYzNjctZDAwZC00ODNmLThiMjAtMTY0NjJjOGVkZTc4IiwiaWF0IjoxNjA2OTA5NTEwLCJleHAiOjE2MDY5MTMxMTB9.QP_4QzV5hlzy_dJ_PHZ4cZ7VNB9jFR_P79-r8sQX2DM` }
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzZCIsInN1YiI6IjFhZDhmMzY3LWQwMGQtNDgzZi04YjIwLTE2NDYyYzhlZGU3OCIsImlhdCI6MTYwNzE5MjUzNSwiZXhwIjoxNjA3MTk2MTM1fQ.il9XgstmgzGMjGimfoJWMD1jGzlTc-2lx7eHGn9b6mo` }
         };
 
         axios.post('http://localhost:4000/contacts', {

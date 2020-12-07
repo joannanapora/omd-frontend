@@ -12,8 +12,8 @@ const theme = {
     },
     font: {
       family: 'Texturina',
-      size: "1px",
-      height: "2px",
+      // size: "9px",
+      // height: "4px",
     },
     focus: {
       border: {
@@ -77,19 +77,25 @@ const theme = {
       },
     },
     hover: {
-      background: { color: "active" },
+      background: { color: "white" },
+      default: {
+        active: "green",
+      },
       secondary: {
-
         active: "#d6702b",
         border: { color: "#d6702b" },
       },
     },
   },
+  input: {
+    background: "white",
+    color: "black"
+  },
   select: {
     active: "#d6702b",
     color: '#d6702b',
     background: {
-      color: "d6702b"
+      color: "white"
     }
   },
   formField: {
@@ -101,15 +107,15 @@ const theme = {
     },
     disabled: {
       background: {
-        color: undefined,
+        color: 'black',
       },
       border: {
         active: "#d6702b",
-        color: 'status-disabled',
+        color: 'black',
       },
       label: {
         active: "#d6702b",
-        color: 'status-disabled',
+        color: 'black',
       },
     },
     error: {
