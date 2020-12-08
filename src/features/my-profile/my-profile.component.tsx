@@ -24,32 +24,42 @@ class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, s
         }
     }
 
-    componentDidMount() {
-        if (this.state.name !== "" &&
-            this.state.surname !== "") {
-            this.setState({ isReadOnly: true })
 
-        } else {
-            this.setState({ isReadOnly: false })
-        }
+    componentDidMount() {
+        const config = {
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiNWU0ZTVhZmYtODlmOC00YTViLWE4NmItMmZlODU1ODEyNzUyIiwiaWF0IjoxNjA3NDI5NTUzLCJleHAiOjE2MDc0MzMxNTN9.mcgLfMwqCDbnsWzZjvzghZIX9bTqf0gNrn6ebbO3YbQ` }
+        };
+        axios.get('http://localhost:4000/user', config)
+            .then((response) => {
+                console.log(response);
+                this.setState({ isReadOnly: true });
+                this.setState({ name: response.data.name });
+                this.setState({ surname: response.data.surname });
+                this.setState({ phoneNumber: response.data.phoneNumber });
+                this.setState({ postCode: response.data.postCode });
+            }).catch(e => {
+                this.setState({ isReadOnly: false });
+            });
     }
 
 
     handleSubmit = () => {
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiMWFkOGYzNjctZDAwZC00ODNmLThiMjAtMTY0NjJjOGVkZTc4IiwiaWF0IjoxNjA2OTEzNjY0LCJleHAiOjE2MDY5MTcyNjR9.Uo8xGSNb07fod0ySTtcaSo_-SEMEwFT1qd8_a3-i2lk` }
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiNWU0ZTVhZmYtODlmOC00YTViLWE4NmItMmZlODU1ODEyNzUyIiwiaWF0IjoxNjA3NDI5NTUzLCJleHAiOjE2MDc0MzMxNTN9.mcgLfMwqCDbnsWzZjvzghZIX9bTqf0gNrn6ebbO3YbQ` }
         };
 
         axios.patch('http://localhost:4000/user', {
             name: this.state.name,
             surname: this.state.surname,
-            phoneNumber: this.state.phoneNumber
+            phoneNumber: this.state.phoneNumber,
+            postCode: this.state.postCode,
         }, config).then(() => {
             this.setState({ isReadOnly: true, showNotification: true })
         }).catch(e => {
             console.log(e);
         })
     };
+
     handleEdit = () => {
         this.setState({ isReadOnly: false });
         this.setState({ showNotification: false });

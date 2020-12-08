@@ -6,18 +6,22 @@ import { Link } from 'react-router-dom'
 import { Box, Form, FormField, TextInput } from 'grommet';
 import { Google, Facebook, MailOption } from 'grommet-icons';
 
+
+import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setCurrentUser } from '../../store/user';
 import './sign-in.container.scss';
 
-class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any, email: any }> {
+
+class SignIn extends React.Component<{ dispatchSetCurrentUser }, { showFailureNotification: boolean, showSuccessNotification: boolean, password: any, email: any }> {
     constructor(props) {
         super(props);
 
         this.state = {
             email: "",
             password: "",
-
+            showSuccessNotification: false,
+            showFailureNotification: false,
         }
     }
 
@@ -34,18 +38,29 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
             email: this.state.email,
             password: this.state.password,
         })
-            .then((data) => {
-                if (data) {
-                    alert("USER LOGGED IN");
+            .then((response) => {
+                if (response) {
                     const user = {
                         email: this.state.email,
                         name: this.state.email
                     };
                     this.setState({ email: '', password: '' });
                     this.props.dispatchSetCurrentUser(user);
+                    this.setState({ showSuccessNotification: true });
+                    this.setState({ showSuccessNotification: true });
+                    this.setState({ showFailureNotification: false });
                 }
-            }).catch(error => { alert("Wrong email or password") })
-    };
+                if (response.data.accessToken) {
+                    localStorage.setItem("accessToken", response.data.accessToken);
+
+
+                };
+            }).catch(error => {
+                this.setState({ showFailureNotification: true });
+                this.setState({ showSuccessNotification: false })
+            });
+    }
+        ;
 
     handleChange = (event: { target: { value: string; name: string } }) => {
         type nameTypes = 'email';
@@ -91,7 +106,24 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { password: any
                         <h1>or</h1>
                         <Link to='/register'><CustomButton icon={<MailOption />} onChange={this.handleSubmit} type='submit' label="Register with email" /></Link>
                     </Box>
-
+                    {
+                        this.state.showSuccessNotification ?
+                            <Notification
+                                status={Status.SUCCESS}
+                                text={"User logged in."}>
+                            </Notification>
+                            :
+                            null
+                    },
+                    {
+                        this.state.showFailureNotification ?
+                            <Notification
+                                status={Status.FAILURE}
+                                text={"Wrong email or password."}>
+                            </Notification>
+                            :
+                            null
+                    }
                 </Form>
             </div>
         )

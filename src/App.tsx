@@ -107,7 +107,7 @@ const theme = {
     },
     disabled: {
       background: {
-        color: 'black',
+        color: 'white',
       },
       border: {
         active: "#d6702b",

@@ -42,8 +42,10 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
 
 
     onSubmit = () => {
+        console.log("Bearer " + localStorage.getItem('accessToken'));
+
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzZCIsInN1YiI6IjFhZDhmMzY3LWQwMGQtNDgzZi04YjIwLTE2NDYyYzhlZGU3OCIsImlhdCI6MTYwNzE5MjUzNSwiZXhwIjoxNjA3MTk2MTM1fQ.il9XgstmgzGMjGimfoJWMD1jGzlTc-2lx7eHGn9b6mo` }
+            headers: { Authorization: "Bearer " + localStorage.getItem('token') }
         };
 
         axios.post('http://localhost:4000/contacts', {

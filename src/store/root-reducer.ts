@@ -10,12 +10,14 @@ import userReducer from './user/user.reducer';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user, filter']
+    whitelist: ['user']
 };
 
 const rootReducer = combineReducers({
     user: userReducer,
     filter: filtersReducer,
 });
+
+
 
 export default persistReducer(persistConfig, rootReducer);
