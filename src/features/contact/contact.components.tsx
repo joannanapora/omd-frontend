@@ -45,7 +45,7 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
         console.log("Bearer " + localStorage.getItem('accessToken'));
 
         const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('token') }
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
 
         axios.post('http://localhost:4000/contacts', {

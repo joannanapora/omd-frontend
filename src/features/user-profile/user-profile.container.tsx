@@ -1,6 +1,8 @@
 import React from "react";
-
 import { withRouter } from 'react-router-dom';
+
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../store/user/user.selectors';
 
 import { connect } from 'react-redux';
 import { setCurrentUser } from '../../store/user';
@@ -39,8 +41,8 @@ class UserProfile extends React.Component<{ currentUser, dispatchSetCurrentUser,
 
 
 
-const mapStateToProps = ({ user: { currentUser } }) => ({
-  currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({

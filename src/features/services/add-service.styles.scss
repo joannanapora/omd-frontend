@@ -7,14 +7,22 @@
 
 .form {
     display: flex;
+    padding-bottom: 0px;
 }
 
 .add-service-left {
     justify-content: center;
-    width: inherit;
+    width: 500px;
+
 }
 
 .add-service-right {
     justify-content: center;
     width: inherit;
+}
+
+.add-service-buttons {
+    align-items: center;
+    justify-content: center;
+    display:flex;
 }

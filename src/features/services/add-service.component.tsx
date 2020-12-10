@@ -6,8 +6,13 @@ import { Box, Form, FormField, Select, Text, TextInput } from 'grommet';
 import CustomDate from '../../shared/custom-date/custom-date.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import './add-service.styles.scss';
+import CustomCheckBox from '../../shared/custom-checkbox/custom-checkbox.component';
 
-class AddService extends React.Component<{}, { dateFrom: string, dateTo: string, timeFrom: string, timeTo: string, images: any, selectedDate: string, isSelectOpen: boolean, selectedLocation: string, selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], weight: any[], }> {
+class AddService extends React.Component<{}, {
+    checked: boolean, dateFrom: string, dateTo: string, timeFrom: string, timeTo: string,
+    images: any, isSelectOpen: boolean, selectedLocation: string, isReadOnly: boolean,
+    selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], weight: any[],
+}> {
     constructor(props) {
         super(props);
 
@@ -20,13 +25,14 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
             showNotification: false,
             selectedLocation: null,
             selectedWeight: null,
-            selectedDate: null,
             isSelectOpen: false,
             images: null,
             timeFrom: "",
             dateFrom: "",
             timeTo: "",
             dateTo: "",
+            checked: false,
+            isReadOnly: false,
         }
     };
 
@@ -36,18 +42,27 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
         this.setState({ images: imageList });
     };
 
-    handleSubmit = event => {
-        this.setState({
-            name: "",
-            breed: "",
-            owner: "",
-            location: [],
-            weight: [],
-            dateFrom: "",
-            dateTo: "",
-
-        })
-    }
+    handleSubmit = () => {
+        if (!this.state.checked) {
+            this.setState({
+                name: "",
+                breed: "",
+                owner: "",
+                selectedLocation: null,
+                selectedWeight: null,
+                dateFrom: "",
+                timeFrom: "",
+                dateTo: "",
+                timeTo: ""
+            })
+        } else {
+            this.setState({ isReadOnly: true });
+            this.setState({ dateFrom: "", dateTo: "", timeFrom: "", timeTo: "" });
+            if (!this.state.checked) {
+                this.setState({ isReadOnly: false })
+            }
+        };
+    };
 
     handleChange = (event) => {
         console.log(event);
@@ -91,19 +106,25 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
         }
     }
 
-    test = () => {
-        this.setState({ dateFrom: "" })
+    setChecked = (event) => {
+        this.setState({ checked: event.target.checked });
+
+        if (!event.target.checked) {
+            this.setState({ isReadOnly: false })
+        }
     }
+
 
     render() {
         return (
             <Box className="service-box" background="white" border gap="medium" pad="xlarge" width="large" >
-                <Form onSubmit={this.handleSubmit}>
+                <Form>
                     <h1>Add new service</h1>
-                    <Box className='form' direction="row" flex background="white" gap="medium" pad="large" width="large">
+                    <Box className='form' direction="row" flex background="white" pad={{ bottom: 'small', right: 'large', left: 'large', top: 'large' }} width="large">
                         <div className='add-service-left'>
                             <FormField required={false}>
                                 <TextInput
+                                    disabled={this.state.isReadOnly}
                                     value={this.state.owner}
                                     type='text'
                                     className="form-input"
@@ -114,6 +135,7 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
                             </FormField>
                             <FormField required={false}>
                                 <TextInput
+                                    disabled={this.state.isReadOnly}
                                     onChange={this.handleChange}
                                     value={this.state.name}
                                     className="form-input"
@@ -124,6 +146,7 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
                             </FormField>
                             <FormField required={false} >
                                 <TextInput
+                                    disabled={this.state.isReadOnly}
                                     onChange={this.handleChange}
                                     value={this.state.breed}
                                     type='text'
@@ -134,6 +157,7 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
                             </FormField>
                             <FormField required={false}>
                                 <Select
+                                    disabled={this.state.isReadOnly}
                                     id="select"
                                     name="weight"
                                     placeholder="Dog Weight"
@@ -145,6 +169,7 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
                             </FormField>
                             <FormField required={false} >
                                 <Select
+                                    disabled={this.state.isReadOnly}
                                     name="location"
                                     placeholder="Location"
                                     open={this.state.isSelectOpen}
@@ -202,13 +227,15 @@ class AddService extends React.Component<{}, { dateFrom: string, dateTo: string,
                             </ImageUploading>
                         </div>
                     </Box>
-                    <CustomButton
-                        disabled={!(this.state.breed && this.state.owner && this.state.name)}
-                        type='submit'>Submit</CustomButton>
-
-                    <CustomButton
-                        onClick={this.test}
-                    >Test</CustomButton>
+                    <div className='add-service-buttons'>
+                        <CustomCheckBox checked={this.state.checked} onChange={this.setChecked}
+                            label="Remember" />
+                        <CustomButton
+                            onClick={this.handleSubmit}
+                            disabled={!(this.state.breed && this.state.owner && this.state.name && this.state.location
+                                && this.state.dateFrom && this.state.dateTo && this.state.weight) || this.state.isReadOnly}
+                            type='submit'>Submit</CustomButton>
+                    </div>
                 </Form>
                 <Box align="center">
                 </Box>

@@ -23,6 +23,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
+    "reselect": "^4.0.0",
     "sass": "^1.29.0",
     "save": "^2.4.0",
     "save-dev": "0.0.1-security",
