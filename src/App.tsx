@@ -12,8 +12,6 @@ const theme = {
     },
     font: {
       family: 'Texturina',
-      // size: "9px",
-      // height: "4px",
     },
     focus: {
       border: {
@@ -34,41 +32,32 @@ const theme = {
       color: "black",
       border: { color: "#d6702b" },
       padding: {
-        horizontal: "1.6rem",
-        vertical: ".5rem",
+        horizontal: "0.6rem",
+        vertical: "0.2rem",
       },
     },
     primary: {
-      active: "#d6702b",
+
+      border: { color: "#d6702b" },
       background: { color: "#d6702b" },
       color: "white",
       font: { weight: "bold" },
       padding: {
-        horizontal: "1.6rem",
+        horizontal: "1.8rem",
         vertical: ".5rem",
       },
     },
     secondary: {
-      active: "#d6702b",
-      border: { color: "#d6702b", width: "4px" },
-      color: "text",
+      active: { color: "brand" },
+      background: { color: "white" },
+      border: { color: "brand" },
+      color: "black",
       padding: {
-        horizontal: "8px",
-        vertical: "4px",
+        horizontal: "1.8rem",
+        vertical: ".8rem",
       },
     },
-    active: {
 
-      background: { color: "black" },
-      color: "d6702b",
-      secondary: {
-        background: "none",
-        border: {
-
-          active: "#d6702b", color: "#d6702b",
-        },
-      },
-    },
     disabled: {
       opacity: 0.3,
       secondary: {
@@ -77,13 +66,22 @@ const theme = {
       },
     },
     hover: {
-      background: { color: "white" },
+
       default: {
-        active: "green",
+        background: { color: "white" },
+        active: "#d6702b",
+        focus: "brand",
+        color: 'black'
+      },
+      primary: {
+        background: { color: "brand" },
+        active: "brand",
+        color: 'black'
       },
       secondary: {
-        active: "#d6702b",
-        border: { color: "#d6702b" },
+        background: { color: "brand" },
+        active: "brand",
+        color: 'black'
       },
     },
   },

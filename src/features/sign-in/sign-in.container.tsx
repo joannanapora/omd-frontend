@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+
 
 import { Box, Form, FormField, TextInput } from 'grommet';
 import { Google, Facebook, MailOption } from 'grommet-icons';
@@ -13,16 +14,20 @@ import { setCurrentUser } from '../../store/user';
 import './sign-in.container.scss';
 
 
-class SignIn extends React.Component<{ dispatchSetCurrentUser }, { showFailureNotification: boolean, showSuccessNotification: boolean, password: any, email: any }> {
+class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
+    { showFailureNotification: boolean, password: any, email: any }> {
     constructor(props) {
         super(props);
 
         this.state = {
             email: "",
             password: "",
-            showSuccessNotification: false,
             showFailureNotification: false,
         }
+    }
+    redirectToUserLoggedIn = () => {
+        const { history } = this.props;
+        if (history) history.push('/services');
     }
 
     handleErrors(response) {
@@ -46,18 +51,16 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { showFailureNo
                     };
                     this.setState({ email: '', password: '' });
                     this.props.dispatchSetCurrentUser(user);
-                    this.setState({ showSuccessNotification: true });
-                    this.setState({ showSuccessNotification: true });
-                    this.setState({ showFailureNotification: false });
                 }
                 if (response.data.accessToken) {
                     localStorage.setItem("accessToken", response.data.accessToken);
+                    this.redirectToUserLoggedIn();
+
 
 
                 };
             }).catch(error => {
                 this.setState({ showFailureNotification: true });
-                this.setState({ showSuccessNotification: false })
             });
     }
         ;
@@ -77,7 +80,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { showFailureNo
             <div className='sign-in'>
                 <Form className='form' onSubmit={this.handleSubmit}>
                     <Box className="sign-in-box" background="white" border gap="medium" pad="large" width="medium">
-                        <h1>Log in.</h1>
                         <FormField>
                             <TextInput
                                 onChange={this.handleChange}
@@ -100,21 +102,12 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser }, { showFailureNo
                                 placeholder="Password"
                             />
                         </FormField>
-                        <CustomButton onChange={this.handleSubmit} type='submit' label='Log in' />
-                        <CustomButton icon={<Facebook />} onChange={this.handleSubmit} className='facebook-button' name='fb' type='submit' label="Log in with Facebook" />
-                        <CustomButton icon={<Google />} onChange={this.handleSubmit} className='google-button' name='google' type='submit' label="Log in with Google" />
+                        <CustomButton primary onChange={this.handleSubmit} type='submit' label='Log in' />
+                        <CustomButton secondary icon={<Facebook />} onChange={this.handleSubmit} className='facebook-button' name='fb' type='submit' label="Log in with Facebook" />
+                        <CustomButton secondary icon={<Google />} onChange={this.handleSubmit} className='google-button' name='google' type='submit' label="Log in with Google" />
                         <h1>or</h1>
-                        <Link to='/register'><CustomButton icon={<MailOption />} onChange={this.handleSubmit} type='submit' label="Register with email" /></Link>
+                        <Link to='/register'><CustomButton icon={<MailOption />} onChange={this.handleSubmit} secondary type='submit' label="Register with email" /></Link>
                     </Box>
-                    {
-                        this.state.showSuccessNotification ?
-                            <Notification
-                                status={Status.SUCCESS}
-                                text={"User logged in."}>
-                            </Notification>
-                            :
-                            null
-                    },
                     {
                         this.state.showFailureNotification ?
                             <Notification
@@ -135,8 +128,8 @@ const mapDispatchToProps = dispatch => ({
     dispatchSetCurrentUser: (user) => dispatch(setCurrentUser(user))
 });
 
-export default connect(
+export default withRouter(connect(
     null,
     mapDispatchToProps)
-    (SignIn);
+    (SignIn));
 

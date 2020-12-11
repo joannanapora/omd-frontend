@@ -103,6 +103,7 @@ class Register extends React.Component<{ history }, { password: any, email: any,
                         </FormField>
 
                         <CustomButton
+                            primary
                             disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}
                             type='submit'>Submit</CustomButton>
 

@@ -45,7 +45,7 @@ class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, s
 
     handleSubmit = () => {
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiNWU0ZTVhZmYtODlmOC00YTViLWE4NmItMmZlODU1ODEyNzUyIiwiaWF0IjoxNjA3NDI5NTUzLCJleHAiOjE2MDc0MzMxNTN9.mcgLfMwqCDbnsWzZjvzghZIX9bTqf0gNrn6ebbO3YbQ` }
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
 
         axios.patch('http://localhost:4000/user', {
@@ -150,8 +150,8 @@ class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, s
                         disabled={this.state.isReadOnly}>
                     </this.FormFieldLabel>
                     <div className='my-profile-buttons'>
-                        <CustomButton icon={<FormEdit />} label='Edit' onClick={this.handleEdit} />
-                        <CustomButton icon={<FormCheckmark />} label='Save' disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit} />
+                        <CustomButton secondary icon={<FormEdit />} label='Edit' onClick={this.handleEdit} />
+                        <CustomButton primary icon={<FormCheckmark />} label='Save' disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit} />
                     </div>
                     {
                         this.state.showNotification ?

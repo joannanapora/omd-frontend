@@ -18,21 +18,24 @@ class UserProfile extends React.Component<{ currentUser, dispatchSetCurrentUser,
   handleLogout = event => {
     event.preventDefault();
     this.props.dispatchSetCurrentUser(null);
+    this.redirectToLogIn();
   }
 
-  redirectToAccountCreated = () => {
+  redirectToLogIn = () => {
     const { history } = this.props;
     if (history) history.push('/sign-in');
   }
+
+
 
   render() {
     return (
       <div className="user-area">
         {
           this.props.currentUser ?
-            <CustomButton label="Log Out" onClick={this.handleLogout} className='log-out' />
+            <CustomButton primary label="Log Out" onClick={this.handleLogout} className='log-out' />
             :
-            <CustomButton label="Log In" onClick={this.redirectToAccountCreated} className='log-in' />
+            <CustomButton primary label="Log In" onClick={this.redirectToLogIn} className='log-in' />
         }
       </div>
     );
@@ -49,8 +52,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetCurrentUser: (user) => dispatch(setCurrentUser(user))
 });
 
-export default withRouter
-  (connect(
-    mapStateToProps,
-    mapDispatchToProps)
-    (UserProfile));
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps)
+  (UserProfile));

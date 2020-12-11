@@ -1,16 +1,22 @@
 import React from 'react';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom'
+
 import ImageUploading from 'react-images-uploading'
 
-import { Box, Form, FormField, Select, Text, TextInput } from 'grommet';
+import { Box, Form, FormField, Select, Text, TextArea, TextInput } from 'grommet';
+import { LinkPrevious } from 'grommet-icons';
 
+import './add-service.styles.scss';
 import CustomDate from '../../shared/custom-date/custom-date.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
-import './add-service.styles.scss';
 import CustomCheckBox from '../../shared/custom-checkbox/custom-checkbox.component';
+import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
+import { mapOptionsToWeight, mapOptionsToLocation } from '../../models/enums';
 
-class AddService extends React.Component<{}, {
+class AddService extends React.Component<{ history }, {
     checked: boolean, dateFrom: string, dateTo: string, timeFrom: string, timeTo: string,
-    images: any, isSelectOpen: boolean, selectedLocation: string, isReadOnly: boolean,
+    images: any, isSelectOpen: boolean, selectedLocation: string, isReadOnly: boolean, message: string,
     selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], weight: any[],
 }> {
     constructor(props) {
@@ -33,6 +39,7 @@ class AddService extends React.Component<{}, {
             dateTo: "",
             checked: false,
             isReadOnly: false,
+            message: ""
         }
     };
 
@@ -43,29 +50,59 @@ class AddService extends React.Component<{}, {
     };
 
     handleSubmit = () => {
-        if (!this.state.checked) {
-            this.setState({
-                name: "",
-                breed: "",
-                owner: "",
-                selectedLocation: null,
-                selectedWeight: null,
-                dateFrom: "",
-                timeFrom: "",
-                dateTo: "",
-                timeTo: ""
-            })
-        } else {
-            this.setState({ isReadOnly: true });
-            this.setState({ dateFrom: "", dateTo: "", timeFrom: "", timeTo: "" });
-            if (!this.state.checked) {
-                this.setState({ isReadOnly: false })
-            }
+        this.setState({ showNotification: false });
+
+        const config = {
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
+
+        axios.post('http://localhost:4000/services', {
+
+            message: this.state.message,
+            dateFrom: this.state.dateFrom,
+            dateTo: this.state.dateTo,
+            breed: this.state.breed,
+            ownerName: this.state.owner,
+            dogName: this.state.name,
+            location: mapOptionsToLocation(this.state.selectedLocation),
+            weight: mapOptionsToWeight(this.state.selectedWeight)
+
+
+        }, config).then(() => {
+            this.setState({ showNotification: true });
+            if (!this.state.checked) {
+                this.setState({
+                    name: "",
+                    breed: "",
+                    owner: "",
+                    selectedLocation: null,
+                    selectedWeight: null,
+                    dateFrom: "",
+                    timeFrom: "",
+                    dateTo: "",
+                    timeTo: "",
+                    message: ""
+                })
+            } else {
+                this.setState({ isReadOnly: true });
+                this.setState({ dateFrom: "", dateTo: "", timeFrom: "", timeTo: "" });
+                if (!this.state.checked) {
+                    this.setState({ isReadOnly: false })
+                }
+            };
+        }).catch(e => {
+            console.log(e);
+        })
+
+
     };
 
+    redirectToServices = () => {
+        const { history } = this.props;
+        if (history) history.push('/services');
+    }
+
     handleChange = (event) => {
-        console.log(event);
         if (event.target.name === "name") {
             this.setState({
                 name: event.target.value
@@ -111,15 +148,30 @@ class AddService extends React.Component<{}, {
 
         if (!event.target.checked) {
             this.setState({ isReadOnly: false })
-        }
+        };
     }
 
+    handleMessageChange = (event) => {
+        if (event.target.name === 'message') {
+            this.setState({ message: event.target.value })
+        }
+    };
 
     render() {
         return (
-            <Box className="service-box" background="white" border gap="medium" pad="xlarge" width="large" >
+            <Box className="service-box" background="white" border gap="small" pad="large" width="large" >
                 <Form>
-                    <h1>Add new service</h1>
+                    <div className='add-services-header'>
+                        <div>
+                            <CustomButton
+                                secondary
+                                icon={<LinkPrevious />}
+                                label="Go Back"
+                                onClick={this.redirectToServices} />
+                        </div>
+                        <div className='header'><h1>Add Service</h1></div>
+                        <div></div>
+                    </div>
                     <Box className='form' direction="row" flex background="white" pad={{ bottom: 'small', right: 'large', left: 'large', top: 'large' }} width="large">
                         <div className='add-service-left'>
                             <FormField required={false}>
@@ -133,6 +185,28 @@ class AddService extends React.Component<{}, {
                                     onChange={this.handleChange}
                                 />
                             </FormField>
+                            <FormField required={false} >
+                                <Select
+                                    disabled={this.state.isReadOnly}
+                                    name="location"
+                                    placeholder="Location"
+                                    open={this.state.isSelectOpen}
+                                    value={this.state.selectedLocation}
+                                    options={this.state.location}
+                                    onChange={(event) => this.handleSelectChange(event)}
+                                />
+                            </FormField>
+                            <FormField className='date-field' >
+                                <CustomDate label="Date 'From'" date={this.state.dateFrom} time={this.state.timeFrom} name="from" onChange={this.handleDateChange} />
+                            </FormField>
+                            <FormField className='date-field'>
+                                <CustomDate label="Date 'To'" date={this.state.dateTo} time={this.state.timeTo} name="to" onChange={this.handleDateChange} />
+                            </FormField>
+                            <div className='service-description'>
+                                <TextArea name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
+                            </div>
+                        </div>
+                        <div className='add-service-right'>
                             <FormField required={false}>
                                 <TextInput
                                     disabled={this.state.isReadOnly}
@@ -167,75 +241,67 @@ class AddService extends React.Component<{}, {
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
                             </FormField>
-                            <FormField required={false} >
-                                <Select
-                                    disabled={this.state.isReadOnly}
-                                    name="location"
-                                    placeholder="Location"
-                                    open={this.state.isSelectOpen}
-                                    value={this.state.selectedLocation}
-                                    options={this.state.location}
-                                    onChange={(event) => this.handleSelectChange(event)}
-                                />
-                            </FormField>
-                            <FormField label="From">
-                                <CustomDate date={this.state.dateFrom} time={this.state.timeFrom} name="from" onChange={this.handleDateChange} />
-                            </FormField>
-                            <FormField label="To">
-                                <CustomDate date={this.state.dateTo} time={this.state.timeTo} name="to" onChange={this.handleDateChange} />
-                            </FormField>
-                        </div>
-                        <div className='add-service-right'>
-                            <Text>Place for Dog Image</Text>
-                            <ImageUploading
-                                multiple
-                                value={this.state.images}
-                                onChange={this.onSelectImage}
-                                maxNumber={1}
-                                dataURLKey="data_url"
-                            >
-                                {({
-                                    imageList,
-                                    onImageUpload,
-                                    onImageUpdate,
-                                    onImageRemove,
-                                    isDragging,
-                                    dragProps,
-                                }) => (
-                                        // write your building UI
-                                        <div className="upload__image-wrapper">
-                                            <CustomButton
-                                                size='small'
-                                                style={isDragging ? { color: 'red' } : undefined}
-                                                onClick={onImageUpload}
-                                                {...dragProps}
-                                            >
-                                                Click or Drop here
+                            <div className='uploud-image'>
+                                <ImageUploading
+                                    value={this.state.images}
+                                    onChange={this.onSelectImage}
+                                    maxNumber={1}
+                                    dataURLKey="data_url"
+                                >
+                                    {({
+                                        imageList,
+                                        onImageUpload,
+                                        onImageUpdate,
+                                        onImageRemove,
+                                        isDragging,
+                                        dragProps,
+                                    }) => (
+                                            // write your building UI
+                                            <div className="upload__image-wrapper">
+                                                <CustomButton
+                                                    primary
+                                                    size='small'
+                                                    style={isDragging ? { color: 'red' } : undefined}
+                                                    onClick={onImageUpload}
+                                                    {...dragProps}
+                                                >
+                                                    Upload Dog Image
                                             </CustomButton>
                                             &nbsp;
-                                            {imageList.map((image, index) => (
-                                                <div key={index} className="image-item">
-                                                    <img src={image['data_url']} alt="" width="250" />
-                                                    <div className="image-item__btn-wrapper">
-                                                        <CustomButton size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
-                                                        <CustomButton size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
+                                                {imageList.map((image, index) => (
+                                                    <div key={index} className="image-item">
+                                                        <img src={image['data_url']} alt="" width="140" />
+                                                        <div className="image-item__btn-wrapper">
+                                                            <CustomButton default size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
+                                                            <CustomButton default size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                            </ImageUploading>
+                                                ))}
+                                            </div>
+                                        )}
+                                </ImageUploading>
+                            </div>
                         </div>
                     </Box>
                     <div className='add-service-buttons'>
                         <CustomCheckBox checked={this.state.checked} onChange={this.setChecked}
                             label="Remember" />
                         <CustomButton
+                            primary
                             onClick={this.handleSubmit}
                             disabled={!(this.state.breed && this.state.owner && this.state.name && this.state.location
                                 && this.state.dateFrom && this.state.dateTo && this.state.weight) || this.state.isReadOnly}
                             type='submit'>Submit</CustomButton>
                     </div>
+                    {
+                        this.state.showNotification ?
+                            <Notification
+                                status={Status.SUCCESS}
+                                text={"New service has been added."}>
+                            </Notification>
+                            :
+                            null
+                    }
                 </Form>
                 <Box align="center">
                 </Box>
@@ -245,4 +311,4 @@ class AddService extends React.Component<{}, {
 }
 
 
-export default AddService;
+export default withRouter(AddService);

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
     Box,
     Text,
@@ -9,7 +10,7 @@ import {
 import CustomButton from '../custom-button/custom-button.component';
 
 
-class CustomDate extends React.Component<{ date: string, time: string, onChange, name: string }, { open: boolean }> {
+class CustomDate extends React.Component<{ label: string, date: string, time: string, onChange, name: string }, { open: boolean }> {
     constructor(props) {
         super(props);
 
@@ -34,15 +35,17 @@ class CustomDate extends React.Component<{ date: string, time: string, onChange,
 
     renderDropContent = () => {
         return (
-            <Box>
+            <Box className="custom-date">
                 <Calendar
+                    size="small"
                     animate={false}
                     date={this.props.date}
                     onSelect={this.setDate}
                     showAdjacentDays={false}
                 />
-                <Box flex={false} pad="xxsmall" gap="medium">
+                <Box flex={false} >
                     <MaskedInput
+                        size='small'
                         mask={[
                             {
                                 length: [1, 2],
@@ -83,7 +86,7 @@ class CustomDate extends React.Component<{ date: string, time: string, onChange,
                         onChange={this.setTime}
                     />
                     <Box flex={false}>
-                        <CustomButton label="Done" onClick={this.onClose} />
+                        <CustomButton primary label="Done" onClick={this.onClose} />
                     </Box>
                 </Box>
             </Box>
@@ -102,7 +105,7 @@ class CustomDate extends React.Component<{ date: string, time: string, onChange,
                     <Text color={this.props.date ? undefined : 'dark-5'}>
                         {this.props.date
                             ? `${new Date(this.props.date).toLocaleDateString()} ${this.props.time}`
-                            : 'Select date & time'}
+                            : this.props.label}
                     </Text>
                 </Box>
             </DropButton>

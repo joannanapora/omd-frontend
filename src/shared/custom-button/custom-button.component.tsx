@@ -1,15 +1,12 @@
 import React from "react";
 
-import { Box, Button } from "grommet";
+import { Button } from "grommet";
 
 const CustomButton = ({ children, ...otherProps }: any) => (
-  <Box align="center" pad="xsmall">
-    <Button className='custom-button' primary
-
-      onClick={() => { }} {...otherProps}>
-      {children}
-    </Button>
-  </Box>
+  <Button className='custom-button'
+    onClick={() => { }} {...otherProps}>
+    {children}
+  </Button>
 );
 
 

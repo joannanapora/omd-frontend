@@ -51,13 +51,11 @@ class CustomCheckBox extends React.Component<{ onChange: (event: any) => void, c
     };
     render() {
         return (
-            <Box align="center" pad="medium">
-                <CheckBox
-                    label={this.props.label}
-                    checked={this.props.checked}
-                    onChange={this.props.onChange}
-                />
-            </Box>
+            <CheckBox
+                label={this.props.label}
+                checked={this.props.checked}
+                onChange={this.props.onChange}
+            />
         );
     };
 }

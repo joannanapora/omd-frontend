@@ -7,7 +7,8 @@ import { Send } from 'grommet-icons';
 import './contact.components.scss';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
-import { ContactSubject } from '../../models/enums';
+import { mapOptionsToContactSubject } from '../../models/enums';
+
 
 class Contact extends React.Component<{}, { options: string[], message: any, isSelectOpen: boolean, showNotification: boolean, selectedOption: string }> {
     constructor(props) {
@@ -26,31 +27,15 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
         this.setState({ selectedOption: option });
     };
 
-    mapOptionsToContactSubject = (option): ContactSubject => {
-        if (option === 'Problem with Walker') {
-            return ContactSubject.PROBLEM_WITH_WOKER;
-        }
-        if (option === 'Problem with Owner') {
-            return ContactSubject.PROBLEM_WITH_OWNER;
-        }
-        if (option === 'Technical Problem') {
-            return ContactSubject.TECHNICAL_PROBLEM;
-        }
-
-        return ContactSubject.OTHER;
-    }
 
 
     onSubmit = () => {
-        console.log("Bearer " + localStorage.getItem('accessToken'));
-
         const config = {
             headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
-
         axios.post('http://localhost:4000/contacts', {
             message: this.state.message,
-            subject: this.mapOptionsToContactSubject(this.state.selectedOption)
+            subject: mapOptionsToContactSubject(this.state.selectedOption)
         }, config).then(() => {
             this.setState({ showNotification: true })
             this.setState({ message: '', selectedOption: "" })
@@ -63,6 +48,8 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
     handleMessageChange = event => (
         this.setState({ message: event.target.value })
     );
+
+
     render() {
         return (
             <Box className="contact" background="white" border gap="medium" pad="large" width="medium">
@@ -78,11 +65,12 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
                         onChange={({ option }) => this.handleSelectChange(option)}
                     />
                 </FormField>
-                <FormField htmlFor="enabled-id" name="enabled" label="">
+                <FormField>
                     <TextArea onChange={this.handleMessageChange} value={this.state.message} placeholder="Message..." />
                 </FormField>
                 <Box fill align="center" justify="center">
                     <CustomButton disabled={!(this.state.message && this.state.selectedOption)}
+                        primary
                         onClick={this.onSubmit} icon={<Send />} label="Send">
                         Send
                         </CustomButton>

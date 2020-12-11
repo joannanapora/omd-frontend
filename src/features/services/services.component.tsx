@@ -1,11 +1,17 @@
 import React from 'react';
+
+import { withRouter } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+
 import './services.styles.scss';
 import Filter from '../../shared/custom-filter/custom-filter.component';
-import { Box, DataTable, FormField, TextInput } from 'grommet';
-import { Add, Subtract } from 'grommet-icons';
-import { setUserFilters } from '../../store/filters';
-import { connect } from 'react-redux';
 import CustomButton from '../../shared/custom-button/custom-button.component';
+import { setUserFilters } from '../../store/filters';
+
+
+import { Box, DataTable, FormField, TextInput } from 'grommet';
+import { Add, Subtract, LinkPrevious } from 'grommet-icons';
 
 interface IQuote {
     dogName: string;
@@ -250,19 +256,17 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     <Filter selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location"></Filter>
                     <Filter selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></Filter>
                 </div>
-                <div className="add-service">
+                <div className="add-service-buttons">
                     <CustomButton
-                        color="brand"
                         primary
                         icon={<Add />}
-                        label="Add Serivce"
+                        label="add service"
                         onClick={this.redirectToAddService}
                     />
                     <CustomButton
-                        color="brand"
                         primary
                         icon={<Subtract />}
-                        label="Clear Filters"
+                        label="delete filters"
                         onClick={this.clearFilters}
                     />
                 </div>
@@ -297,7 +301,7 @@ const mapStateToProps = ({ filter: { currentFilters } }) => ({
     currentFilters,
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps)
-    (Services);
+    (Services));
