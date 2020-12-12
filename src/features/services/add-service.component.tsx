@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 
 import ImageUploading from 'react-images-uploading'
 
-import { Box, Form, FormField, Select, Text, TextArea, TextInput } from 'grommet';
+import { Box, Form, FormField, Select, TextArea, TextInput } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
 
 import './add-service.styles.scss';
@@ -12,7 +12,7 @@ import CustomDate from '../../shared/custom-date/custom-date.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import CustomCheckBox from '../../shared/custom-checkbox/custom-checkbox.component';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
-import { mapOptionsToWeight, mapOptionsToLocation } from '../../models/enums';
+import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
 
 class AddService extends React.Component<{ history }, {
     checked: boolean, dateFrom: string, dateTo: string, timeFrom: string, timeTo: string,
@@ -39,7 +39,7 @@ class AddService extends React.Component<{ history }, {
             dateTo: "",
             checked: false,
             isReadOnly: false,
-            message: ""
+            message: "",
         }
     };
 
@@ -65,7 +65,8 @@ class AddService extends React.Component<{ history }, {
             ownerName: this.state.owner,
             dogName: this.state.name,
             location: mapOptionsToLocation(this.state.selectedLocation),
-            weight: mapOptionsToWeight(this.state.selectedWeight)
+            weight: mapOptionsToWeight(this.state.selectedWeight),
+            saveAsTemplate: this.state.checked
 
 
         }, config).then(() => {
@@ -157,6 +158,26 @@ class AddService extends React.Component<{ history }, {
         }
     };
 
+    componentDidMount() {
+        const config = {
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
+        };
+        axios.get('http://localhost:4000/services/template', config)
+            .then((response) => {
+                console.log(response)
+                this.setState({
+                    owner: response.data.ownerName, message: response.data.message, breed: response.data.breed, name: response.data.dogName,
+                    selectedLocation: mapLocationsToOptions(response.data.location), selectedWeight: mapWeightToOptions(response.data.weight)
+                });
+                // this.setState({ weight: response.data.selectedWeight });
+                // this.setState({ location: response.data.selectedLocation });
+                // }
+            }).catch(e => {
+                this.setState({ isReadOnly: false });
+            });
+    };
+
+
     render() {
         return (
             <Box className="service-box" background="white" border gap="small" pad="large" width="large" >
@@ -203,7 +224,7 @@ class AddService extends React.Component<{ history }, {
                                 <CustomDate label="Date 'To'" date={this.state.dateTo} time={this.state.timeTo} name="to" onChange={this.handleDateChange} />
                             </FormField>
                             <div className='service-description'>
-                                <TextArea name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
+                                <TextArea className='service-text-area' resize={false} disabled={this.state.isReadOnly} value={this.state.message} name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
                             </div>
                         </div>
                         <div className='add-service-right'>
@@ -289,8 +310,8 @@ class AddService extends React.Component<{ history }, {
                         <CustomButton
                             primary
                             onClick={this.handleSubmit}
-                            disabled={!(this.state.breed && this.state.owner && this.state.name && this.state.location
-                                && this.state.dateFrom && this.state.dateTo && this.state.weight) || this.state.isReadOnly}
+                            disabled={!(this.state.breed && this.state.owner && this.state.name && this.state.selectedLocation
+                                && this.state.dateFrom && this.state.dateTo && this.state.selectedWeight && this.state.message) || this.state.isReadOnly}
                             type='submit'>Submit</CustomButton>
                     </div>
                     {

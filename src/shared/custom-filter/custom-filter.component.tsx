@@ -43,7 +43,7 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
             onFocus={event => event.stopPropagation()}
         >
             <Box
-                height="2px"
+                height="10px"
                 align="center"
                 direction="row"
                 background="d6702b"
@@ -55,7 +55,7 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
                     <FormClose
                         color="white"
                         size="small"
-                        style={{ width: '8px', height: '8px' }}
+                        style={{ width: '5px', height: '15px' }}
                     />
                 </Box>
             </Box>

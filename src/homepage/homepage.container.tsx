@@ -1,5 +1,6 @@
 import React from "react";
 import "./homepage.container.scss";
+import { connect } from 'react-redux';
 
 import { Switch, Route } from "react-router-dom";
 
@@ -13,20 +14,24 @@ import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
 import AddService from '../features/services/add-service.component';
 
-class HomePage extends React.Component<{}, { sections: any[] }> {
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../store/user/user.selectors';
+
+class HomePage extends React.Component<{ mapStateToProps, currentUser }, { sections: any[] }> {
   constructor(props: any) {
     super(props);
 
     this.state = {
       sections: [
         {
-          name: "About us",
+          name: "Services",
           imageUrl: "",
           id: 1,
-          url: "/info",
+          url: "/services",
+
         },
         {
-          name: "Services",
+          name: "Gallery",
           imageUrl: "",
           id: 2,
           url: "/services",
@@ -35,7 +40,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
           name: "Messages",
           imageUrl: "",
           id: 3,
-          url: "/info",
+          url: "/messages",
         },
         {
           name: "My Profile",
@@ -53,11 +58,30 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
     };
   }
 
+  getMenuList(): any[] {
+    if (!this.props.currentUser) {
+      return this.state.sections.map(s => {
+        if (s.name === "Messages" || s.name === "My Profile") {
+          return { ...s, disabled: true };
+        }
+        return s;
+      });
+    } else {
+      return this.state.sections.map(s => ({
+        ...s,
+        disabled: false
+      }));
+    }
+  }
+
+
   render() {
+    const menuList: any[] = this.getMenuList();
+
     return (
       <div className="homepage">
         <div className='sidebar'>
-          <SideBar menuList={this.state.sections} />
+          <SideBar menuList={menuList} />
         </div>
         <div className="homepage-right">
           <Switch>
@@ -67,6 +91,7 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
             <Route path='/contact-us' component={Contact} />
             <Route path="/sign-in" component={SignIn} />
             <Route path='/register' component={Register} />
+            <Route path='/about-us' component={Info} />
             <Route path='/confirmation' component={AccountCreated} />
             <Route path='/add-service' component={AddService} />
           </Switch>
@@ -76,4 +101,9 @@ class HomePage extends React.Component<{}, { sections: any[] }> {
   }
 }
 
-export default HomePage;
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
+
+export default connect(mapStateToProps, null)(HomePage);

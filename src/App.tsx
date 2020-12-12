@@ -54,7 +54,7 @@ const theme = {
       color: "black",
       padding: {
         horizontal: "1.8rem",
-        vertical: ".8rem",
+        vertical: ".5rem",
       },
     },
 

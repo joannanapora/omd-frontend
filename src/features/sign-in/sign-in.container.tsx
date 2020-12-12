@@ -61,6 +61,7 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
                 };
             }).catch(error => {
                 this.setState({ showFailureNotification: true });
+
             });
     }
         ;
@@ -79,14 +80,13 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
         return (
             <div className='sign-in'>
                 <Form className='form' onSubmit={this.handleSubmit}>
-                    <Box className="sign-in-box" background="white" border gap="medium" pad="large" width="medium">
+                    <Box className="sign-in-box" background="white" border gap="small" pad="medium" width="medium">
                         <FormField>
                             <TextInput
                                 onChange={this.handleChange}
                                 value={this.state.email}
                                 type='text'
                                 className="form-input"
-                                id="enabled-id"
                                 name="email"
                                 placeholder="Email"
                             ></TextInput>
@@ -97,7 +97,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
                                 value={this.state.password}
                                 type='password'
                                 className="form-input"
-                                id="enabled-id"
                                 name="password"
                                 placeholder="Password"
                             />

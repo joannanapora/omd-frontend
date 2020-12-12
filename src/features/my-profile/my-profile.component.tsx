@@ -9,7 +9,10 @@ import CustomButton from '../../shared/custom-button/custom-button.component';
 
 
 
-class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, showNotification: boolean, name: string, surname: string, value: string, isReadOnly: boolean }> {
+class MyProfile extends React.Component<{}, {
+    phoneNumber: any, postCode: any, showNotification: boolean, name: string,
+    surname: string, value: string, isReadOnly: boolean
+}> {
     constructor(props) {
         super(props);
 
@@ -27,11 +30,10 @@ class MyProfile extends React.Component<{}, { phoneNumber: any, postCode: any, s
 
     componentDidMount() {
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6bnVsbCwic3ViIjoiNWU0ZTVhZmYtODlmOC00YTViLWE4NmItMmZlODU1ODEyNzUyIiwiaWF0IjoxNjA3NDI5NTUzLCJleHAiOjE2MDc0MzMxNTN9.mcgLfMwqCDbnsWzZjvzghZIX9bTqf0gNrn6ebbO3YbQ` }
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
         axios.get('http://localhost:4000/user', config)
             .then((response) => {
-                console.log(response);
                 this.setState({ isReadOnly: true });
                 this.setState({ name: response.data.name });
                 this.setState({ surname: response.data.surname });

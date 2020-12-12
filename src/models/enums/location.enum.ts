@@ -36,3 +36,31 @@ export const mapOptionsToLocation = (location): Location => {
     }
 };
 
+
+
+export const mapLocationsToOptions = (option: number): string => {
+    if (option === 0) {
+        return "north";
+    }
+    if (option === 1) {
+        return "north-west";
+    }
+    if (option === 2) {
+        return "north-east";
+    }
+    if (option === 3) {
+        return "west";
+    }
+    if (option === 4) {
+        return "east";
+    }
+    if (option === 5) {
+        return "south";
+    }
+    if (option === 6) {
+        return "south-west";
+    }
+    if (option === 7) {
+        return "south-east";
+    }
+};

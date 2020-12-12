@@ -24,3 +24,21 @@ export const mapOptionsToWeight = (weight): Weight => {
     }
 };
 
+export const mapWeightToOptions = (option: number): string => {
+    if (option === 0) {
+        return '< 4kg';
+    }
+    if (option === 1) {
+        return '4-10kg';
+    }
+    if (option === 2) {
+        return '11-18kg';
+    }
+    if (option === 3) {
+        return '19-34kg';
+    }
+    if (option === 4) {
+        return ' > 35kg';
+    }
+};
+
