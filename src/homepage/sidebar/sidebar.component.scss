@@ -1,0 +1,25 @@
+.menu-button {
+    display:flex;
+    flex-direction: flex-end;
+    width: 100%;
+    &:focus {
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+.box-menu {
+    display:flex;
+    justify-content: center;
+    outline: none;
+    width: 0%;
+    opacity: 0.6;
+}
+
+
+.paw {
+    height: 90px;
+    width: 90px;
+}
