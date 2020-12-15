@@ -4,7 +4,6 @@ import { Box, Text } from 'grommet';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { FormNextLink } from 'grommet-icons';
 
-
 const Info = () => (
     <Box className="info-text" background="white" border gap="medium" pad="large" width="medium">
         <h1>Oh My Dog!</h1>

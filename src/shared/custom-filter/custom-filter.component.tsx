@@ -7,7 +7,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 
 
-class Filter extends React.Component<{ selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
+class CustomFilter extends React.Component<{ selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
     constructor(props) {
         super(props);
 
@@ -43,7 +43,7 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
             onFocus={event => event.stopPropagation()}
         >
             <Box
-                height="10px"
+                height="30px"
                 align="center"
                 direction="row"
                 background="d6702b"
@@ -54,8 +54,8 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
                 <Box background="d6702b" round="medium" margin={{ left: 'medium' }}>
                     <FormClose
                         color="white"
-                        size="small"
-                        style={{ width: '5px', height: '15px' }}
+                        size="large"
+                        style={{ width: '5px', height: '10px' }}
                     />
                 </Box>
             </Box>
@@ -72,23 +72,11 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
         return (
             <FormField>
                 <Select
-                    name=""
+                    placeholder={this.props.placeholder}
+                    name={this.props.name}
                     closeOnChange={false}
                     multiple
-                    value={
-                        <Box wrap direction="row" width="small">
-                            {this.props.selectedOptions && this.props.selectedOptions.length ? (
-                                this.props.selectedOptions.map(index => this.renderOptions(this.state.listOfOptions[index]))
-                            ) : (
-                                    <Box
-                                        pad={{ vertical: 'small', horizontal: 'small' }}
-                                        margin="small"
-                                    >
-                                        {this.state.placeholder}
-                                    </Box>
-                                )}
-                        </Box>
-                    }
+                    value={this.props.selectedOptions}
                     options={this.state.listOfOptions}
                     selected={this.props.selectedOptions}
                     onChange={({ selected: nextSelected }) => {
@@ -102,4 +90,4 @@ class Filter extends React.Component<{ selectedOptions: any[], options: string[]
     };
 }
 
-export default Filter;
+export default CustomFilter;

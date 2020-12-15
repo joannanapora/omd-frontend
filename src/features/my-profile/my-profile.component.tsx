@@ -39,8 +39,8 @@ class MyProfile extends React.Component<{}, {
                 this.setState({ surname: response.data.surname });
                 this.setState({ phoneNumber: response.data.phoneNumber });
                 this.setState({ postCode: response.data.postCode });
-            }).catch(e => {
-                this.setState({ isReadOnly: false });
+            }).catch(error => {
+                console.log(error);
             });
     }
 

@@ -25,32 +25,27 @@ class HomePage extends React.Component<{ mapStateToProps, currentUser }, { secti
       sections: [
         {
           name: "Services",
-          imageUrl: "",
           id: 1,
           url: "/services",
 
         },
         {
           name: "Gallery",
-          imageUrl: "",
           id: 2,
           url: "/services",
         },
         {
           name: "Messages",
-          imageUrl: "",
           id: 3,
           url: "/messages",
         },
         {
           name: "My Profile",
-          imageUrl: "",
           id: 4,
           url: "/my-profile",
         },
         {
           name: "Contact Us",
-          imageUrl: "",
           id: 5,
           url: "/contact-us",
         },

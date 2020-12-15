@@ -66,8 +66,8 @@ class Register extends React.Component<{ history }, { password: any, email: any,
     render() {
         return (
             <div className='register'>
-                <Form className='form' onSubmit={this.handleSubmit}>
-                    <Box className="register-box" background="white" border gap="medium" pad="large" width="medium">
+                <Form className='register-form' onSubmit={this.handleSubmit}>
+                    <Box className="register-box" background="white" border gap="large" pad="large" width="medium">
                         <h1>Create an account</h1>
                         <FormField htmlFor="enabled-id" name="enabled" label="">
                             <TextInput
@@ -101,7 +101,6 @@ class Register extends React.Component<{ history }, { password: any, email: any,
                                 onChange={this.handleChange}
                             />
                         </FormField>
-
                         <CustomButton
                             primary
                             disabled={!(this.state.email && this.state.password && this.state.confirmPassword)}

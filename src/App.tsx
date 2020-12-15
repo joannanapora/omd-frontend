@@ -43,8 +43,8 @@ const theme = {
       color: "white",
       font: { weight: "bold" },
       padding: {
-        horizontal: "1.8rem",
-        vertical: ".5rem",
+        horizontal: "1.5rem",
+        vertical: ".3rem",
       },
     },
     secondary: {
@@ -71,7 +71,8 @@ const theme = {
         background: { color: "white" },
         active: "#d6702b",
         focus: "brand",
-        color: 'black'
+        color: 'black',
+        round: '0px',
       },
       primary: {
         background: { color: "brand" },
@@ -87,7 +88,8 @@ const theme = {
   },
   input: {
     background: "white",
-    color: "black"
+    color: "black",
+
   },
   select: {
     active: "#d6702b",
@@ -97,6 +99,7 @@ const theme = {
     }
   },
   formField: {
+    color: 'black',
     border: {
       error: {
         color: 'brand',
@@ -115,6 +118,9 @@ const theme = {
         active: "#d6702b",
         color: 'black',
       },
+      placeholder: {
+        color: 'black'
+      }
     },
     error: {
       background: {
@@ -142,8 +148,8 @@ const theme = {
       },
     },
     label: {
-      size: 'xsmall',
-      color: 'text-weak',
+      size: 'medium',
+      color: 'black',
       margin: {
         horizontal: 'none',
       },

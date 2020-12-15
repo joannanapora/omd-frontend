@@ -54,11 +54,10 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
         return (
             <Box className="contact" background="white" border gap="medium" pad="large" width="medium">
                 <h1 className="contact-box"> Contact Us </h1>
-                <FormField htmlFor="enabled-id" name="enabled" label="">
+                <FormField label="Select Subject">
                     <Select
                         id="select"
                         name="select"
-                        placeholder="Select subject"
                         open={this.state.isSelectOpen}
                         value={this.state.selectedOption}
                         options={this.state.options}
@@ -66,13 +65,13 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
                     />
                 </FormField>
                 <FormField>
-                    <TextArea onChange={this.handleMessageChange} value={this.state.message} placeholder="Message..." />
+                    <TextArea onChange={this.handleMessageChange} value={this.state.message} placeholder="Text..." />
                 </FormField>
                 <Box fill align="center" justify="center">
                     <CustomButton disabled={!(this.state.message && this.state.selectedOption)}
                         primary
                         onClick={this.onSubmit} icon={<Send />} label="Send">
-                        Send
+                        Send Message
                         </CustomButton>
                 </Box>
                 {

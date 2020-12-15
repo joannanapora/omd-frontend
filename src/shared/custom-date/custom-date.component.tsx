@@ -1,16 +1,19 @@
 import React from 'react';
+import './custom-date.styles.scss';
 
 import {
     Box,
     Text,
     Calendar,
-    MaskedInput,
     DropButton,
 } from 'grommet';
 import CustomButton from '../custom-button/custom-button.component';
+import {
+    Alert
+} from 'grommet-icons';
 
 
-class CustomDate extends React.Component<{ label: string, date: string, time: string, onChange, name: string }, { open: boolean }> {
+class CustomDate extends React.Component<{ label: string, date: string, onChange, name: string }, { open: boolean }> {
     constructor(props) {
         super(props);
 
@@ -20,13 +23,13 @@ class CustomDate extends React.Component<{ label: string, date: string, time: st
     };
 
     setDate = (value) => {
-        this.props.onChange({ name: this.props.name, date: value, time: this.props.time });
+        this.props.onChange({ name: this.props.name, date: value });
 
     };
 
 
     setTime = (event) => {
-        this.props.onChange({ name: this.props.name, date: this.props.date, time: event.target.value })
+        this.props.onChange({ name: this.props.name, date: this.props.date })
     };
 
     onClose = () => { this.setState({ open: false }); };
@@ -38,56 +41,13 @@ class CustomDate extends React.Component<{ label: string, date: string, time: st
             <Box className="custom-date">
                 <Calendar
                     size="small"
-                    animate={false}
+                    animate={true}
                     date={this.props.date}
                     onSelect={this.setDate}
                     showAdjacentDays={false}
                 />
-                <Box flex={false} >
-                    <MaskedInput
-                        size='small'
-                        mask={[
-                            {
-                                length: [1, 2],
-                                options: [
-                                    '1',
-                                    '2',
-                                    '3',
-                                    '4',
-                                    '5',
-                                    '6',
-                                    '7',
-                                    '8',
-                                    '9',
-                                    '10',
-                                    '11',
-                                    '12',
-                                ],
-                                regexp: /^1[1-2]$|^[0-9]$/,
-                                placeholder: 'hh',
-                            },
-                            { fixed: ':' },
-                            {
-                                length: 2,
-                                options: ['00', '15', '30', '45'],
-                                regexp: /^[0-5][0-9]$|^[0-9]$/,
-                                placeholder: 'mm',
-                            },
-                            { fixed: ' ' },
-                            {
-                                length: 2,
-                                options: ['am', 'pm'],
-                                regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
-                                placeholder: 'ap',
-                            },
-                        ]}
-                        value={this.props.time}
-                        name="maskedInput"
-                        onChange={this.setTime}
-                    />
-                    <Box flex={false}>
-                        <CustomButton primary label="Done" onClick={this.onClose} />
-                    </Box>
+                <Box flex={false}>
+                    <CustomButton secondary label="Done" onClick={this.onClose} />
                 </Box>
             </Box>
         );
@@ -101,10 +61,10 @@ class CustomDate extends React.Component<{ label: string, date: string, time: st
                 onOpen={this.setOpen}
                 dropContent={
                     this.renderDropContent()}>
-                <Box direction="row" gap="small" align="center" pad="small">
+                <Box direction="row" gap="medium" pad="small">
                     <Text color={this.props.date ? undefined : 'dark-5'}>
                         {this.props.date
-                            ? `${new Date(this.props.date).toLocaleDateString()} ${this.props.time}`
+                            ? `${new Date(this.props.date).toLocaleDateString()}`
                             : this.props.label}
                     </Text>
                 </Box>

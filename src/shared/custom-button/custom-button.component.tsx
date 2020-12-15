@@ -1,5 +1,5 @@
 import React from "react";
-
+import './custom-button.component.scss';
 import { Button } from "grommet";
 
 const CustomButton = ({ children, ...otherProps }: any) => (

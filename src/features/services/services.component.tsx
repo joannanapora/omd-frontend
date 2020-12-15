@@ -1,17 +1,23 @@
 import React from 'react';
 
-import { withRouter } from 'react-router-dom';
+import { Box, Grommet, FormField, Menu, TextInput, DataTable, Button, Grid, Text } from 'grommet';
+import { grommet } from 'grommet/themes';
 
+import axios from 'axios';
+
+import { format } from 'date-fns'
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './services.styles.scss';
-import Filter from '../../shared/custom-filter/custom-filter.component';
+import CustomFilter from '../../shared/custom-filter/custom-filter.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setUserFilters } from '../../store/filters';
+import CustomDate from '../../shared/custom-date/custom-date.component';
 
+import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums/index'
 
-import { Box, DataTable, FormField, TextInput } from 'grommet';
-import { Add, Subtract, LinkPrevious } from 'grommet-icons';
+import { Add, FormTrash, FormDown, Filter, Trash } from 'grommet-icons';
 
 interface IQuote {
     dogName: string;
@@ -20,139 +26,24 @@ interface IQuote {
     id: number;
     location: string;
     breed: string;
-    date: string;
+    dateFrom: any;
+    dateTo: any;
     weight: string;
 }
 
-class Services extends React.Component<{ history, currentFilters, dispatchSetUserFilters, animate: any, multiple: any }, { quotes: IQuote[], columns: any[], filters: any }> {
+class Services extends React.Component<{ history, currentFilters, dispatchSetUserFilters, animate: any, multiple: any }, { sidebar: boolean, quotes: IQuote[], columns: any[], filters: any }> {
     constructor(props) {
         super(props);
 
-        const quotes = [
-            {
-                dogName: "Dusty",
-                breed: "Border Collie",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Adrianna",
-                location: "West",
-                date: "15.11.2020",
-                id: 41,
-                weight: "10kg"
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 42
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 43
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 54
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 75
-            }, {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 56
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 87
-            }, {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 98
-            }, {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 1009
-            }, {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 13210
-            },
-            {
-                dogName: "Kropek",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 11321
-            },
-            {
-                dogName: "Kropek 12",
-                breed: "White Shepherd",
-                dogImage: "https://www.flaticon.com/svg/static/icons/svg/53/53086.svg",
-                owner: "Joanna",
-                location: "North-West",
-                date: "12.05.2020",
-                weight: "4kg",
-                id: 32122
-            },
-        ];
+        const quotes = []
 
         this.state = {
+            sidebar: true,
             filters: {
                 breed: "",
                 name: "",
-                owner: "",
-                date: [],
+                dateFrom: "",
+                dateTo: "",
                 location: [],
                 weight: [],
             },
@@ -162,8 +53,9 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                 { header: "Breed", property: 'breed' },
                 { header: "Weight", property: "weight" },
                 { header: "Location", property: "location" },
-                { header: "Date", property: "date" },
-                { header: "Owner", property: "owner" }],
+                { header: "From", property: "dateFrom" },
+                { header: "To", property: "dateTo" },
+            ],
             quotes
         }
     }
@@ -176,8 +68,28 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
     componentDidMount() {
         if (this.props.currentFilters) {
             this.setState({ filters: this.props.currentFilters })
-        }
+        };
 
+        this.getServices();
+    };
+
+    handleDateChange = ({ date, name }) => {
+        if (name === 'from') {
+            this.setState({
+                filters: {
+                    ...this.state.filters,
+                    dateFrom: date
+                }
+            });
+        }
+        if (name === 'to') {
+            this.setState({
+                filters: {
+                    ...this.state.filters,
+                    dateTo: date
+                }
+            });
+        }
     }
 
     handleChange = (event) => {
@@ -187,27 +99,28 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     ...this.state.filters,
                     name: event.target.value
                 }
-            }
-            )
-        } if (event.target.name === "breed") {
+            });
+            this.getServices({
+                ...this.state.filters,
+                name: event.target.value
+            });
+        }
+        if (event.target.name === "breed") {
             this.setState({
                 filters: {
                     ...this.state.filters,
                     breed: event.target.value
                 }
-            }
-            )
-        } if (event.target.name === "owner") {
-            this.setState({
-                filters: {
-                    ...this.state.filters,
-                    owner: event.target.value
-                }
-            }
-            )
-        };
+            });
+            this.getServices({
+                ...this.state.filters,
+                breed: event.target.value
+            });
+        }
+        ;
         this.props.dispatchSetUserFilters({ [event.target.name]: event.target.value });
-
+        // CALL getServices with new filters
+        // this.getService("lupus");
     }
     handleFilters = (filter: { name: string; value: any; }) => {
         this.setState({
@@ -220,64 +133,119 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
     }
 
     clearFilters = () => {
-        this.setState({ filters: { name: "" } });
-        this.setState({ filters: { breed: "" } });
-        this.setState({ filters: { owner: "" } });
-        this.setState({ filters: { location: [] } });
-        this.setState({ filters: { date: [] } });
-        this.setState({ filters: { weight: [] } });
+        this.setState({ filters: { name: "", breed: "", owner: "", location: [], dateFrom: "", dateTo: "", weight: [] } });
     }
 
 
+    getServices = (params?: any) => {
+        let url = 'http://localhost:4000/services';
+        const config = {
+            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
+        };
+
+        if (params) {
+            if (params.name) {
+                url = url + '?dogName=' + params.name + '&';
+            }
+
+            if (params.breed) {
+                url = url + '?breed=' + params.breed + '&';
+            }
+
+            if (params.location) {
+                params.location.forEach(l => {
+                    url = url + '?locations=' + l + '&';
+                })
+            }
+            if (params.weight) {
+                params.location.forEach(l => {
+                    url = url + '?weights=' + l + '&';
+                })
+            }
+        }
+
+
+        axios.get(url, config)
+            .then((response) => {
+                const quotes = response.data.map(element => ({
+                    dogName: element.dogName,
+                    breed: element.breed,
+                    weight: mapWeightToOptions(element.weight),
+                    location: mapLocationsToOptions(element.location),
+                    dateFrom: format(new Date(element.dateFrom), 'dd/MM/yyyy'),
+                    dateTo: format(new Date(element.dateTo), 'dd/MM/yyyy')
+                }));
+                this.setState({ quotes: quotes })
+            }).catch(error => {
+                console.log(error);
+
+            });
+    };
+
+    setSidebar = () => {
+        if (this.state.sidebar === false) {
+            this.setState({ sidebar: true })
+        }
+        if (this.state.sidebar === true) {
+            this.setState({ sidebar: false })
+        }
+    };
 
     render() {
         return (
-
-            <Box className="services" background="white" border gap="small" pad="medium" width="large">
-                <h1>Services</h1>
-                <div className="inputs">
-                    <FormField>
-                        <TextInput
-                            value={this.state.filters.name} onChange={this.handleChange}
-                            className=' filter_text'
-                            placeholder="Name"
-                            name="name">
-                        </TextInput>
-                    </FormField>
-                    <FormField>
-                        <TextInput value={this.state.filters.breed} onChange={this.handleChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
-                    </FormField>
-                    <FormField>
-                        <TextInput value={this.state.filters.owner} onChange={this.handleChange} className='filter_text' placeholder="Owner" name="owner"></TextInput>
-                    </FormField>
-                </div>
-                <div className="filters">
-                    <Filter selectedOptions={this.state.filters.date} name="date" onChange={this.handleFilters} options={['today - 2 days', '3-7 days', '8-15 days', 'in the future']} placeholder="When?"></Filter>
-                    <Filter selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location"></Filter>
-                    <Filter selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></Filter>
-                </div>
-                <div className="add-service-buttons">
-                    <CustomButton
-                        primary
-                        icon={<Add />}
-                        label="add service"
-                        onClick={this.redirectToAddService}
-                    />
-                    <CustomButton
-                        primary
-                        icon={<Subtract />}
-                        label="delete filters"
-                        onClick={this.clearFilters}
-                    />
-                </div>
-                <div className='services-table'>
-                    <Box align="center" pad="large">
+            <Grid
+                fill
+                rows={['auto', 'flex']}
+                columns={['auto', 'flex']}
+                areas={[
+                    { name: 'header', start: [0, 0], end: [1, 0] },
+                    { name: 'sidebar', start: [0, 1], end: [0, 1] },
+                    { name: 'main', start: [1, 1], end: [1, 1] },
+                ]}
+            >
+                <CustomButton className='filter-button' primary icon={<Filter />} label="Filters" onClick={this.setSidebar} />
+                {this.state.sidebar && (
+                    <Box
+                        className="sidebar-box"
+                        gridArea="sidebar"
+                        background="white"
+                        width="125%"
+                        animation={[
+                            { type: 'fadeIn', duration: 300 },
+                            { type: 'slideRight', size: 'xlarge', duration: 150 },
+                        ]}
+                    >
+                        <div className="filters">
+                            <FormField>
+                                <TextInput
+                                    value={this.state.filters.name} onChange={this.handleChange}
+                                    className=' filter_text'
+                                    placeholder="Name"
+                                    name="name">
+                                </TextInput>
+                            </FormField>
+                            <FormField>
+                                <TextInput value={this.state.filters.breed} onChange={this.handleChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
+                            </FormField>
+                            <CustomFilter selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
+                            <CustomFilter selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location"></CustomFilter>
+                            <div className="date-inputs">
+                                <CustomDate label="Start Date" date={this.state.filters.dateFrom} name="from" onChange={this.handleDateChange} />
+                                <CustomDate label="End Date" date={this.state.filters.dateTo} name="to" onChange={this.handleDateChange} />
+                            </div>
+                            <CustomButton className='clean-filter-button' secondary icon={<Trash />} onClick={this.clearFilters} />
+                        </div>
+                    </Box>
+                )}
+                <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={this.redirectToAddService} /></div>
+                <Box className='services-table' gridArea="main" justify="center" align="center">
+                    <Box align="center" pad="small">
                         <DataTable
                             primaryKey='id'
                             columns={this.state.columns}
                             data={this.state.quotes}
                             step={25}
-                            pad={{ horizontal: 'medium', vertical: 'xsmall' }}
+                            pad={{ horizontal: 'large', vertical: 'small' }}
                             background={{
                                 header: 'dark-3',
                                 body: ['light-1', 'light-3'],
@@ -287,12 +255,11 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                             rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
                         />
                     </Box>
-                </div>
-            </Box >
-        )
+                </Box>
+            </Grid>
+        );
     };
-};
-
+}
 const mapDispatchToProps = dispatch => ({
     dispatchSetUserFilters: (filter) => dispatch(setUserFilters(filter))
 });

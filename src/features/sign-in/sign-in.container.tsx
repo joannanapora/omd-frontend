@@ -11,7 +11,7 @@ import { Google, Facebook, MailOption } from 'grommet-icons';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setCurrentUser } from '../../store/user';
-import './sign-in.container.scss';
+import './sign-in.styles.scss';
 
 
 class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
@@ -63,24 +63,23 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
                 this.setState({ showFailureNotification: true });
 
             });
-    }
-        ;
 
-    handleChange = (event: { target: { value: string; name: string } }) => {
-        type nameTypes = 'email';
-        const { value, name }: { value: string, name: string } = event.target;
-        const castName: nameTypes = name as nameTypes;
-
-        this.setState({ [castName]: value });
     };
 
+    handleChange = (event) => {
+        if (event.target.name === "email") {
+            this.setState({ email: event.target.value })
+        } else {
+            this.setState({ password: event.target.value })
+        }
+    };
 
 
     render() {
         return (
             <div className='sign-in'>
-                <Form className='form' onSubmit={this.handleSubmit}>
-                    <Box className="sign-in-box" background="white" border gap="small" pad="medium" width="medium">
+                <Form className='sign-in-form' onSubmit={this.handleSubmit}>
+                    <Box className="sign-in-box" background="white" border gap="small" pad="large" width="medium">
                         <FormField>
                             <TextInput
                                 onChange={this.handleChange}

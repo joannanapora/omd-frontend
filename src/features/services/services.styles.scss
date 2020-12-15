@@ -1,19 +1,25 @@
 
-.inputs {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 100%;
-        }
 .filters {
-        display: flex;
+        align-content: center;
         justify-content: space-evenly;
-        width: 100%;
-        height: 100px !important;
-}
-.add-service {
+        padding: 1rem;
         display: flex;
+        height:100%;
+        flex-direction: column;
+        margin: 0 10px;
+}
+
+.sidebar-box {
+        margin-bottom: 25px !important;
+}
+.selects {
+        display: flex;
+        align-items: center;
         justify-content: center;
+}
+
+.add-service-button {
+        align-self:center;
 }
 .services {
         opacity: 0.9;
@@ -22,11 +28,27 @@
         margin-top: 90px;
 }
 
-.services-table {
-        padding: 0.1rem;
+.delete-button {
+       align-self: center;
 }
 
-.add-service-buttons {
-        display: flex;
-        justify-content: space-evenly;
+.date-field {align-items: left;}
+
+.header-services {
+background-color: transparent !important;
+}
+
+.filter-button {
+        border-radius: 0px !important;
+        margin-top: 25px !important;
+}
+
+
+.date-inputs {
+        display:flex;
+        justify-content: center;
+}
+
+.services-table {
+        min-width: 100% !important;
 }

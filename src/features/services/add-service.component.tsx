@@ -15,7 +15,7 @@ import Notification, { Status } from '../../shared/custom-notification/custom-no
 import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
 
 class AddService extends React.Component<{ history }, {
-    checked: boolean, dateFrom: string, dateTo: string, timeFrom: string, timeTo: string,
+    checked: boolean, dateFrom: string, dateTo: string,
     images: any, isSelectOpen: boolean, selectedLocation: string, isReadOnly: boolean, message: string,
     selectedWeight: string, showNotification: boolean, name: string, breed: string, owner: string, location: any[], weight: any[],
 }> {
@@ -33,9 +33,7 @@ class AddService extends React.Component<{ history }, {
             selectedWeight: null,
             isSelectOpen: false,
             images: null,
-            timeFrom: "",
             dateFrom: "",
-            timeTo: "",
             dateTo: "",
             checked: false,
             isReadOnly: false,
@@ -79,14 +77,12 @@ class AddService extends React.Component<{ history }, {
                     selectedLocation: null,
                     selectedWeight: null,
                     dateFrom: "",
-                    timeFrom: "",
                     dateTo: "",
-                    timeTo: "",
                     message: ""
                 })
             } else {
                 this.setState({ isReadOnly: true });
-                this.setState({ dateFrom: "", dateTo: "", timeFrom: "", timeTo: "" });
+                this.setState({ dateFrom: "", dateTo: "" });
                 if (!this.state.checked) {
                     this.setState({ isReadOnly: false })
                 }
@@ -135,12 +131,12 @@ class AddService extends React.Component<{ history }, {
         }
     };
 
-    handleDateChange = ({ time, date, name }) => {
+    handleDateChange = ({ date, name }) => {
         if (name === 'from') {
-            this.setState({ dateFrom: date, timeFrom: time })
+            this.setState({ dateFrom: date })
         }
         if (name === "to") {
-            this.setState({ dateTo: date, timeTo: time })
+            this.setState({ dateTo: date })
         }
     }
 
@@ -180,7 +176,7 @@ class AddService extends React.Component<{ history }, {
 
     render() {
         return (
-            <Box className="service-box" background="white" border gap="small" pad="large" width="large" >
+            <Box className="service-box" background="white" border gap="small" pad="large" width="xlarge" >
                 <Form>
                     <div className='add-services-header'>
                         <div>
@@ -191,9 +187,11 @@ class AddService extends React.Component<{ history }, {
                                 onClick={this.redirectToServices} />
                         </div>
                         <div className='header'><h1>Add Service</h1></div>
-                        <div></div>
+                        <div className="empty-div"><CustomButton
+                            primary
+                            label="refresh" /></div>
                     </div>
-                    <Box className='form' direction="row" flex background="white" pad={{ bottom: 'small', right: 'large', left: 'large', top: 'large' }} width="large">
+                    <Box className='add-service-form' direction="row" flex background="white" pad={{ bottom: 'small', right: 'large', left: 'large', top: 'large' }} width="large">
                         <div className='add-service-left'>
                             <FormField required={false}>
                                 <TextInput
@@ -217,14 +215,10 @@ class AddService extends React.Component<{ history }, {
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
                             </FormField>
-                            <FormField className='date-field' >
-                                <CustomDate label="Date 'From'" date={this.state.dateFrom} time={this.state.timeFrom} name="from" onChange={this.handleDateChange} />
-                            </FormField>
-                            <FormField className='date-field'>
-                                <CustomDate label="Date 'To'" date={this.state.dateTo} time={this.state.timeTo} name="to" onChange={this.handleDateChange} />
-                            </FormField>
-                            <div className='service-description'>
-                                <TextArea className='service-text-area' resize={false} disabled={this.state.isReadOnly} value={this.state.message} name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
+                            <div className='date-selects'>
+                                <CustomDate label="Start Date" date={this.state.dateFrom} name="from" onChange={this.handleDateChange} />
+                                <CustomDate label="End Date" date={this.state.dateTo} name="to" onChange={this.handleDateChange} />
+
                             </div>
                         </div>
                         <div className='add-service-right'>
@@ -262,6 +256,13 @@ class AddService extends React.Component<{ history }, {
                                     onChange={(event) => this.handleSelectChange(event)}
                                 />
                             </FormField>
+                        </div>
+                        <div className='add-service-medium'>
+                            <div className='service-description'>
+                                <TextArea className='service-text-area' resize={false} disabled={this.state.isReadOnly} value={this.state.message} name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
+                            </div>
+                        </div>
+                        <div className='add-service-medium2'>
                             <div className='uploud-image'>
                                 <ImageUploading
                                     value={this.state.images}
@@ -277,29 +278,29 @@ class AddService extends React.Component<{ history }, {
                                         isDragging,
                                         dragProps,
                                     }) => (
-                                            // write your building UI
-                                            <div className="upload__image-wrapper">
-                                                <CustomButton
-                                                    primary
-                                                    size='small'
-                                                    style={isDragging ? { color: 'red' } : undefined}
-                                                    onClick={onImageUpload}
-                                                    {...dragProps}
-                                                >
-                                                    Upload Dog Image
+                                        // write your building UI
+                                        <div className="upload__image-wrapper">
+                                            <CustomButton
+                                                primary
+                                                size='small'
+                                                style={isDragging ? { color: 'red' } : undefined}
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                            >
+                                                Upload Dog Image
                                             </CustomButton>
                                             &nbsp;
-                                                {imageList.map((image, index) => (
-                                                    <div key={index} className="image-item">
-                                                        <img src={image['data_url']} alt="" width="140" />
-                                                        <div className="image-item__btn-wrapper">
-                                                            <CustomButton default size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
-                                                            <CustomButton default size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
-                                                        </div>
+                                            {imageList.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image['data_url']} alt="" width="140" />
+                                                    <div className="image-item__btn-wrapper">
+                                                        <CustomButton default size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
+                                                        <CustomButton default size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
                                                     </div>
-                                                ))}
-                                            </div>
-                                        )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </ImageUploading>
                             </div>
                         </div>
