@@ -37,6 +37,7 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
         return response;
     }
     handleSubmit = event => {
+        this.setState({ showFailureNotification: false });
         event.preventDefault();
 
         axios.post('http://localhost:4000/auth/signin', {
@@ -61,7 +62,6 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
                 };
             }).catch(error => {
                 this.setState({ showFailureNotification: true });
-
             });
 
     };

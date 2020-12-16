@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './info.component.scss';
 import { Box, Text } from 'grommet';
 import CustomButton from '../../shared/custom-button/custom-button.component';
@@ -15,7 +16,7 @@ const Info = () => (
             Collect dog bones for each accepted and completed work.
         dditionally, verify your profile by sending an identity document to gain trust.</Text>
         <Text>Join our Community today!</Text>
-        <CustomButton secondary icon={<FormNextLink />} label="Go to registration"></CustomButton>
+        <Link to='/sign-in'><CustomButton secondary icon={<FormNextLink />} label="Go to registration"></CustomButton></Link>
     </Box>
 );
 

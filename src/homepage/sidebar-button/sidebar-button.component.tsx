@@ -1,23 +1,17 @@
 import React from "react";
 import { Box, Button, Text } from "grommet";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./sidebar-button.component.scss";
 
 
 const SidebarButton = ({ url, image, label, ...rest }, history) => (
-  <Link className="menu-option" to={url}>
+  <NavLink tag={Link} className="nav-sidebar" exact activeClassName="underline" to={url}>
+
     <Button className=' menu-button' plain {...rest}>
-      {({ hover }) => (
-        <Box className='menu-box'
-          background={hover && !image ? "none" : undefined}
-          pad={{ horizontal: "small", vertical: "small" }}
-        >
-          <Text
-            size="large">{label}</Text>
-        </Box>
-      )}
+      <Text
+        size="medium">{label}</Text>
     </Button>
-  </Link>
+  </NavLink>
 );
 
 export default SidebarButton;

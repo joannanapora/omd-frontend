@@ -2,8 +2,8 @@ import React from "react";
 import "./homepage.container.scss";
 import { connect } from 'react-redux';
 
-import { Switch, Route } from "react-router-dom";
-
+import { Switch, Route, withRouter } from "react-router-dom";
+import { setCurrentUser } from '../store/user';
 import SideBar from "../homepage/sidebar/sidebar.component";
 import Info from '../features/info/info.component';
 import Services from "../features/services/services.component";
@@ -17,7 +17,7 @@ import AddService from '../features/services/add-service.component';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../store/user/user.selectors';
 
-class HomePage extends React.Component<{ mapStateToProps, currentUser }, { sections: any[] }> {
+class HomePage extends React.Component<{ history, dispatchSetCurrentUser, mapStateToProps, currentUser }, { sections: any[] }> {
   constructor(props: any) {
     super(props);
 
@@ -27,12 +27,11 @@ class HomePage extends React.Component<{ mapStateToProps, currentUser }, { secti
           name: "Services",
           id: 1,
           url: "/services",
-
         },
         {
           name: "Gallery",
           id: 2,
-          url: "/services",
+          url: "/gallery",
         },
         {
           name: "Messages",
@@ -49,29 +48,42 @@ class HomePage extends React.Component<{ mapStateToProps, currentUser }, { secti
           id: 5,
           url: "/contact-us",
         },
+        {
+          name: "Sign In",
+          id: 6,
+          url: "/sign-in",
+        },
+        {
+          name: "Sign Out",
+          id: 7,
+          url: "/sign-in",
+          onClick: this.handleLogout,
+
+        },
       ],
     };
   }
 
-  getMenuList(): any[] {
-    if (!this.props.currentUser) {
-      return this.state.sections.map(s => {
-        if (s.name === "Messages" || s.name === "My Profile") {
-          return { ...s, disabled: true };
-        }
-        return s;
-      });
+  handleLogout = (event) => {
+    this.props.dispatchSetCurrentUser(null);
+  }
+
+  getSignInState(sections) {
+    if (this.props.currentUser) {
+      return sections.filter(s => {
+        return s.name !== "Sign In"
+      }
+      );
     } else {
-      return this.state.sections.map(s => ({
-        ...s,
-        disabled: false
-      }));
+      return sections.filter(s => {
+        return s.name !== "Sign Out" && s.name !== "Messages" && s.name !== "My Profile"
+      });
     }
   }
 
 
   render() {
-    const menuList: any[] = this.getMenuList();
+    const menuList: any[] = this.getSignInState(this.state.sections);
 
     return (
       <div className="homepage">
@@ -96,9 +108,12 @@ class HomePage extends React.Component<{ mapStateToProps, currentUser }, { secti
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  dispatchSetCurrentUser: (user) => dispatch(setCurrentUser(user))
+});
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
-export default connect(mapStateToProps, null)(HomePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomePage));

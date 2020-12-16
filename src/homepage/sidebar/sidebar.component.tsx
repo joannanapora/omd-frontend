@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { Anchor, Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import SidebarButton from '../sidebar-button/sidebar-button.component';
 import './sidebar.component.scss';
-import UserProfile from '../../features/user-profile/user-profile.container'
 
 
 
 const SideBar = (props: { menuList: any[], }) => (
-  <Header background="white" pad="small">
-    <Box direction="row" align="center" gap="medium">
+  <Header gap='medium' className='sidebar-header' background="white" pad="small" >
+    <Box direction="row" align="center">
       <Link to='/about-us'><div className='paw'><img alt='paw' src="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg" /></div></Link>
     </Box>
     <ResponsiveContext.Consumer>
@@ -18,45 +17,28 @@ const SideBar = (props: { menuList: any[], }) => (
           <Menu
             label="Click me"
             items={[
-              { label: 'This is', onClick: () => { } },
-              { label: 'The Menu', onClick: () => { } },
-              { label: 'Component', onClick: () => { } },
+              { label: 'Click me', onClick: () => { } },
+              { label: 'Click me', onClick: () => { } },
+              { label: 'Click me', onClick: () => { } },
             ]}
           />
         ) : (
-            <Nav align='center' direction="row">
+            <Nav align='end' direction="row">
               {props.menuList.map(element => (
                 <SidebarButton
-                  size='small'
                   className='menu-button'
                   url={element.url}
                   key={element.id}
                   label={element.name}
                   image={element.imageUrl}
-                  disabled={element.disabled} />
+                  disabled={element.disabled}
+                  onClick={element.onClick} />
               ))}
-              <UserProfile />
             </Nav>
           )
       }
     </ResponsiveContext.Consumer>
   </Header>
-
-  // <Box className="box-menu" fill direction="row">
-  //   <Nav align='center' justify='center' background='white'>
-  //     <Link to='/about-us'><div className='paw'><img alt='paw' src="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg" /></div></Link>
-  //     {props.menuList.map(element => (
-  //       <SidebarButton
-  //         className='menu-button'
-  //         url={element.url}
-  //         key={element.id}
-  //         label={element.name}
-  //         image={element.imageUrl}
-  //         disabled={element.disabled} />
-  //     ))}
-  //     <UserProfile />
-  //   </Nav>
-  // </Box>
 );
 
 

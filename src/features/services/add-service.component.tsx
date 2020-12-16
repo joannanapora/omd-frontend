@@ -50,6 +50,7 @@ class AddService extends React.Component<{ history }, {
     handleSubmit = () => {
         this.setState({ showNotification: false });
 
+
         const config = {
             headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
@@ -64,7 +65,7 @@ class AddService extends React.Component<{ history }, {
             dogName: this.state.name,
             location: mapOptionsToLocation(this.state.selectedLocation),
             weight: mapOptionsToWeight(this.state.selectedWeight),
-            saveAsTemplate: this.state.checked
+            saveAsTemplate: this.state.checked,
 
 
         }, config).then(() => {
@@ -98,6 +99,7 @@ class AddService extends React.Component<{ history }, {
         const { history } = this.props;
         if (history) history.push('/services');
     }
+
 
     handleChange = (event) => {
         if (event.target.name === "name") {
@@ -187,11 +189,9 @@ class AddService extends React.Component<{ history }, {
                                 onClick={this.redirectToServices} />
                         </div>
                         <div className='header'><h1>Add Service</h1></div>
-                        <div className="empty-div"><CustomButton
-                            primary
-                            label="refresh" /></div>
+                        <div className="empty-div"> </div>
                     </div>
-                    <Box className='add-service-form' direction="row" flex background="white" pad={{ bottom: 'small', right: 'large', left: 'large', top: 'large' }} width="large">
+                    <Box className='add-service-form' direction="row" flex background="white" >
                         <div className='add-service-left'>
                             <FormField required={false}>
                                 <TextInput
@@ -258,9 +258,6 @@ class AddService extends React.Component<{ history }, {
                             </FormField>
                         </div>
                         <div className='add-service-medium'>
-                            <div className='service-description'>
-                                <TextArea className='service-text-area' resize={false} disabled={this.state.isReadOnly} value={this.state.message} name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
-                            </div>
                         </div>
                         <div className='add-service-medium2'>
                             <div className='uploud-image'>
@@ -292,7 +289,7 @@ class AddService extends React.Component<{ history }, {
                                             &nbsp;
                                             {imageList.map((image, index) => (
                                                 <div key={index} className="image-item">
-                                                    <img src={image['data_url']} alt="" width="140" />
+                                                    <img src={image['data_url']} alt="" width="180" />
                                                     <div className="image-item__btn-wrapper">
                                                         <CustomButton default size='small' onClick={() => onImageUpdate(index)}>Update</CustomButton>
                                                         <CustomButton default size='small' onClick={() => onImageRemove(index)}>Remove</CustomButton>
@@ -305,9 +302,13 @@ class AddService extends React.Component<{ history }, {
                             </div>
                         </div>
                     </Box>
+                    <Box direction="row" flex className='service-description'>
+                        <TextArea className='service-text-area' resize={false} disabled={this.state.isReadOnly} value={this.state.message} name='message' onChange={this.handleMessageChange} placeholder="Service Description" />
+                    </Box>
                     <div className='add-service-buttons'>
-                        <CustomCheckBox checked={this.state.checked} onChange={this.setChecked}
-                            label="Remember" />
+                        <CustomButton secondary>
+                            <CustomCheckBox checked={this.state.checked} onChange={this.setChecked}
+                                label="Save" /></CustomButton>
                         <CustomButton
                             primary
                             onClick={this.handleSubmit}

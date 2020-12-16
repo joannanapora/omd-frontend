@@ -34,7 +34,6 @@ class CustomFilter extends React.Component<{ selectedOptions: any[], options: st
     renderOptions = season => (
         <CustomButton
             key={`season_tag_${season}`}
-            href="#"
             onClick={event => {
                 event.preventDefault();
                 event.stopPropagation();
@@ -46,27 +45,18 @@ class CustomFilter extends React.Component<{ selectedOptions: any[], options: st
                 height="30px"
                 align="center"
                 direction="row"
-                background="d6702b"
+                background="#d6702b"
             >
-                <Text size="xsmall" color="d6702b">
+                <Text size="xsmall" color="#d6702b">
                     {season}
                 </Text>
-                <Box background="d6702b" round="medium" margin={{ left: 'medium' }}>
-                    <FormClose
-                        color="white"
-                        size="large"
-                        style={{ width: '5px', height: '10px' }}
-                    />
+                <Box background="#d6702b" >
+                    <FormClose />
                 </Box>
             </Box>
         </CustomButton>
     );
 
-    renderOption = (option, state) => (
-        <Box pad="small" background={state.active ? 'active' : undefined}>
-            <Text>{option}</Text>
-        </Box>
-    );
 
     render() {
         return (
@@ -82,9 +72,7 @@ class CustomFilter extends React.Component<{ selectedOptions: any[], options: st
                     onChange={({ selected: nextSelected }) => {
                         this.onSelect([...nextSelected].sort());
                     }}
-                >
-                    {this.renderOption}
-                </Select>
+                />
             </FormField>
         );
     };

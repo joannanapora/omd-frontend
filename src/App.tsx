@@ -67,22 +67,22 @@ const theme = {
     },
     hover: {
 
-      default: {
-        background: { color: "white" },
-        active: "#d6702b",
-        focus: "brand",
-        color: 'black',
-        round: '0px',
-      },
       primary: {
         background: { color: "brand" },
         active: "brand",
         color: 'black'
       },
       secondary: {
-        background: { color: "brand" },
+        background: { color: "white" },
         active: "brand",
         color: 'black'
+      },
+      default: {
+        background: { color: "white" },
+        active: "#d6702b",
+        focus: "brand",
+        color: 'black',
+        round: '0px',
       },
     },
   },
@@ -92,8 +92,8 @@ const theme = {
 
   },
   select: {
-    active: "#d6702b",
-    color: '#d6702b',
+    active: "black",
+    color: "black",
     background: {
       color: "white"
     }
@@ -111,11 +111,11 @@ const theme = {
         color: 'white',
       },
       border: {
-        active: "#d6702b",
+        active: "black",
         color: 'black',
       },
       label: {
-        active: "#d6702b",
+        active: "black",
         color: 'black',
       },
       placeholder: {

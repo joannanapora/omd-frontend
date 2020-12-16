@@ -54,10 +54,11 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
         return (
             <Box className="contact" background="white" border gap="medium" pad="large" width="medium">
                 <h1 className="contact-box"> Contact Us </h1>
-                <FormField label="Select Subject">
+                <FormField>
                     <Select
                         id="select"
                         name="select"
+                        placeholder="Subject"
                         open={this.state.isSelectOpen}
                         value={this.state.selectedOption}
                         options={this.state.options}
@@ -65,7 +66,7 @@ class Contact extends React.Component<{}, { options: string[], message: any, isS
                     />
                 </FormField>
                 <FormField>
-                    <TextArea onChange={this.handleMessageChange} value={this.state.message} placeholder="Text..." />
+                    <TextArea className='contact-text-area' onChange={this.handleMessageChange} value={this.state.message} placeholder="Text..." />
                 </FormField>
                 <Box fill align="center" justify="center">
                     <CustomButton disabled={!(this.state.message && this.state.selectedOption)}

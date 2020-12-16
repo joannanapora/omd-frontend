@@ -62,7 +62,7 @@ class CustomDate extends React.Component<{ label: string, date: string, onChange
                 dropContent={
                     this.renderDropContent()}>
                 <Box direction="row" gap="medium" pad="small">
-                    <Text color={this.props.date ? undefined : 'dark-5'}>
+                    <Text color={this.props.date ? 'black' : 'black'}>
                         {this.props.date
                             ? `${new Date(this.props.date).toLocaleDateString()}`
                             : this.props.label}

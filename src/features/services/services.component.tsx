@@ -17,7 +17,7 @@ import CustomDate from '../../shared/custom-date/custom-date.component';
 
 import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums/index'
 
-import { Add, FormTrash, FormDown, Filter, Trash } from 'grommet-icons';
+import { Add, Filter, Trash } from 'grommet-icons';
 
 interface IQuote {
     dogName: string;
@@ -203,16 +203,16 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     { name: 'main', start: [1, 1], end: [1, 1] },
                 ]}
             >
-                <CustomButton className='filter-button' primary icon={<Filter />} label="Filters" onClick={this.setSidebar} />
+                <CustomButton className='filter-button' secondary icon={<Filter />} label="Filters" onClick={this.setSidebar} />
                 {this.state.sidebar && (
                     <Box
                         className="sidebar-box"
                         gridArea="sidebar"
                         background="white"
-                        width="125%"
+                        width="100%"
                         animation={[
                             { type: 'fadeIn', duration: 300 },
-                            { type: 'slideRight', size: 'xlarge', duration: 150 },
+                            { type: 'slideRight', size: 'large', duration: 450 },
                         ]}
                     >
                         <div className="filters">
@@ -237,24 +237,23 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                         </div>
                     </Box>
                 )}
-                <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={this.redirectToAddService} /></div>
-                <Box className='services-table' gridArea="main" justify="center" align="center">
-                    <Box align="center" pad="small">
-                        <DataTable
-                            primaryKey='id'
-                            columns={this.state.columns}
-                            data={this.state.quotes}
-                            step={25}
-                            pad={{ horizontal: 'large', vertical: 'small' }}
-                            background={{
-                                header: 'dark-3',
-                                body: ['light-1', 'light-3'],
-                                footer: 'dark-3',
-                            }}
-                            border={{ body: 'bottom' }}
-                            rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
-                        />
-                    </Box>
+                <Box className='services-table' gridArea="main" >
+                    <DataTable
+                        primaryKey='id'
+                        columns={this.state.columns}
+                        data={this.state.quotes}
+                        step={11}
+                        pad={{ horizontal: 'large', vertical: 'small' }}
+                        background={{
+                            header: 'dark-3',
+                            body: ['light-1', 'light-3'],
+                            footer: 'dark-3',
+                        }}
+                        border={{ body: 'bottom' }}
+                        rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
+                    />
+                    <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={this.redirectToAddService} /></div>
+
                 </Box>
             </Grid>
         );
