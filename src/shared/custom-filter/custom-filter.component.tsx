@@ -7,7 +7,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 
 
-class CustomFilter extends React.Component<{ selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
+class CustomFilter extends React.Component<{ className: any, selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
     constructor(props) {
         super(props);
 
@@ -60,7 +60,7 @@ class CustomFilter extends React.Component<{ selectedOptions: any[], options: st
 
     render() {
         return (
-            <FormField>
+            <FormField className={this.props.className} >
                 <Select
                     placeholder={this.props.placeholder}
                     name={this.props.name}

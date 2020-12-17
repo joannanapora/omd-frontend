@@ -13,6 +13,7 @@ import Register from "../features/sign-up/register.container";
 import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
 import AddService from '../features/services/add-service.component';
+import Messages from '../features/messages/messages.component';
 
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../store/user/user.selectors';
@@ -101,6 +102,7 @@ class HomePage extends React.Component<{ history, dispatchSetCurrentUser, mapSta
             <Route path='/about-us' component={Info} />
             <Route path='/confirmation' component={AccountCreated} />
             <Route path='/add-service' component={AddService} />
+            <Route path='/messages' component={Messages} />
           </Switch>
         </div>
       </div>

@@ -9,6 +9,7 @@ const theme = {
     colors: {
       brand: "#d6702b",
       active: 'brand',
+      label: 'black'
     },
     font: {
       family: 'Texturina',
@@ -117,9 +118,10 @@ const theme = {
       label: {
         active: "black",
         color: 'black',
+        size: 'small'
       },
       placeholder: {
-        color: 'black'
+        color: 'text-weak'
       }
     },
     error: {

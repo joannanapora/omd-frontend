@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Box, Grommet, FormField, Menu, TextInput, DataTable, Button, Grid, Text } from 'grommet';
-import { grommet } from 'grommet/themes';
+import { Box, FormField, TextInput, DataTable, Grid } from 'grommet';
+
 
 import axios from 'axios';
 
@@ -17,7 +17,7 @@ import CustomDate from '../../shared/custom-date/custom-date.component';
 
 import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums/index'
 
-import { Add, Filter, Trash } from 'grommet-icons';
+import { Add, Filter, Erase } from 'grommet-icons';
 
 interface IQuote {
     dogName: string;
@@ -203,40 +203,43 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     { name: 'main', start: [1, 1], end: [1, 1] },
                 ]}
             >
-                <CustomButton className='filter-button' secondary icon={<Filter />} label="Filters" onClick={this.setSidebar} />
+                <CustomButton className='filter-button' secondary icon={<Filter />} label="filters" onClick={this.setSidebar} />
                 {this.state.sidebar && (
                     <Box
                         className="sidebar-box"
                         gridArea="sidebar"
                         background="white"
-                        width="100%"
+                        width="90%"
                         animation={[
                             { type: 'fadeIn', duration: 300 },
                             { type: 'slideRight', size: 'large', duration: 450 },
                         ]}
                     >
                         <div className="filters">
-                            <FormField>
+                            <FormField className='filter-field'>
                                 <TextInput
                                     value={this.state.filters.name} onChange={this.handleChange}
                                     className=' filter_text'
                                     placeholder="Name"
                                     name="name">
                                 </TextInput>
-                            </FormField>
-                            <FormField>
+                            </FormField >
+                            <FormField className='filter-field'>
                                 <TextInput value={this.state.filters.breed} onChange={this.handleChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
                             </FormField>
-                            <CustomFilter selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
-                            <CustomFilter selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location"></CustomFilter>
-                            <div className="date-inputs">
-                                <CustomDate label="Start Date" date={this.state.filters.dateFrom} name="from" onChange={this.handleDateChange} />
-                                <CustomDate label="End Date" date={this.state.filters.dateTo} name="to" onChange={this.handleDateChange} />
-                            </div>
-                            <CustomButton className='clean-filter-button' secondary icon={<Trash />} onClick={this.clearFilters} />
+                            <CustomFilter className='filter-field' selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
+                            <CustomFilter className='filter-field' selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
+                            </CustomFilter>
+                            <FormField className="date">
+                                <CustomDate label="Date (start)" date={this.state.filters.dateFrom} name="from" onChange={this.handleDateChange} />
+                            </FormField>
+                            <FormField className="date"><CustomDate label="Date(end)" date={this.state.filters.dateTo} name="to" onChange={this.handleDateChange} />
+                            </FormField>
+                            <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={this.clearFilters} />
                         </div>
-                    </Box>
-                )}
+                    </Box >
+                )
+                }
                 <Box className='services-table' gridArea="main" >
                     <DataTable
                         primaryKey='id'
@@ -255,7 +258,7 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={this.redirectToAddService} /></div>
 
                 </Box>
-            </Grid>
+            </Grid >
         );
     };
 }

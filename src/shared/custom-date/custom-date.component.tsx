@@ -8,9 +8,6 @@ import {
     DropButton,
 } from 'grommet';
 import CustomButton from '../custom-button/custom-button.component';
-import {
-    Alert
-} from 'grommet-icons';
 
 
 class CustomDate extends React.Component<{ label: string, date: string, onChange, name: string }, { open: boolean }> {
@@ -45,10 +42,8 @@ class CustomDate extends React.Component<{ label: string, date: string, onChange
                     date={this.props.date}
                     onSelect={this.setDate}
                     showAdjacentDays={false}
+                    onClick={this.onClose}
                 />
-                <Box flex={false}>
-                    <CustomButton secondary label="Done" onClick={this.onClose} />
-                </Box>
             </Box>
         );
     };
@@ -62,7 +57,7 @@ class CustomDate extends React.Component<{ label: string, date: string, onChange
                 dropContent={
                     this.renderDropContent()}>
                 <Box direction="row" gap="medium" pad="small">
-                    <Text color={this.props.date ? 'black' : 'black'}>
+                    <Text size='small' color={this.props.date ? 'black' : 'black'}>
                         {this.props.date
                             ? `${new Date(this.props.date).toLocaleDateString()}`
                             : this.props.label}

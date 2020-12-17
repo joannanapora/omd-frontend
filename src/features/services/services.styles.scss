@@ -1,64 +1,43 @@
 
 .filters {
         align-content: center;
-        justify-content: space-evenly;
-        padding: 1rem;
         display: flex;
         height:100%;
         flex-direction: column;
-        margin: 0 10px;
+        margin: 0 25px;
+        line-height: 4rem;
+        font-size: 14px !important;
 }
-
 .sidebar-box {
-        margin-bottom: 25px !important;
+        margin-bottom: 100px !important;
 }
-.selects {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-}
-
 .add-service-button {
         align-self:center;
 }
 .services {
-        opacity: 0.9;
         overflow: auto;
         height: 100%;
         margin-top: 90px;
 }
-
-.delete-button {
-       align-self: center;
-}
-
-.date-field {align-items: left;}
-
 .header-services {
 background-color: transparent !important;
 }
-
 .filter-button {
         border-radius: 0px !important;
         margin-top: 25px !important;
+        max-width: 90%;
 }
-
-
-.date-inputs {
-        display:flex;
-        justify-content: center;
-}
-
 .services-table {
         min-width: 100% !important;
-        padding: 0 2rem;
-
+        padding: 0 1rem;
 }
-
 .clean-filter-button {
         align-self: center;
+        margin-top: 20px !important;
 }
-
-
-.filter-button {
-        -webkit-animation: fadeIn ease 20s;}
+.filter-field {
+        max-width: 12rem !important;
+}
+.date {
+        font-size: 12px !important;
+}
