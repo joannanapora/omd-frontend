@@ -1,4 +1,29 @@
 .messages {
     display: flex;
-    height: 80%;
+    height: 90%;
+    background-color: white;
+    width: 60%;
+    font-size: 10px !important;
+    position: relative; 
+}
+
+.message-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-text {
+//  position: absolute;
+//  bottom: 0;
+//  width: 80%;
+ height: 100%;
+}
+
+.messages-left {
+    width: 75%;
+    height: 100%;
+}
+.messages-right {
+    width: 25%;
+    height: 100%;
 }

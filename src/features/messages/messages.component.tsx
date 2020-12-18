@@ -1,46 +1,215 @@
 import React from 'react';
 import axios from 'axios';
 import './messages.styles.scss';
-import { Box, Text, Header } from 'grommet';
+import { Box, Button, Layer, Tab, Tabs, Text, TextArea, Header } from 'grommet';
+import { Chat, ContactInfo } from 'grommet-icons';
 
-class Messages extends React.Component<{}, {}> {
+
+class Messages extends React.Component<{}, { value: string }> {
     constructor(props) {
         super(props);
 
         this.state = {
+            value: "",
         }
     };
+
+    handleChange = (event) => {
+        this.setState({ value: event.target.value })
+    }
 
     render() {
         return (
             <div className="messages">
-                <div className="left-messages">
+                <div className="messages-left">
                     <Box
-                        justify="center"
-                        align="center"
-                        pad="xlarge"
-                        background='white'
-                    >
+                        fill>
                         <Box
-                            justify="start"
-                            align="start"
-                            pad="small"
-                            background="linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
-                            round="medium"
+                            direction="row"
+                            align="center"
+                            as="header"
+                            elevation="small"
+                            justify="between"
+                            background='brand'
+                            border={{ color: 'black' }}
                         >
-                            <Text color="white">Dusty, 12.04.2021</Text>
+                            <Text color='black' margin={{ left: 'small' }}>Matt Collins || service: 20-03-2020</Text>
+                            <Button icon={<ContactInfo />} />
+                        </Box>
+                        <Box flex overflow="auto" pad="xsmall">
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+
+                        </Box>
+                        <Box
+                            as="footer"
+                            pad="small"
+                            justify="end"
+                            direction="row"
+                            align="center"
+                        >
+                            <Box
+                                width="large"
+                                height="xxsmall"
+                                border={{ color: 'brand', size: 'medium' }}
+                            >
+                                <TextArea resize={false} value={this.state.value} onChange={this.handleChange} fill />
+                            </Box>
+                            <Button secondary label="Send" />
                         </Box>
                     </Box>
                 </div>
-                <div className="right-messages">
-                    <Box
-                        justify="center"
-                        align="center"
-                        pad="xlarge"
-                        background="linear-gradient(102.77deg, #d6702b -9.18%, #ffffff 209.09%)">
+                <div className='messages-right'>
+                    <Box fill>
+                        <Box
+                            direction="row"
+                            align="center"
+                            as="header"
+                            elevation="small"
+                            justify="between"
+                            border={{ color: 'black' }}
+                        >
+                            <Text margin={{ left: 'small' }}>All Messages</Text>
+                            <Button icon={<Chat />} />
+                        </Box>
+                        <Box flex overflow="auto" pad="xsmall">
+                            <Box
+                                margin='xsmall'
+                                width={{ max: 'small' }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+                            <Box
+                                margin='xsmall'
+                                height={{ min: "xsmall" }}
+                                round="small"
+                                align="center"
+                                justify="center"
+                                background="dark-3"
+                            >
+                                <Text size="small" >From: Matt Collins || Dusty || service: 20-03-2020</Text>
+                            </Box>
+
+                        </Box>
                     </Box>
                 </div>
-            </div>
+            </div >
         )
     }
 }
