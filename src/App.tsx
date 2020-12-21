@@ -38,14 +38,13 @@ const theme = {
       },
     },
     primary: {
-
       border: { color: "#d6702b" },
       background: { color: "#d6702b" },
       color: "white",
       font: { weight: "bold" },
       padding: {
         horizontal: "1.5rem",
-        vertical: ".3rem",
+        vertical: "0.2rem",
       },
     },
     secondary: {

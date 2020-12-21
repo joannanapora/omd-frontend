@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import { Anchor, Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import SidebarButton from '../sidebar-button/sidebar-button.component';
 import './sidebar.component.scss';
 

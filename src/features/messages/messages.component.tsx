@@ -3,6 +3,7 @@ import axios from 'axios';
 import './messages.styles.scss';
 import { Box, Button, Layer, Tab, Tabs, Text, TextArea, Header } from 'grommet';
 import { Chat, ContactInfo } from 'grommet-icons';
+import CustomButton from '../../shared/custom-button/custom-button.component';
 
 
 class Messages extends React.Component<{}, { value: string }> {
@@ -31,55 +32,13 @@ class Messages extends React.Component<{}, { value: string }> {
                             elevation="small"
                             justify="between"
                             background='brand'
-                            border={{ color: 'black' }}
                         >
                             <Text color='black' margin={{ left: 'small' }}>Matt Collins || service: 20-03-2020</Text>
-                            <Button icon={<ContactInfo />} />
+                            <CustomButton primary icon={<Chat />} />
                         </Box>
                         <Box flex overflow="auto" pad="xsmall">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-
+                            <span>message</span>
+                            <span>message2</span>
                         </Box>
                         <Box
                             as="footer"
@@ -91,7 +50,6 @@ class Messages extends React.Component<{}, { value: string }> {
                             <Box
                                 width="large"
                                 height="xxsmall"
-                                border={{ color: 'brand', size: 'medium' }}
                             >
                                 <TextArea resize={false} value={this.state.value} onChange={this.handleChange} fill />
                             </Box>
@@ -107,10 +65,10 @@ class Messages extends React.Component<{}, { value: string }> {
                             as="header"
                             elevation="small"
                             justify="between"
-                            border={{ color: 'black' }}
+
                         >
                             <Text margin={{ left: 'small' }}>All Messages</Text>
-                            <Button icon={<Chat />} />
+                            <CustomButton default icon={<ContactInfo />} />
                         </Box>
                         <Box flex overflow="auto" pad="xsmall">
                             <Box

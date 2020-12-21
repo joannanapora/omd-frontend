@@ -1,0 +1,22 @@
+.gallery-box {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+   
+    width: 100%;
+    overflow-y: hidden;
+    height: 95%;
+    position: relative;
+}
+
+.gallery-cards {
+display: flex;
+position: relative;
+overflow-y: auto;
+height: 90%;
+}
+.search-box {
+    position: absolute;
+    bottom: 0;
+    right: 35%;
+}
