@@ -161,8 +161,10 @@ const theme = {
 
 function App() {
   return (
-    <Grommet className="container" theme={theme}>
-      <HomePage />
+    <Grommet theme={theme}>
+      <div className="container">
+        <HomePage />
+      </div>
     </Grommet>
   );
 }

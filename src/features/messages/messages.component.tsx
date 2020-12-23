@@ -25,12 +25,28 @@ const messages = [
         key: 3,
         userId: '4rf',
         text: "Keep in touch"
+    },
+    {
+        key: 4,
+        userId: '4rf',
+        text: "See you"
+    },
+    {
+        key: 6,
+        userId: '99393',
+        text: "Ok"
+    },
+    {
+        key: 5,
+        userId: '4rf',
+        text: "Ciao"
     }
 ];
 
 class Messages extends React.Component<{}, { textArea: string, messagesThread: any[], messagesPreview: any[] }> {
     constructor(props) {
         super(props);
+
 
         this.state = {
             textArea: "",
@@ -40,11 +56,43 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
         }
     };
 
+    messagesEnd;
+
     handleChange = (event) => {
         this.setState({ textArea: event.target.value });
+
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            this.sendMessage();
+
+        }
     }
 
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+
+
     sendMessage = () => {
+
+
+        if (!this.state.textArea) {
+
+            return;
+        };
+        if (!this.state.textArea.trim().length) {
+            return;
+        }
+
         this.setState({
             messagesThread: [
                 ...this.state.messagesThread,
@@ -56,36 +104,45 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
 
     render() {
         return (
-            <div className="messages">
-                <div className="messages-left">
+            <div className="chat">
+                <div className="messages-container">
                     <Box
                         fill>
                         <Box
+                            className='messages-box'
                             direction="row"
                             align="center"
                             as="header"
                             elevation="small"
                             justify="between"
                             background='brand'
+                            pad="xsmall"
                         >
                             <Text color='black' margin={{ left: 'small' }}>Matt Collins || service: 20-03-2020</Text>
                             <CustomButton primary icon={<Chat />} />
                         </Box>
-                        <Box className="messages-field" overflow="auto" pad="xsmall">
+                        <div className='empty-div'></div>
+                        <Box overflow="auto" pad="xsmall">
                             {
                                 this.state.messagesThread.map((element) => {
                                     return element.userId === "4rf" ?
-                                        (<Box alignSelf="start" className="message-thread" key={element.text} pad="medium" background="brand" round={{ corner: 'right' }}>
-                                            {element.text}
+                                        (<Box height={{ min: 'auto' }} alignSelf="end" className="message-thread" key={element.text} pad="small" background="gray" round={{ corner: 'left' }}>
+                                            <div>
+                                                {element.text}
+                                            </div>
                                         </Box>) :
-                                        (<Box alignSelf="end" className="message-thread" key={element.text} pad="medium" background="gray" round={{ corner: 'left' }}>
-                                            {element.text}
+                                        (<Box height={{ min: 'auto' }} alignSelf="start" className="message-thread" key={element.text} pad="small" background="brand" round={{ corner: 'right' }}>
+                                            <div>
+                                                {element.text}
+                                            </div>
                                         </Box>)
-
                                 })
                             }
+                            <div ref={(el) => { this.messagesEnd = el; }}>
+                            </div>
                         </Box>
                         <Box
+                            height={{ min: 'auto' }}
                             as="footer"
                             pad="small"
                             justify="end"
@@ -96,13 +153,16 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
                                 width="large"
                                 height="xxsmall"
                             >
-                                <TextArea resize={false} value={this.state.textArea} onChange={this.handleChange} fill />
+                                <TextArea className='text-area'
+                                    onKeyDown={this.handleChange}
+                                    resize={false} value={this.state.textArea} onChange={this.handleChange} fill
+                                />
                             </Box>
-                            <Button onClick={this.sendMessage} secondary label="Send" />
+                            <Button onClick={this.sendMessage} type='submit' secondary label="Send" />
                         </Box>
                     </Box>
                 </div>
-                <div className='messages-right'>
+                <div className='messages-preview'>
                     <Box fill>
                         <Box
                             direction="row"
@@ -110,6 +170,7 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
                             as="header"
                             elevation="small"
                             justify="between"
+                            pad="xsmall"
 
                         >
                             <Text margin={{ left: 'small' }}>All Messages</Text>
@@ -129,7 +190,7 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
                         </Box>
                     </Box>
                 </div>
-            </div >
+            </div>
         )
     }
 }
