@@ -1,54 +1,40 @@
 import React from 'react';
 
-import { Box, FormField, TextInput, DataTable, Grid } from 'grommet';
-
-
-import axios from 'axios';
-
-import { format } from 'date-fns'
+import { DebounceInput } from 'react-debounce-input';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import './services.styles.scss';
-import CustomFilter from '../../shared/custom-filter/custom-filter.component';
-import CustomButton from '../../shared/custom-button/custom-button.component';
-import { setUserFilters } from '../../store/filters';
-import CustomDate from '../../shared/custom-date/custom-date.component';
+import axios from 'axios';
+import { debounce } from 'lodash';
 
-import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums/index'
-
+import { Box, FormField, TextInput, DataTable, Grid } from 'grommet';
 import { Add, Filter, Erase } from 'grommet-icons';
 
-interface IQuote {
-    dogName: string;
-    dogImage: string;
-    owner: string;
-    id: number;
-    location: string;
-    breed: string;
-    dateFrom: any;
-    dateTo: any;
-    weight: string;
-}
 
-class Services extends React.Component<{ history, currentFilters, dispatchSetUserFilters, animate: any, multiple: any }, { sidebar: boolean, quotes: IQuote[], columns: any[], filters: any }> {
+import { format } from 'date-fns'
+
+import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
+import CustomFilter from '../../shared/custom-filter/custom-filter.component';
+import CustomButton from '../../shared/custom-button/custom-button.component';
+import CustomDate from '../../shared/custom-date/custom-date.component';
+import './services.styles.scss';
+
+import { IServiceFilters } from '../../store/filters/filter.reducer';
+import { setUserFilters } from '../../store/filters';
+
+import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
+import { IService } from '../../models/interfaces';
+
+
+
+
+class Services extends React.Component<{ history, currentFilters: IServiceFilters, dispatchSetUserFilters }, { showNotification: boolean, sidebar: boolean, services: IService[], columns: { header: string; property: string }[] }> {
     constructor(props) {
         super(props);
 
-        const quotes = []
-
         this.state = {
             sidebar: true,
-            filters: {
-                breed: "",
-                name: "",
-                dateFrom: "",
-                dateTo: "",
-                location: [],
-                weight: [],
-            },
             columns: [
-                // { header: "#id", property: 'id' },
                 { header: "Name", property: 'dogName' },
                 { header: "Breed", property: 'breed' },
                 { header: "Weight", property: "weight" },
@@ -56,85 +42,40 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                 { header: "From", property: "dateFrom" },
                 { header: "To", property: "dateTo" },
             ],
-            quotes
+            services: [],
+            showNotification: false,
         }
-    }
+    };
 
     redirectToAddService = () => {
         const { history } = this.props;
         if (history) history.push('/add-service');
-    }
-
-    componentDidMount() {
-        if (this.props.currentFilters) {
-            this.setState({ filters: this.props.currentFilters })
-        };
-
-        this.getServices();
     };
 
+    componentDidMount() {
+        this.getServices();
+    }
+
     handleDateChange = ({ date, name }) => {
-        if (name === 'from') {
-            this.setState({
-                filters: {
-                    ...this.state.filters,
-                    dateFrom: date
-                }
-            });
-        }
-        if (name === 'to') {
-            this.setState({
-                filters: {
-                    ...this.state.filters,
-                    dateTo: date
-                }
-            });
-        }
-    }
+        this.props.dispatchSetUserFilters({ [name]: date });
+    };
 
-    handleChange = (event) => {
-        if (event.target.name === "name") {
-            this.setState({
-                filters: {
-                    ...this.state.filters,
-                    name: event.target.value
-                }
-            });
-            this.getServices({
-                ...this.state.filters,
-                name: event.target.value
-            });
-        }
-        if (event.target.name === "breed") {
-            this.setState({
-                filters: {
-                    ...this.state.filters,
-                    breed: event.target.value
-                }
-            });
-            this.getServices({
-                ...this.state.filters,
-                breed: event.target.value
-            });
-        }
-        ;
-        this.props.dispatchSetUserFilters({ [event.target.name]: event.target.value });
-        // CALL getServices with new filters
-        // this.getService("lupus");
-    }
-    handleFilters = (filter: { name: string; value: any; }) => {
-        this.setState({
-            filters: {
-                ...this.state.filters,
-                [filter.name]: filter.value
-            }
+    handleInputsChange = (event) => {
+        this.getServices({
+            ...this.props.currentFilters,
+            [event.target.name]: event.target.value
         });
-        this.props.dispatchSetUserFilters({ [filter.name]: filter.value });
+
+        this.props.dispatchSetUserFilters({ [event.target.name]: event.target.value });
     }
 
-    clearFilters = () => {
-        this.setState({ filters: { name: "", breed: "", owner: "", location: [], dateFrom: "", dateTo: "", weight: [] } });
-    }
+    handleSelectsChange = (filter: { name: string; value: number[]; }) => {
+        this.props.dispatchSetUserFilters({ [filter.name]: filter.value });
+    };
+
+    clearAllFilters = () => {
+        this.props.dispatchSetUserFilters({ name: "", breed: "", owner: "", location: [], dateFrom: "", dateTo: "", weight: [] });
+    };
 
 
     getServices = (params?: any) => {
@@ -157,6 +98,7 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     url = url + '?locations=' + l + '&';
                 })
             }
+
             if (params.weight) {
                 params.location.forEach(l => {
                     url = url + '?weights=' + l + '&';
@@ -164,10 +106,9 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
             }
         }
 
-
         axios.get(url, config)
             .then((response) => {
-                const quotes = response.data.map(element => ({
+                const services = response.data.map(element => ({
                     dogName: element.dogName,
                     breed: element.breed,
                     weight: mapWeightToOptions(element.weight),
@@ -175,23 +116,22 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     dateFrom: format(new Date(element.dateFrom), 'dd/MM/yyyy'),
                     dateTo: format(new Date(element.dateTo), 'dd/MM/yyyy')
                 }));
-                this.setState({ quotes: quotes })
+
+                this.setState({ services })
+
             }).catch(error => {
                 console.log(error);
-
+                this.setState({ showNotification: true })
             });
     };
 
     setSidebar = () => {
-        if (this.state.sidebar === false) {
-            this.setState({ sidebar: true })
-        }
-        if (this.state.sidebar === true) {
-            this.setState({ sidebar: false })
-        }
+        this.setState({ sidebar: !this.state.sidebar });
     };
 
     render() {
+        const filters = this.props.currentFilters;
+
         return (
             <Grid
                 fill
@@ -217,25 +157,22 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     >
                         <div className="filters">
                             <FormField className='filter-field'>
-                                <TextInput
-                                    value={this.state.filters.name} onChange={this.handleChange}
-                                    className=' filter_text'
-                                    placeholder="Name"
-                                    name="name">
+                                <TextInput value={filters?.dogName} onChange={debounce(this.handleInputsChange, 300)} className=' filter_text' placeholder="Name" name="name">
                                 </TextInput>
                             </FormField >
                             <FormField className='filter-field'>
-                                <TextInput value={this.state.filters.breed} onChange={this.handleChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
+                                <TextInput value={filters?.breed} onChange={this.handleInputsChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
                             </FormField>
-                            <CustomFilter className='filter-field' selectedOptions={this.state.filters.weight} name="weight" onChange={this.handleFilters} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
-                            <CustomFilter className='filter-field' selectedOptions={this.state.filters.location} name="location" onChange={this.handleFilters} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
+                            <CustomFilter className='filter-field' selectedOptions={filters?.weight} name="weight" onChange={this.handleSelectsChange} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
+                            <CustomFilter className='filter-field' selectedOptions={filters?.location} name="location" onChange={this.handleSelectsChange} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
                             </CustomFilter>
                             <FormField className="date">
-                                <CustomDate label="Date (start)" date={this.state.filters.dateFrom} name="from" onChange={this.handleDateChange} />
+                                <CustomDate label="Date (start)" date={filters?.dateFrom} name="dateFrom" onChange={this.handleDateChange} />
                             </FormField>
-                            <FormField className="date"><CustomDate label="Date(end)" date={this.state.filters.dateTo} name="to" onChange={this.handleDateChange} />
+                            <FormField className="date">
+                                <CustomDate label="Date(end)" date={filters?.dateTo} name="dateTo" onChange={this.handleDateChange} />
                             </FormField>
-                            <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={this.clearFilters} />
+                            <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={this.clearAllFilters} />
                         </div>
                     </Box >
                 )
@@ -244,7 +181,7 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                     <DataTable
                         primaryKey='id'
                         columns={this.state.columns}
-                        data={this.state.quotes}
+                        data={this.state.services}
                         step={11}
                         pad={{ horizontal: 'large', vertical: 'small' }}
                         background={{
@@ -256,18 +193,27 @@ class Services extends React.Component<{ history, currentFilters, dispatchSetUse
                         rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
                     />
                     <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={this.redirectToAddService} /></div>
-
                 </Box>
+                {
+                    this.state.showNotification ?
+                        <Notification
+                            status={Status.FAILURE}
+                            text={"Ops, backend is OFF"}>
+                        </Notification>
+                        :
+                        null
+                }
             </Grid >
         );
     };
 }
+
 const mapDispatchToProps = dispatch => ({
     dispatchSetUserFilters: (filter) => dispatch(setUserFilters(filter))
 });
 
-const mapStateToProps = ({ filter: { currentFilters } }) => ({
-    currentFilters,
+const mapStateToProps = ({ filter }) => ({
+    currentFilters: filter.currentFilters,
 });
 
 export default withRouter(connect(
