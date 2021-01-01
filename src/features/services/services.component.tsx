@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DebounceInput } from 'react-debounce-input';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 

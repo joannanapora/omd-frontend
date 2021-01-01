@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Text } from "grommet";
+import { Button, Text } from "grommet";
 import { NavLink, Link } from "react-router-dom";
 import "./sidebar-button.component.scss";
 

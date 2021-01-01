@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Box, Grommet, CheckBox } from 'grommet';
-import { grommet } from 'grommet/themes';
-import { normalizeColor, deepMerge } from 'grommet/utils';
+import { CheckBox } from 'grommet';
+import { normalizeColor } from 'grommet/utils';
 
 import { FormCheckmark } from 'grommet-icons';
 

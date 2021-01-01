@@ -1,9 +1,6 @@
 import React from 'react';
-import { Button, Anchor, Box, Text } from 'grommet';
-import { Attraction, Car } from 'grommet-icons';
+import { Box, Text } from 'grommet';
 import './gallery-card.styles.scss'
-import LimitedTextarea from '../../shared/custom-textarea/custom-textarea.component';
-
 class GalleryCard extends React.Component<{ key: number, image, date, description, title }, {}> {
     render() {
         return (

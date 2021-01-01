@@ -7,8 +7,6 @@ import {
     Calendar,
     DropButton,
 } from 'grommet';
-import CustomButton from '../custom-button/custom-button.component';
-
 
 class CustomDate extends React.Component<{ label: string, date: string, onChange, name: string }, { open: boolean }> {
     constructor(props) {
