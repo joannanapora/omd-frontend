@@ -14,6 +14,8 @@ import CustomCheckBox from '../../shared/custom-checkbox/custom-checkbox.compone
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
 
+import {postService, getTemplate} from '../../api/';
+
 class AddService extends React.Component<{ history }, {
     checked: boolean, dateFrom: string, dateTo: string,
     images: any, isSelectOpen: boolean, selectedLocation: string, isReadOnly: boolean, message: string,
@@ -49,26 +51,11 @@ class AddService extends React.Component<{ history }, {
 
     handleSubmit = () => {
         this.setState({ showNotification: false });
-
-
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
-        };
-
-        axios.post('http://localhost:4000/services', {
-
-            message: this.state.message,
-            dateFrom: this.state.dateFrom,
-            dateTo: this.state.dateTo,
-            breed: this.state.breed,
-            ownerName: this.state.owner,
-            dogName: this.state.name,
-            location: mapOptionsToLocation(this.state.selectedLocation),
-            weight: mapOptionsToWeight(this.state.selectedWeight),
-            saveAsTemplate: this.state.checked,
-
-
-        }, config).then(() => {
+        
+        postService(this.state.message, this.state.dateFrom, this.state.dateTo,
+            this.state.breed, this.state.owner, this.state.name, mapOptionsToLocation(this.state.selectedLocation),
+            mapOptionsToWeight(this.state.selectedWeight), this.state.checked,
+        ).then(() => {
             this.setState({ showNotification: true });
             if (!this.state.checked) {
                 this.setState({
@@ -157,19 +144,12 @@ class AddService extends React.Component<{ history }, {
     };
 
     componentDidMount() {
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
-        };
-        axios.get('http://localhost:4000/services/template', config)
-            .then((response) => {
+        getTemplate() .then((response) => {
                 console.log(response)
                 this.setState({
                     owner: response.data.ownerName, message: response.data.message, breed: response.data.breed, name: response.data.dogName,
                     selectedLocation: mapLocationsToOptions(response.data.location), selectedWeight: mapWeightToOptions(response.data.weight)
                 });
-                // this.setState({ weight: response.data.selectedWeight });
-                // this.setState({ location: response.data.selectedLocation });
-                // }
             }).catch(e => {
                 this.setState({ isReadOnly: false });
             });

@@ -24,6 +24,7 @@ import { setUserFilters } from '../../store/filters';
 import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
 import { IService } from '../../models/interfaces';
 
+import {getServices} from '../../api/';
 
 
 
@@ -52,7 +53,7 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
     };
 
     componentDidMount() {
-        this.getServices();
+        this.filterServices();
     }
 
     handleDateChange = ({ date, name }) => {
@@ -60,7 +61,7 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
     };
 
     handleInputsChange = (event) => {
-        this.getServices({
+        this.filterServices({
             ...this.props.currentFilters,
             [event.target.name]: event.target.value
         });
@@ -77,35 +78,8 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
     };
 
 
-    getServices = (params?: any) => {
-        let url = 'http://localhost:4000/services';
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
-        };
-
-        if (params) {
-            if (params.name) {
-                url = url + '?dogName=' + params.name + '&';
-            }
-
-            if (params.breed) {
-                url = url + '?breed=' + params.breed + '&';
-            }
-
-            if (params.location) {
-                params.location.forEach(l => {
-                    url = url + '?locations=' + l + '&';
-                })
-            }
-
-            if (params.weight) {
-                params.location.forEach(l => {
-                    url = url + '?weights=' + l + '&';
-                })
-            }
-        }
-
-        axios.get(url, config)
+    filterServices = (params?: any) => {
+        getServices(params)
             .then((response) => {
                 const services = response.data.map(element => ({
                     dogName: element.dogName,

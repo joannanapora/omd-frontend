@@ -14,8 +14,8 @@ import SignIn from "../features/sign-in/sign-in.container";
 import AccountCreated from "../features/sign-up/account-created/account-created.component";
 import AddService from '../features/services/add-service.component';
 import Messages from '../features/messages/messages.component';
-import GalleryCard from '../features/gallery/gallery-card.component';
 import Gallery from '../features/gallery/gallery.component';
+import DonatePage from '../features/donate/donate.component';
 
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../store/user/user.selectors';
@@ -26,6 +26,11 @@ class HomePage extends React.Component<{ history, dispatchSetCurrentUser, mapSta
 
     this.state = {
       sections: [
+        {
+          name: "Donate OMD",
+          id: 0,
+          url: "/donate",
+        },
         {
           name: "Services",
           id: 1,
@@ -61,9 +66,8 @@ class HomePage extends React.Component<{ history, dispatchSetCurrentUser, mapSta
           id: 7,
           url: "/sign-in",
           onClick: this.handleLogout,
-
-        },
-      ],
+        }
+      ]
     };
   }
 
@@ -106,6 +110,7 @@ class HomePage extends React.Component<{ history, dispatchSetCurrentUser, mapSta
             <Route path='/add-service' component={AddService} />
             <Route path='/messages' component={Messages} />
             <Route path='/gallery' component={Gallery} />
+            <Route path='/donate' component= {DonatePage}/>
           </Switch>
         </div>
       </div>

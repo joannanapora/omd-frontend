@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import axios from 'axios';
-
 import './register.container.scss';
 
 import { validateEmail } from '../../shared/index';
@@ -10,6 +8,7 @@ import CustomButton from '../../shared/custom-button/custom-button.component';
 
 import { Box, Form, FormField, TextInput } from 'grommet';
 
+import {postSignUp} from '../../api';
 
 class Register extends React.Component<{ history }, { password: any, email: any, confirmPassword: any }> {
     constructor(props) {
@@ -38,10 +37,7 @@ class Register extends React.Component<{ history }, { password: any, email: any,
         }
 
 
-        axios.post('http://localhost:4000/auth/signup', {
-            email: this.state.email,
-            password: this.state.password,
-        })
+        postSignUp(this.state.email, this.state.password)
             .then((data) => {
                 this.setState({ email: '', password: '', confirmPassword: '' });
                 this.redirectToAccountCreated();

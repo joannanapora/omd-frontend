@@ -1,11 +1,13 @@
 import React from 'react';
 import './my-profile.component.scss'
-import axios from 'axios';
-import { FormEdit, FormCheckmark } from 'grommet-icons';
 
+import { FormEdit, FormCheckmark } from 'grommet-icons';
 import { Box, Form, FormField, Text } from 'grommet';
+
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
+
+import {patchUser, getUser} from '../../api';
 
 
 
@@ -29,11 +31,7 @@ class MyProfile extends React.Component<{}, {
 
 
     componentDidMount() {
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
-        };
-        axios.get('http://localhost:4000/user', config)
-            .then((response) => {
+        getUser().then((response) => {
                 this.setState({ isReadOnly: true });
                 this.setState({ name: response.data.name });
                 this.setState({ surname: response.data.surname });
@@ -44,18 +42,12 @@ class MyProfile extends React.Component<{}, {
             });
     }
 
-
     handleSubmit = () => {
         const config = {
             headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
         };
 
-        axios.patch('http://localhost:4000/user', {
-            name: this.state.name,
-            surname: this.state.surname,
-            phoneNumber: this.state.phoneNumber,
-            postCode: this.state.postCode,
-        }, config).then(() => {
+        patchUser(this.state.name, this.state.surname, this.state.phoneNumber, this.state.postCode).then(() => {
             this.setState({ isReadOnly: true, showNotification: true })
         }).catch(e => {
             console.log(e);

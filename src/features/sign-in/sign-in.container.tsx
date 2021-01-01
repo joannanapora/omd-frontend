@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom'
 
+import {postSignIn} from '../../api'
 
 import { Box, Form, FormField, TextInput } from 'grommet';
 import { Google, Facebook, MailOption } from 'grommet-icons';
@@ -12,6 +13,8 @@ import Notification, { Status } from '../../shared/custom-notification/custom-no
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { setCurrentUser } from '../../store/user';
 import './sign-in.styles.scss';
+
+
 
 
 class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
@@ -40,10 +43,7 @@ class SignIn extends React.Component<{ dispatchSetCurrentUser, history },
         this.setState({ showFailureNotification: false });
         event.preventDefault();
 
-        axios.post('http://localhost:4000/auth/signin', {
-            email: this.state.email,
-            password: this.state.password,
-        })
+        postSignIn(this.state.email, this.state.password)
             .then((response) => {
                 if (response) {
                     const user = {
