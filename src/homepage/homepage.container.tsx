@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { Switch, Route, withRouter } from "react-router-dom";
 import { setCurrentUser } from '../store/user';
+
 import SideBar from "../homepage/sidebar/sidebar.component";
 import Info from '../features/info/info.component';
 import Services from "../features/services/services.component";

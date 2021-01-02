@@ -3,11 +3,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import axios from 'axios';
 import { debounce } from 'lodash';
 
 import { Box, FormField, TextInput, DataTable, Grid } from 'grommet';
 import { Add, Filter, Erase } from 'grommet-icons';
+
+
+import { createStructuredSelector } from 'reselect';
+import { selectUserFilters } from '../../store/filters/filter.selectors';
 
 
 import { format } from 'date-fns'
@@ -28,7 +31,7 @@ import {getServices} from '../../api/';
 
 
 
-class Services extends React.Component<{ history, currentFilters: IServiceFilters, dispatchSetUserFilters }, { showNotification: boolean, sidebar: boolean, services: IService[], columns: { header: string; property: string }[] }> {
+class Services extends React.Component<{ history, filters: IServiceFilters, dispatchSetUserFilters }, { showNotification: boolean, sidebar: boolean, services: IService[], columns: { header: string; property: string }[] }> {
     constructor(props) {
         super(props);
 
@@ -55,14 +58,14 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
     componentDidMount() {
         this.filterServices();
     }
-
+    
     handleDateChange = ({ date, name }) => {
         this.props.dispatchSetUserFilters({ [name]: date });
     };
 
     handleInputsChange = (event) => {
         this.filterServices({
-            ...this.props.currentFilters,
+            ...this.props.filters,
             [event.target.name]: event.target.value
         });
 
@@ -90,20 +93,19 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
                     dateTo: format(new Date(element.dateTo), 'dd/MM/yyyy')
                 }));
 
-                this.setState({ services })
+                this.setState({ services });
 
             }).catch(error => {
-                console.log(error);
-                this.setState({ showNotification: true })
+                this.setState({ showNotification: true });
             });
     };
+
 
     setSidebar = () => {
         this.setState({ sidebar: !this.state.sidebar });
     };
 
     render() {
-        const filters = this.props.currentFilters;
 
         return (
             <Grid
@@ -130,20 +132,20 @@ class Services extends React.Component<{ history, currentFilters: IServiceFilter
                     >
                         <div className="filters">
                             <FormField className='filter-field'>
-                                <TextInput value={filters?.dogName} onChange={debounce(this.handleInputsChange, 300)} className=' filter_text' placeholder="Name" name="name">
+                                <TextInput value={this.props.filters?.dogName} onChange={debounce(this.handleInputsChange, 300)} className=' filter_text' placeholder="Name" name="name">
                                 </TextInput>
                             </FormField >
                             <FormField className='filter-field'>
-                                <TextInput value={filters?.breed} onChange={this.handleInputsChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
+                                <TextInput value={this.props.filters?.breed} onChange={this.handleInputsChange} className='filter_text' placeholder="Breed" name="breed"></TextInput>
                             </FormField>
-                            <CustomFilter className='filter-field' selectedOptions={filters?.weight} name="weight" onChange={this.handleSelectsChange} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
-                            <CustomFilter className='filter-field' selectedOptions={filters?.location} name="location" onChange={this.handleSelectsChange} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
+                            <CustomFilter className='filter-field' selectedOptions={this.props.filters?.weight} name="weight" onChange={this.handleSelectsChange} options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
+                            <CustomFilter className='filter-field' selectedOptions={this.props.filters?.location} name="location" onChange={this.handleSelectsChange} options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
                             </CustomFilter>
                             <FormField className="date">
-                                <CustomDate label="Date (start)" date={filters?.dateFrom} name="dateFrom" onChange={this.handleDateChange} />
+                                <CustomDate label="Date (start)" date={this.props.filters?.dateFrom} name="dateFrom" onChange={this.handleDateChange} />
                             </FormField>
                             <FormField className="date">
-                                <CustomDate label="Date(end)" date={filters?.dateTo} name="dateTo" onChange={this.handleDateChange} />
+                                <CustomDate label="Date(end)" date={this.props.filters?.dateTo} name="dateTo" onChange={this.handleDateChange} />
                             </FormField>
                             <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={this.clearAllFilters} />
                         </div>
@@ -185,9 +187,9 @@ const mapDispatchToProps = dispatch => ({
     dispatchSetUserFilters: (filter) => dispatch(setUserFilters(filter))
 });
 
-const mapStateToProps = ({ filter }) => ({
-    currentFilters: filter.currentFilters,
-});
+const mapStateToProps = createStructuredSelector({
+    filters: selectUserFilters
+  });
 
 export default withRouter(connect(
     mapStateToProps,

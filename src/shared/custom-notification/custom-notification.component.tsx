@@ -8,6 +8,8 @@ export enum Status {
 }
 
 class Notification extends React.Component<{ text: string, status: Status }, { isOpen: boolean }> {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -22,11 +24,19 @@ class Notification extends React.Component<{ text: string, status: Status }, { i
     };
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.setState({ isOpen: true })
         setTimeout(() => {
-            this.setState({ isOpen: false });
+            if(this._isMounted) {
+                this.setState({ isOpen: false });
+            }
         }, 5000);
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+      }
 
     render() {
 
