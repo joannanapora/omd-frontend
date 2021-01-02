@@ -1,29 +1,22 @@
-.gallery-card {
-    max-width: 40%;
-    min-width: 40%;
-    max-height: 100%;
-    min-height: 100%;
-}
-
-.gallery-card-box {
-    min-height: 450px !important;
-    max-height: 400px !important;
-    position: relative;
-    margin: 0 5%;
-}
-
-.dog-image-card {
-    max-height: 80%;
-    width: 100%;
-}
-
-.card-description {
-    position: absolute;
-    bottom: 0;
-    padding: 5%
+.card-footer {
+    display: flex;
+    flex-direction: column;
 }
 
 .card-title {
     color: #d6702b;
     font-weight: bold;
+}
+
+.dog-image-card {
+    position: relative;
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.gallery-card {
+    padding: 0 1rem;
 }

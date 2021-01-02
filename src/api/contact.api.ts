@@ -10,7 +10,7 @@ export const postContact = (
   };
 
   return axios.post(
-    process.env.REACT_APP_API_URL + "/contact",
+    process.env.REACT_APP_API_URL + "/contacts",
     {
       message: message,
       subject: subject,

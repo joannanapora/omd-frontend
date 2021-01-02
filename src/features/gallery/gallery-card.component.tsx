@@ -1,21 +1,48 @@
 import React from 'react';
-import { Box, Text } from 'grommet';
-import './gallery-card.styles.scss'
-class GalleryCard extends React.Component<{ key: number, image, date, description, title }, {}> {
-    render() {
-        return (
-            <div className='gallery-card'>
-                <Box className='gallery-card-box'
-                    pad="medium" align='center' background="white" round gap="small">
-                    <h3 className='card-title'>{this.props.title}</h3>
-                    <img key={this.props.key} className='dog-image-card' alt='dog-card' src={this.props.image}></img>
-                    <Text className='card-description' >{this.props.description}</Text>
-                    <Text className='card-date' >{this.props.date}</Text>
-                </Box>
-            </div>
-        )
-    }
-}
+import {
+    Box,
+    Text,
+    Card,
+    Heading,
+    CardBody,
+    CardHeader,
+    Image,
+    Stack,
+} from 'grommet';
 
+import './gallery-card.styles.scss'
+
+const GalleryCard = ({ key, image, date, description, title }) => {
+
+    return (
+        <Box width={{ max: 'medium', min: 'medium' }} height={{ max: 'medium', min: 'medium' }} className='gallery-card-box'
+            align='center' background="white" round gap="small">
+            <Card >
+                <Stack anchor="bottom-left">
+                    <CardBody height="medium">
+                        <Image
+                            key={key}
+                            fit="cover"
+                            src={image}
+                            alt='dog' />
+                    </CardBody>
+                    <CardHeader
+                        pad={{ horizontal: 'small', vertical: 'small' }}
+                        background="#000000A0"
+                        width="medium"
+                        justify="start">
+                        <Box>
+                            <Heading level="3" margin="none">
+                                {title}
+                            </Heading>
+                            <Text size="small">{date}</Text>
+                            <Text size="small">{description}</Text>
+                        </Box>
+                    </CardHeader>
+                </Stack>
+            </Card >
+        </Box >
+    )
+};
 
 export default GalleryCard;

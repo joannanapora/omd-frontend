@@ -28,7 +28,7 @@ class Notification extends React.Component<{ text: string, status: Status }, { i
 
         this.setState({ isOpen: true })
         setTimeout(() => {
-            if(this._isMounted) {
+            if (this._isMounted) {
                 this.setState({ isOpen: false });
             }
         }, 5000);
@@ -36,7 +36,7 @@ class Notification extends React.Component<{ text: string, status: Status }, { i
 
     componentWillUnmount() {
         this._isMounted = false;
-      }
+    }
 
     render() {
 

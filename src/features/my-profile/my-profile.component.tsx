@@ -7,7 +7,7 @@ import { Box, Form, FormField, Text } from 'grommet';
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 
-import {patchUser, getUser} from '../../api';
+import { patchUser, getUser } from '../../api';
 
 
 
@@ -32,14 +32,14 @@ class MyProfile extends React.Component<{}, {
 
     componentDidMount() {
         getUser().then((response) => {
-                this.setState({ isReadOnly: true });
-                this.setState({ name: response.data.name });
-                this.setState({ surname: response.data.surname });
-                this.setState({ phoneNumber: response.data.phoneNumber });
-                this.setState({ postCode: response.data.postCode });
-            }).catch(error => {
-                console.log(error);
-            });
+            this.setState({ isReadOnly: true });
+            this.setState({ name: response.data.name });
+            this.setState({ surname: response.data.surname });
+            this.setState({ phoneNumber: response.data.phoneNumber });
+            this.setState({ postCode: response.data.postCode });
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     handleSubmit = () => {

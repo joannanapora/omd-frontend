@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import HomePage from "./homepage/homepage.container";
 import { Grommet } from "grommet";
-
+import { defaultProps } from 'grommet'
 
 const theme = {
   global: {
@@ -26,6 +26,14 @@ const theme = {
       },
     },
   },
+  card: {
+    container: {
+      elevation: 'large',
+    },
+    footer: {
+      pad: 'medium',
+    },
+  },
   button: {
     default: {
       active: "#d6702b",
@@ -43,8 +51,8 @@ const theme = {
       color: "white",
       font: { weight: "bold" },
       padding: {
-        horizontal: "1.5rem",
-        vertical: "0.2rem",
+        horizontal: "1.8rem",
+        vertical: ".5rem",
       },
     },
     secondary: {
@@ -161,7 +169,7 @@ const theme = {
 
 function App() {
   return (
-    <Grommet theme={theme}>
+    <Grommet full theme={theme}>
       <div className="container">
         <HomePage />
       </div>

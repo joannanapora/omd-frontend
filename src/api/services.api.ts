@@ -31,7 +31,7 @@ export const getServices = (queryParams?: any): Promise<any> => {
     }
   }
 
-  return axios.post(url, config);
+  return axios.get(url, config);
 };
 
 export const postService = (
@@ -69,5 +69,5 @@ export const getTemplate = () => {
   const config = {
     headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") },
   };
-  return axios.get(process.env.REACT_APP_API_URL + "/services", config);
+  return axios.get(process.env.REACT_APP_API_URL + "/services/template", config);
 };

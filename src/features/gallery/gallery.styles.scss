@@ -1,22 +1,16 @@
-.gallery-box {
-    display: flex;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-   
+.gallery {
     width: 100%;
-    overflow-y: hidden;
-    height: 95%;
-    position: relative;
+    padding: 2rem;
+    height: 100%;
 }
 
-.gallery-cards {
-display: flex;
-position: relative;
-overflow-y: auto;
-height: 90%;
-}
 .search-box {
-    position: absolute;
-    bottom: 0;
-    right: 35%;
+    padding: 3%;
+    display: flex;
+    justify-content: center;
+    height: 20%;
+}
+
+.filter-cards {
+    width: 20%;
 }
