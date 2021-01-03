@@ -21,7 +21,8 @@ const Contact = () => {
   const [message, setMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [isSelectOpen] = useState(false);
-  const [showNotification, handleShowNotification] = useState(false);
+  const [showOKNotification, handleShowOkNotification] = useState(false);
+  const [showFailNotification, handleShowFailNotification] = useState(false);
 
 
   const onSubmit = () => {
@@ -30,46 +31,47 @@ const Contact = () => {
       mapOptionsToContactSubject(selectedOption)
     )
       .then(() => {
-        handleShowNotification(true);
-        setSelectedOption("");
-        setMessage("");
+        handleShowOkNotification(true);
+        setSelectedOption('');
+        setMessage('');
       })
       .catch((error) => {
-        handleShowNotification(true);
+        handleShowFailNotification(true);
       });
   }
 
   return (
-    <Box
-      className="contact"
-      background="white"
-      border
-      gap="medium"
-      pad="large"
-      width="medium"
-    >
-      <h1 className="contact-box"> Contact Us </h1>
-      <FormField>
-        <Select
-          id="select"
-          name="select"
-          placeholder="Subject"
-          open={isSelectOpen}
-          value={selectedOption}
-          options={options}
-          onChange={({ option }) => setSelectedOption(option)}
-        />
-      </FormField>
-      <FormField>
-        <TextArea
-          resize={false}
-          size='medium'
-          onChange={(event) => setMessage(event.target.value)}
-          value={message}
-          placeholder="Message..."
-        />
-      </FormField>
-      <Box fill align="center" justify="center">
+    <div className='contact'>
+      <Box
+        background="white"
+        border
+        gap="medium"
+        pad="medium"
+        width="30rem"
+        height="24rem"
+      >
+        <h1 className="contact-box"> Contact Us </h1>
+        <FormField>
+          <Select
+            id="select"
+            name="select"
+            placeholder="Subject"
+            open={isSelectOpen}
+            value={selectedOption}
+            options={options}
+            onChange={({ option }) => setSelectedOption(option)}
+          />
+        </FormField>
+        <FormField>
+          <TextArea
+            className='text-area'
+            resize={false}
+            size='large'
+            onChange={(event) => setMessage(event.target.value)}
+            value={message}
+          />
+        </FormField>
+
         <CustomButton
           disabled={!(message && selectedOption)}
           primary
@@ -79,14 +81,33 @@ const Contact = () => {
         >
           Send Message
           </CustomButton>
+
+        {showOKNotification ? (
+          <Notification
+            status={Status.SUCCESS}
+            text={"Message has been sent"}
+          ></Notification>
+        ) : null}
+        {showFailNotification ? (
+          <Notification
+            status={Status.FAILURE}
+            text={"Please login to send a message."}
+          ></Notification>
+        ) : null}
       </Box>
-      {showNotification ? (
-        <Notification
-          status={Status.SUCCESS}
-          text={"Message has been sent"}
-        ></Notification>
-      ) : null}
-    </Box>
+      <Box
+        background="white"
+        border
+        gap="medium"
+        width="medium"
+        height="medium"
+      >
+        <div className="dog-image">
+          <img
+            src="https://i0.wp.com/bestlifeonline.com/wp-content/uploads/2019/09/bulldog.jpg?resize=1024%2C1024&ssl=1"
+            alt='dog'></img></div>
+      </Box>
+    </div>
   );
 
 }

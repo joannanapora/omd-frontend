@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { withRouter } from 'react-router-dom'
 
@@ -16,61 +16,84 @@ import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWei
 
 import { postService, getTemplate } from '../../api/';
 
+interface INewService {
+    name: string;
+    breed: string;
+    owner: string;
+    dateFrom: string;
+    dateTo: string;
+    message: string;
+    checked: boolean;
+    selectedLocation: string;
+    selectedWeight: string;
+}
+
 const AddService = (history) => {
     let location = ['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east'];
     let weight = ['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg'];
-    const [name, setName] = useState('');
-    const [breed, setBreed] = useState('');
-    const [owner, setOwner] = useState('');
-    const [dateFrom, setDateFrom] = useState('');
-    const [dateTo, setDateTo] = useState('');
-    const [message, setMessage] = useState('');
 
-    const [checked, setChecked] = useState(false);
+    const [newService, setNewService]: [INewService, any] = useState({
+        name: '',
+        breed: '',
+        owner: '',
+        dateFrom: '',
+        dateTo: '',
+        message: '',
+        checked: false,
+        selectedLocation: null,
+        selectedWeight: null,
+    });
+
+
     const [showNotification, handleShowNotification] = useState(false);
     const [isReadOnly, setIsReadOnly] = useState(false);
     const [isSelectOpen] = useState(false);
+    const [image, setImage]: [any, any] = useState(null);
 
-    const [selectedLocation, setLocation] = useState(null);
-    const [selectedWeight, setWeight] = useState(null);
-    const [image, setImage] = useState(null);
 
-    // const componentDidMount() {
-    //     getTemplate().then((response) => {
-    //         console.log(response)
-    //         this.setState({
-    //             owner: response.data.ownerName, message: response.data.message, breed: response.data.breed, name: response.data.dogName,
-    //             selectedLocation: mapLocationsToOptions(response.data.location), selectedWeight: mapWeightToOptions(response.data.weight)
-    //         });
-    //     }).catch(e => {
-    //         this.setState({ isReadOnly: false });
-    //     });
-    // };
+
+    useEffect(() => {
+        getTemplate().then((response) => {
+            setNewService({
+                owner: response.data.ownerName, message: response.data.message, breed: response.data.breed, name: response.data.dogName,
+                selectedLocation: mapLocationsToOptions(response.data.location), selectedWeight: mapWeightToOptions(response.data.weight)
+            })
+        })
+            .catch(error => {
+                setIsReadOnly(false)
+            });
+    }, []);
 
     const handleSubmit = () => {
         handleShowNotification(false)
-        postService(message, dateFrom, dateTo, breed, owner, name, mapOptionsToLocation(selectedLocation),
-            mapOptionsToWeight(selectedWeight), checked)
+        postService(newService.message, newService.dateFrom, newService.dateTo, newService.breed, newService.owner, newService.name, mapOptionsToLocation(newService.selectedLocation),
+            mapOptionsToWeight(newService.selectedWeight), newService.checked)
             .then(() => {
                 handleShowNotification(true)
-                if (!checked) {
-                    setName("")
-                    setBreed("")
-                    setOwner("")
-                    setMessage("")
-                    setDateFrom("")
-                    setDateTo("")
-                    setLocation(null)
-                    setWeight(null)
+                if (!newService.checked) {
+                    setNewService({
+                        name: '',
+                        breed: '',
+                        owner: '',
+                        dateFrom: '',
+                        dateTo: '',
+                        message: '',
+                        checked: false,
+                        selectedLocation: null,
+                        selectedWeight: null,
+                    });
                     handleShowNotification(false)
                 } else {
                     setIsReadOnly(true)
-                    setDateFrom("")
-                    setDateTo("")
-                    if (!checked) {
-                        setIsReadOnly(false);
-                    }
-                };
+                    setNewService({
+                        ...newService,
+                        dateFrom: '',
+                        dateTo: ''
+                    })
+                }
+                if (!newService.checked) {
+                    setIsReadOnly(false);
+                }
             }).catch(error => {
                 console.log(error);
             })
@@ -85,44 +108,21 @@ const AddService = (history) => {
         if (history) history.push('/services');
     };
 
-
     const handleInputChange = (event) => {
-        if (event.target.name === "name") {
-            setName(event.target.value)
-        }
-        if (event.target.name === "breed") {
-            setBreed(event.target.value)
-        }
-        if (event.target.name === "owner") {
-            setOwner(event.target.value)
-        }
-        if (event.target.name === 'message') {
-            setMessage(event.target.value)
-        }
+        setNewService({ ...newService, [event.target.name]: event.target.value })
     };
 
     const handleSelectChange = (event) => {
-        if (event.target.name === "weight") {
-            setWeight(event.value)
-        } else {
-            setLocation(event.value)
-        }
+        setNewService({ ...newService, [event.target.name]: event.value })
     };
 
     const handleDateChange = ({ date, name }) => {
-        if (name === 'from') {
-            setDateFrom(date)
-        } else {
-            setDateTo(date)
-        }
+        setNewService({ ...newService, [name]: date })
     };
 
     const handleChecked = (event) => {
-        setChecked(event.target.checked);
-        if (!event.target.checked) {
-            setIsReadOnly(false)
-        };
-    }
+        setNewService({ ...newService, checked: event.target.checked })
+    };
 
 
     return (
@@ -144,7 +144,7 @@ const AddService = (history) => {
                         <FormField required={false}>
                             <TextInput
                                 disabled={isReadOnly}
-                                value={owner}
+                                value={newService.owner}
                                 type='text'
                                 className="form-input"
                                 name="owner"
@@ -155,17 +155,17 @@ const AddService = (history) => {
                         <FormField required={false} >
                             <Select
                                 disabled={isReadOnly}
-                                name="location"
+                                name="selectedLocation"
                                 placeholder="Location"
                                 open={isSelectOpen}
-                                value={selectedLocation}
+                                value={newService.selectedLocation}
                                 options={location}
                                 onChange={handleSelectChange}
                             />
                         </FormField>
                         <div className='date-selects'>
-                            <CustomDate label="Start Date" date={dateFrom} name="from" onChange={handleDateChange} />
-                            <CustomDate label="End Date" date={dateTo} name="to" onChange={handleDateChange} />
+                            <CustomDate label="Start Date" date={newService.dateFrom} name="dateFrom" onChange={handleDateChange} />
+                            <CustomDate label="End Date" date={newService.dateTo} name="dateTo" onChange={handleDateChange} />
 
                         </div>
                     </div>
@@ -174,7 +174,7 @@ const AddService = (history) => {
                             <TextInput
                                 disabled={isReadOnly}
                                 onChange={handleInputChange}
-                                value={name}
+                                value={newService.name}
                                 className="form-input"
                                 id="enabled-id"
                                 name="name"
@@ -185,7 +185,7 @@ const AddService = (history) => {
                             <TextInput
                                 disabled={isReadOnly}
                                 onChange={handleInputChange}
-                                value={breed}
+                                value={newService.breed}
                                 type='text'
                                 className="form-input"
                                 name="breed"
@@ -196,10 +196,10 @@ const AddService = (history) => {
                             <Select
                                 disabled={isReadOnly}
                                 id="select"
-                                name="weight"
+                                name="selectedWeight"
                                 placeholder="Dog Weight"
                                 open={isSelectOpen}
-                                value={selectedWeight}
+                                value={newService.selectedWeight}
                                 options={weight}
                                 onChange={handleSelectChange}
                             />
@@ -251,16 +251,16 @@ const AddService = (history) => {
                     </div>
                 </Box>
                 <Box direction="row" flex className='service-description'>
-                    <TextArea className='service-text-area' resize={false} disabled={isReadOnly} value={message} name='message' onChange={handleInputChange} placeholder="Service Description" />
+                    <TextArea className='service-text-area' resize={false} disabled={isReadOnly} value={newService.message} name='message' onChange={handleInputChange} placeholder="Service Description" />
                 </Box>
                 <div className='add-service-buttons'>
                     <CustomButton secondary>
-                        <CustomCheckBox checked={checked} onChange={setChecked}
+                        <CustomCheckBox checked={newService.checked} onChange={handleChecked}
                             label="Save" /></CustomButton>
                     <CustomButton
                         primary
                         onClick={handleSubmit}
-                        disabled={!(breed && owner && name && selectedLocation && dateFrom && dateTo && selectedWeight && message) || isReadOnly}
+                        disabled={!(newService.breed && newService.owner && newService.name && newService.selectedLocation && newService.dateFrom && newService.dateTo && newService.selectedWeight && newService.message) || isReadOnly}
                         type='submit'>Submit</CustomButton>
                 </div>
                 {

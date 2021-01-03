@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 
 import filtersReducer from './filters/filter.reducer';
 import userReducer from './user/user.reducer';
-
+import homePageReducer from './homepage/homepage.reducer';
 
 const persistConfig = {
     key: 'root',
@@ -16,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     filter: filtersReducer,
+    homepage: homePageReducer,
 });
 
 
