@@ -1,44 +1,45 @@
 
-.filters {
-        align-content: center;
-        display: flex;
-        height:100%;
-        flex-direction: column;
-        margin: 0 25px;
-        line-height: 4rem;
-        font-size: 14px !important;
-}
-.sidebar-box {
-        margin-bottom: 100px !important;
-}
-.add-service-button {
-        align-self:center;
-}
+
 .services {
-        overflow: auto;
-        height: 100%;
-        margin-top: 90px;
-}
-.header-services {
-background-color: transparent !important;
-}
-.filter-button {
-        border-radius: 0px !important;
-        margin-top: 50px !important;
-        max-width: 90%;
-}
-.services-table {
-        min-width: 100% !important;
-        padding: 0 1rem;
-        height: 100%;
-}
-.clean-filter-button {
-        align-self: center;
-        margin-top: 20px !important;
-}
-.filter-field {
-        max-width: 12rem !important;
-}
-.date {
-        font-size: 12px !important;
-}
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .filter-box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    
+    .input-filters {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .select-filters {
+        display: flex;
+        flex-direction: row;
+        width: inherit;
+    }
+    .date-inputs {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    
+    .select-filters-left {
+        width: 50%;
+        button {
+            width: 100%;
+        }
+    }
+    
+    .select-filters-right {
+        width: 50%;
+        button {
+            width: 100%;
+        }
+    
+    }
+    

@@ -5,8 +5,8 @@ import { Link, withRouter } from 'react-router-dom'
 
 import { postSignIn } from '../../api'
 
-import { Box, Form, FormField, TextInput } from 'grommet';
-import { Google, Facebook, MailOption } from 'grommet-icons';
+import { Box, Form, FormField, MaskedInput, TextInput } from 'grommet';
+import { Google, Facebook, MailOption, License } from 'grommet-icons';
 
 
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
@@ -19,11 +19,27 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showFailureNotification, setNotification] = useState(false);
-
+    const [reveal, setReveal] = React.useState(false);
     const redirectToUserLoggedIn = () => {
         if (history) history.push('/services');
     };
 
+    const emailMask = [
+        {
+            regexp: /^[\w\-_.]+$/,
+            placeholder: 'email',
+        },
+        { fixed: '@' },
+        {
+            regexp: /^[\w]+$/,
+            placeholder: 'gmail',
+        },
+        { fixed: '.' },
+        {
+            regexp: /^[\w]+$/,
+            placeholder: 'com',
+        },
+    ];
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -62,23 +78,27 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
     return (
         <div className='sign-in'>
             <Form>
-                <Box background="white" border gap="small" pad="large" width="medium">
+                <Box background="white" border={{ color: 'brand', size: 'medium' }} gap="small" pad="large" width="medium">
+                    <h1>Login</h1>
                     <FormField>
-                        <TextInput
-                            onChange={handleChange}
+                        <MaskedInput
+                            name='email'
+                            reverse
+                            icon={<MailOption />}
+                            mask={emailMask}
                             value={email}
-                            type='text'
-                            name="email"
-                            placeholder="Email"
-                        ></TextInput>
+                            onChange={event => setEmail(event.target.value)}
+                        />
                     </FormField>
                     <FormField>
                         <TextInput
+                            icon={<License />}
                             onChange={handleChange}
                             value={password}
                             type='password'
                             name="password"
-                            placeholder="Password"
+                            reverse placeholder="password"
+
                         />
                     </FormField>
                     <CustomButton primary onClick={handleSubmit} type='submit' label='Login' />

@@ -44,7 +44,19 @@ const Contact = () => {
     <div className='contact'>
       <Box
         background="white"
-        border
+        border={{ color: 'brand', size: 'medium' }}
+        gap="medium"
+        width="medium"
+        height="medium"
+      >
+        <div className="dog-image">
+          <img
+            src="https://i0.wp.com/bestlifeonline.com/wp-content/uploads/2019/09/bulldog.jpg?resize=1024%2C1024&ssl=1"
+            alt='dog'></img></div>
+      </Box>
+      <Box
+        background="white"
+        border={{ color: 'brand', size: 'medium' }}
         gap="medium"
         pad="medium"
         width="30rem"
@@ -53,25 +65,21 @@ const Contact = () => {
         <h1 className="contact-box"> Contact Us </h1>
         <FormField>
           <Select
-            id="select"
             name="select"
-            placeholder="Subject"
+            placeholder="Select Subject"
             open={isSelectOpen}
             value={selectedOption}
             options={options}
             onChange={({ option }) => setSelectedOption(option)}
           />
         </FormField>
-        <FormField>
-          <TextArea
-            className='text-area'
-            resize={false}
-            size='large'
-            onChange={(event) => setMessage(event.target.value)}
-            value={message}
-          />
-        </FormField>
-
+        <TextArea
+          className='text-area'
+          resize={false}
+          size='large'
+          onChange={(event) => setMessage(event.target.value)}
+          value={message}
+        />
         <CustomButton
           disabled={!(message && selectedOption)}
           primary
@@ -94,18 +102,6 @@ const Contact = () => {
             text={"Please login to send a message."}
           ></Notification>
         ) : null}
-      </Box>
-      <Box
-        background="white"
-        border
-        gap="medium"
-        width="medium"
-        height="medium"
-      >
-        <div className="dog-image">
-          <img
-            src="https://i0.wp.com/bestlifeonline.com/wp-content/uploads/2019/09/bulldog.jpg?resize=1024%2C1024&ssl=1"
-            alt='dog'></img></div>
       </Box>
     </div>
   );

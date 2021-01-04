@@ -36,13 +36,13 @@ const theme = {
   },
   button: {
     default: {
+      width: '100%',
       active: "#d6702b",
       background: { color: "white" },
       color: "black",
-      border: { color: "#d6702b" },
       padding: {
         horizontal: "0.6rem",
-        vertical: "0.2rem",
+        vertical: "0.2rem"
       },
     },
     primary: {
@@ -51,7 +51,7 @@ const theme = {
       color: "white",
       font: { weight: "bold" },
       padding: {
-        horizontal: "1.8rem",
+        horizontal: "1.1rem",
         vertical: ".5rem",
       },
     },
@@ -61,7 +61,7 @@ const theme = {
       border: { color: "brand" },
       color: "black",
       padding: {
-        horizontal: "1.8rem",
+        horizontal: "1.1rem",
         vertical: ".5rem",
       },
     },

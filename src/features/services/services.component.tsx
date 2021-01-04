@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { debounce } from 'lodash';
 
-import { Box, FormField, TextInput, DataTable, Grid } from 'grommet';
+import { Box, DateInput, TextInput, DataTable, } from 'grommet';
 import { Add, Filter, Erase } from 'grommet-icons';
 
 import { IServiceFilters } from '../../store/filters/filter.reducer';
@@ -18,7 +18,6 @@ import { format } from 'date-fns'
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomFilter from '../../shared/custom-filter/custom-filter.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
-import CustomDate from '../../shared/custom-date/custom-date.component';
 import './services.styles.scss';
 
 import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
@@ -26,8 +25,9 @@ import { IService } from '../../models/interfaces';
 
 import { getServices } from '../../api/';
 
+type filters = IServiceFilters;
 
-const Services = (history, filters: IServiceFilters, dispatchSetUserFilters) => {
+const Services = ({ history, filters, dispatchSetUserFilters }) => {
 
     const columns = [
         { header: "Name", property: 'dogName' },
@@ -51,15 +51,15 @@ const Services = (history, filters: IServiceFilters, dispatchSetUserFilters) => 
         filterServices();
     }, []);
 
-    const handleDateChange = ({ date, name }) => {
-        dispatchSetUserFilters({ [name]: date });
+    const handleDateChange = ({ event, name }) => {
+        dispatchSetUserFilters({ [name]: event.target.value });
     };
 
     const handleInputsChange = (event) => {
         filterServices({
             ...filters, [event.target.name]: event.target.value
         });
-
+        console.log(dispatchSetUserFilters)
         dispatchSetUserFilters({ [event.target.name]: event.target.value });
     }
 
@@ -96,51 +96,41 @@ const Services = (history, filters: IServiceFilters, dispatchSetUserFilters) => 
     };
 
     return (
-        <Grid
-            fill
-            rows={['auto', 'flex']}
-            columns={['auto', 'flex']}
-            areas={[
-                { name: 'header', start: [0, 0], end: [1, 0] },
-                { name: 'sidebar', start: [0, 1], end: [0, 1] },
-                { name: 'main', start: [1, 1], end: [1, 1] },
-            ]}
-        >
-            <CustomButton className='filter-button' secondary icon={<Filter />} label="filters" onClick={setSidebar} />
+        <div className='services'>
+            <CustomButton label="Filters" primary icon={<Filter />} onClick={setSidebar} />
             {sidebar && (
                 <Box
                     className="sidebar-box"
-                    gridArea="sidebar"
                     background="white"
-                    width="90%"
                     animation={[
                         { type: 'fadeIn', duration: 300 },
-                        { type: 'slideRight', size: 'large', duration: 450 },
+                        { type: 'slideUp', size: 'large', duration: 600 },
                     ]}
                 >
-                    <div className="filters">
-                        <FormField className='filter-field'>
-                            <TextInput value={filters?.dogName} onChange={debounce(handleInputsChange, 300)}
-                                className=' filter_text' placeholder="Name" name="name">
-                            </TextInput>
-                        </FormField >
-                        <FormField className='filter-field'>
-                            <TextInput value={filters?.breed} onChange={handleInputsChange}
-                                className='filter_text' placeholder="Breed" name="breed"></TextInput>
-                        </FormField>
-                        <CustomFilter className='filter-field' selectedOptions={filters?.weight} name="weight" onChange={handleSelectsChange}
-                            options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight"></CustomFilter>
-                        <CustomFilter className='filter-field' selectedOptions={filters?.location} name="location" onChange={handleSelectsChange}
-                            options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location">
-                        </CustomFilter>
-                        <FormField className="date">
-                            <CustomDate label="Date (start)" date={filters?.dateFrom} name="dateFrom" onChange={handleDateChange} />
-                        </FormField>
-                        <FormField className="date">
-                            <CustomDate label="Date(end)" date={filters?.dateTo} name="dateTo" onChange={handleDateChange} />
-                        </FormField>
-                        <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={clearAllFilters} />
-                    </div>
+                    <Box className="filter-box" pad="small">
+                        <div className='input-filters'>
+                            <TextInput size="small" className='filter-input' value={filters?.dogName} onChange={debounce(handleInputsChange, 300)}
+                                placeholder="Name" name="name" />
+                            <TextInput size="small" value={filters?.breed} onChange={handleInputsChange}
+                                className='filter-input' placeholder="Breed" name="breed" />
+                        </div>
+                        <div className='select-filters'>
+                            <div className='select-filters-left'>
+                                <CustomFilter className='filter-select' selectedOptions={filters?.weight} name="weight" onChange={handleSelectsChange}
+                                    options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight" />
+                            </div>
+                            <div className='select-filters-right'>
+                                <CustomFilter className='filter-select' selectedOptions={filters?.location} name="location" onChange={handleSelectsChange}
+                                    options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location" />
+                            </div>
+                        </div>
+                        <div className='date-inputs'>
+                            <DateInput format="dd/mm/yyyy" value={filters?.dateFrom} onChange={(event) => handleDateChange} name="dateFrom" />
+                            <DateInput format="dd/mm/yyyy" value={filters?.dateTo} onChange={(event) => handleDateChange} name="dateTo" />
+                        </div>
+                        <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={() => clearAllFilters()} />
+
+                    </Box>
                 </Box >
             )
             }
@@ -159,7 +149,7 @@ const Services = (history, filters: IServiceFilters, dispatchSetUserFilters) => 
                     border={{ body: 'bottom' }}
                     rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
                 />
-                <div className='add-service-button' ><CustomButton label="Add Service" primary icon={<Add />} onClick={redirectToAddService} /></div>
+                <CustomButton label="Add Service" primary icon={<Add />} onClick={redirectToAddService} />
             </Box>
             {
                 showNotification ?
@@ -170,7 +160,8 @@ const Services = (history, filters: IServiceFilters, dispatchSetUserFilters) => 
                     :
                     null
             }
-        </Grid >
+        </div>
+
     );
 };
 

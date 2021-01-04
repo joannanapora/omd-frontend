@@ -90,7 +90,7 @@ const Gallery = () => {
                         gap="small">
                         {cardList.map(element => (
                             <GalleryCard
-                                key={element.key}
+                                id={element.key}
                                 date={element.date}
                                 title={element.title}
                                 description={element.description}

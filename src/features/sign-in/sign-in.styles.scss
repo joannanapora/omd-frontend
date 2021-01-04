@@ -2,14 +2,14 @@
 
 
 .facebook-button {
-    
+    &:hover {
         background-color: $facebookColor !important;
         color: white !important;
-    
+    }
 }
 .google-button {
-        
+        &:hover {
             background-color: $googleColor !important;
             color: white !important;
-        
+        }
   }

@@ -12,16 +12,16 @@ import {
 
 import './gallery-card.styles.scss'
 
-const GalleryCard = ({ key, image, date, description, title }) => {
+const GalleryCard = ({ id, image, date, description, title }) => {
 
     return (
         <Box width={{ max: 'medium', min: 'medium' }} height={{ max: 'medium', min: 'medium' }} className='gallery-card-box'
             align='center' background="white" round gap="small">
-            <Card >
+            <Card border={{ color: 'brand', size: 'medium' }}>
                 <Stack anchor="bottom-left">
                     <CardBody height="medium">
                         <Image
-                            key={key}
+                            key={id}
                             fit="cover"
                             src={image}
                             alt='dog' />

@@ -4,12 +4,15 @@ import { FormClose } from 'grommet-icons';
 import { Box, FormField, Select, Text } from 'grommet';
 
 import CustomButton from '../custom-button/custom-button.component';
+import './custom-filter.styles.scss';
 
 
 
-class CustomFilter extends React.Component<{ className: any, selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any }, { name: string, listOfOptions: string[], placeholder: string }> {
+class CustomFilter extends React.Component<{ className: any, selectedOptions: any[], options: string[], name: string, placeholder: string, onChange: any; width?: string }, { name: string, listOfOptions: string[], placeholder: string }> {
     constructor(props) {
         super(props);
+
+        console.log(props)
 
         this.state = {
             name: props.name,
@@ -20,7 +23,6 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
     };
 
     onSelect = (props) => {
-        // this.setState({ selectedOptions: props });
         this.props.onChange({ name: this.props.name, value: props });
     };
 
@@ -33,6 +35,7 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
 
     renderOptions = season => (
         <CustomButton
+            className="drop-button"
             key={`season_tag_${season}`}
             onClick={event => {
                 event.preventDefault();
@@ -42,12 +45,12 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
             onFocus={event => event.stopPropagation()}
         >
             <Box
-                height="30px"
                 align="center"
                 direction="row"
                 background="#d6702b"
+                width="100%"
             >
-                <Text size="xsmall" color="#d6702b">
+                <Text size="small" color="#d6702b">
                     {season}
                 </Text>
                 <Box background="#d6702b" >
@@ -60,20 +63,21 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
 
     render() {
         return (
-            <FormField className={this.props.className} >
-                <Select
-                    placeholder={this.props.placeholder}
-                    name={this.props.name}
-                    closeOnChange={false}
-                    multiple
-                    value={this.props.selectedOptions}
-                    options={this.state.listOfOptions}
-                    selected={this.props.selectedOptions}
-                    onChange={({ selected: nextSelected }) => {
-                        this.onSelect([...nextSelected].sort());
-                    }}
-                />
-            </FormField>
+            <Select
+                alignSelf="start"
+                size="small"
+                placeholder={this.props.placeholder}
+                name={this.props.name}
+                closeOnChange={false}
+                multiple
+                value={this.props.selectedOptions}
+                options={this.state.listOfOptions}
+                selected={this.props.selectedOptions}
+                onChange={({ selected: nextSelected }) => {
+                    this.onSelect([...nextSelected].sort());
+                }}
+            />
+
         );
     };
 }

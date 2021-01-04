@@ -59,8 +59,8 @@ const Register = ({ history }) => {
     return (
         <div className='register'>
             <Form className='register-form' onSubmit={handleSubmit}>
-                <Box className="register-box" background="white" border gap="large" pad="large" width="medium">
-                    <h1>Create an account</h1>
+                <Box className="register-box" background="white" border={{ color: 'brand', size: 'medium' }} gap="large" pad="large" width="medium">
+                    <h1>Register</h1>
                     <FormField htmlFor="enabled-id" name="enabled" label="">
                         <TextInput
                             onChange={(event) => handleChange(event)}
