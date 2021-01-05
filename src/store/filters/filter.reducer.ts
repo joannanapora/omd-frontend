@@ -2,7 +2,6 @@ import { FilterActionTypes } from './filter.types';
 
 export interface IServiceFilters {
     dogName: string;
-    owner: string;
     location: number[];
     breed: string;
     dateFrom: string;
@@ -15,7 +14,7 @@ interface IState {
 }
 
 const INITIAL_STATE: IState = {
-    currentFilters: null
+    currentFilters: { dogName: "", breed: "", location: [], dateFrom: "", dateTo: "", weight: [] }
 }
 const filtersReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {

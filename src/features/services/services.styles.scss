@@ -3,14 +3,31 @@
 .services {
         display: flex;
         flex-direction: column;
+        min-width: 65%;
+        height: 100%;
     }
-    
+
+    .services-buttons {
+        margin: 5px, 5px;
+        display: flex;
+        justify-content: space-evenly;
+        height: 5rem;
+        padding: 1rem;
+    }
+
+    .clear-button {
+        margin: 5px, 5px;
+        display: flex;
+        justify-content: center;
+        height: 5rem;
+        padding: 1rem;
+    }
+
     .filter-box {
-        width: 100%;
+        min-width: 100%;
         display: flex;
         flex-direction: column;
     }
-    
     
     .input-filters {
         display: flex;
@@ -20,7 +37,6 @@
     .select-filters {
         display: flex;
         flex-direction: row;
-        width: inherit;
     }
     .date-inputs {
         display: flex;
@@ -31,14 +47,19 @@
     .select-filters-left {
         width: 50%;
         button {
-            width: 100%;
-        }
+            min-width: 100%;
+            padding: 3px;
+                }
+        
     }
+
     
     .select-filters-right {
         width: 50%;
         button {
-            width: 100%;
+            min-width: 100%;
+            padding: 3px;
+
         }
     
     }

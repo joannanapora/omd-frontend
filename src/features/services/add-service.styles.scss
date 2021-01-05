@@ -7,6 +7,7 @@
         flex:1 
     }
 }
+
 .service-box {
     display: block;
     flex-direction: column;
@@ -19,32 +20,18 @@
     line-height: 2,5;
 }
 
-.add-service-medium2 {
-    position: relative;
-    height: 100%;
-}
-
 .service-description {
-    // margin: 60px 60px;
-    // align-self: center;
-    // font-size: 14px;
-    // width: 100%;
-    justify-content: start;
-
-    margin-left: 10rem;
+    justify-content: center;
+    width: 100%;
 }
-.service-text-area {
-    height: 100px;
-    width: 50% !important;
+
+.add-service-right {
+    padding: 4rem;
+    width: 50%;
 }
 
 .add-service-buttons {
-    height: 40px;
     display: flex;
-    margin: 50px 230px;
-}
-
-.date-selects {
-    display:flex;
-    padding: 20px;
+    justify-content: space-evenly;
+    padding: 1rem;
 }

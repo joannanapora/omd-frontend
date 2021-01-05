@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
-import { Box, Text } from 'grommet';
+import { Box, FormField, Text, MaskedInput, TextInput } from 'grommet';
+import { CreditCard, Money } from 'grommet-icons';
 import StripeCheckoutButton from '../../stripe/stripe.component';
-import { FormNextLink } from 'grommet-icons';
-import { Link } from 'react-router-dom';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import './donate.styles.scss';
 
 const DonatePage = () => {
-    const [name, setName] = useState('Joanna')
+    const [amount, setAmount] = useState('');
+    const [donateButtons, showDonateButtons] = useState(false);
 
-    const price = 123
+    const handleInputChange = (event) => {
+        setAmount(event.target.value)
+    }
+
+    const handleDonate = () => {
+        showDonateButtons(true);
+    }
+
+
+
+
 
     return (
         <Box className="donate-box" background="white" border={{ color: 'brand', size: 'medium' }} gap="small" pad="large" width="medium">
@@ -19,11 +29,16 @@ const DonatePage = () => {
                 When the owner chooses you to take care of his dog, we will enable you to contact each other!
         </Text>
             <Text>Join our Community today!</Text>
-            <Link to='/sign-in'><h1 className='sign-in-text'>Sign In</h1></Link>
-            <h6 style={{ color: 'red' }}>Use the following credit card details:
+            <br />
+            <Box direction='row' className="my-profile" background="white" pad="small" width="medium">
+                <FormField className='donate-input' width='small'>
+                    <TextInput size='small' icon={<Money />} value={amount} name='amount' reverse placeholder='GPB' onChange={handleInputChange}></TextInput>
+                </FormField>
+                <div className='stripe' ><StripeCheckoutButton donation={amount} /></div>
+            </Box>
+            <h6 style={{ color: '#d6702b' }}>Use the following credit card details:
             <br />4242 4242 4242 4242 || exp: 02/22 || cvv: 123 </h6>
-            <StripeCheckoutButton />
-        </Box>
+        </Box >
     )
 }
 

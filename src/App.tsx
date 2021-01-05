@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import HomePage from "./homepage/homepage.container";
 import { Grommet } from "grommet";
-import { defaultProps } from 'grommet'
 
 const theme = {
   global: {
@@ -36,7 +35,6 @@ const theme = {
   },
   button: {
     default: {
-      width: '100%',
       active: "#d6702b",
       background: { color: "white" },
       color: "black",
@@ -74,7 +72,6 @@ const theme = {
       },
     },
     hover: {
-
       primary: {
         background: { color: "brand" },
         active: "brand",
@@ -93,11 +90,26 @@ const theme = {
         round: '0px',
       },
     },
+    focus: {
+      border: {
+        color: "brand"
+      }
+
+    }
   },
   input: {
     background: "white",
     color: "black",
-
+    active: {
+      border: {
+        color: "brand"
+      }
+    },
+    focus: {
+      border: {
+        color: "brand"
+      }
+    }
   },
   select: {
     active: "black",

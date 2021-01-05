@@ -13,7 +13,7 @@
     "add": "^2.0.6",
     "axios": "^0.21.0",
     "date-fns": "^2.16.1",
-    "grommet": "^2.14",
+    "grommet": "^2.16.2",
     "grommet-icons": "^4.5.0",
     "lodash": "^4.17.20",
     "react": "^17.0.1",

@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { debounce } from 'lodash';
 
 import { Box, DateInput, TextInput, DataTable, } from 'grommet';
-import { Add, Filter, Erase } from 'grommet-icons';
+import { NewWindow, SearchAdvanced, Erase } from 'grommet-icons';
 
 import { IServiceFilters } from '../../store/filters/filter.reducer';
 import { setUserFilters } from '../../store/filters';
@@ -25,7 +24,6 @@ import { IService } from '../../models/interfaces';
 
 import { getServices } from '../../api/';
 
-type filters = IServiceFilters;
 
 const Services = ({ history, filters, dispatchSetUserFilters }) => {
 
@@ -39,7 +37,7 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
     ];
 
     const [services, setServices]: [IService[], any] = useState([]);
-    const [sidebar, isSidebarVisible] = useState(true);
+    const [sidebar, isSidebarVisible] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
 
 
@@ -59,7 +57,6 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
         filterServices({
             ...filters, [event.target.name]: event.target.value
         });
-        console.log(dispatchSetUserFilters)
         dispatchSetUserFilters({ [event.target.name]: event.target.value });
     }
 
@@ -68,7 +65,7 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
     };
 
     const clearAllFilters = () => {
-        dispatchSetUserFilters({ name: "", breed: "", owner: "", location: [], dateFrom: "", dateTo: "", weight: [] });
+        dispatchSetUserFilters({ dogName: "", breed: "", location: [], dateFrom: "", dateTo: "", weight: [] });
     };
 
 
@@ -87,7 +84,6 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
                 setServices(services)
 
             }).catch(error => {
-                setShowNotification(true);
             });
     };
 
@@ -97,21 +93,26 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
 
     return (
         <div className='services'>
-            <CustomButton label="Filters" primary icon={<Filter />} onClick={setSidebar} />
+            <div className='services-buttons'>
+                <CustomButton label="Add Service" primary icon={<NewWindow
+                />} onClick={redirectToAddService} />
+                <CustomButton label="Filters" primary icon={<SearchAdvanced />} onClick={setSidebar} />
+            </div>
             {sidebar && (
                 <Box
+                    height="27rem"
                     className="sidebar-box"
                     background="white"
                     animation={[
                         { type: 'fadeIn', duration: 300 },
-                        { type: 'slideUp', size: 'large', duration: 600 },
+                        { type: 'slideUp', size: 'large', duration: 100 },
                     ]}
                 >
                     <Box className="filter-box" pad="small">
                         <div className='input-filters'>
-                            <TextInput size="small" className='filter-input' value={filters?.dogName} onChange={debounce(handleInputsChange, 300)}
-                                placeholder="Name" name="name" />
-                            <TextInput size="small" value={filters?.breed} onChange={handleInputsChange}
+                            <TextInput className='filter-input' value={filters?.dogName} onChange={event => handleInputsChange(event)}
+                                placeholder="Name" name="dogName" />
+                            <TextInput value={filters?.breed} onChange={handleInputsChange}
                                 className='filter-input' placeholder="Breed" name="breed" />
                         </div>
                         <div className='select-filters'>
@@ -128,13 +129,12 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
                             <DateInput format="dd/mm/yyyy" value={filters?.dateFrom} onChange={(event) => handleDateChange} name="dateFrom" />
                             <DateInput format="dd/mm/yyyy" value={filters?.dateTo} onChange={(event) => handleDateChange} name="dateTo" />
                         </div>
-                        <CustomButton className='clean-filter-button' label='clear' secondary icon={<Erase />} onClick={() => clearAllFilters()} />
-
+                        <div className='clear-button'><CustomButton label="Clear" primary icon={<Erase />} onClick={clearAllFilters} /></div>
                     </Box>
                 </Box >
             )
             }
-            <Box className='services-table' gridArea="main" >
+            <Box className='services-table' overflow='auto' height='100%' gridArea="main" >
                 <DataTable
                     primaryKey='id'
                     columns={columns}
@@ -149,7 +149,6 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
                     border={{ body: 'bottom' }}
                     rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
                 />
-                <CustomButton label="Add Service" primary icon={<Add />} onClick={redirectToAddService} />
             </Box>
             {
                 showNotification ?

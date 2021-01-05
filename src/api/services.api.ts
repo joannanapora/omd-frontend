@@ -3,15 +3,12 @@ import axios from "axios";
 import { Location, Weight } from "../models/enums";
 
 export const getServices = (queryParams?: any): Promise<any> => {
-  const config = {
-    headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") },
-  };
 
   let url = process.env.REACT_APP_API_URL + "/services";
 
   if (queryParams) {
-    if (queryParams.name) {
-      url = url + "?dogName=" + queryParams.name + "&";
+    if (queryParams.dogName) {
+      url = url + "?dogName=" + queryParams.dogName + "&";
     }
 
     if (queryParams.breed) {
@@ -31,7 +28,7 @@ export const getServices = (queryParams?: any): Promise<any> => {
     }
   }
 
-  return axios.get(url, config);
+  return axios.get(url);
 };
 
 export const postService = (
@@ -39,7 +36,7 @@ export const postService = (
   dateFrom: string,
   dateTo: string,
   breed: string,
-  ownerName: string,
+
   dogName: string,
   location: Location,
   weight: Weight,
@@ -55,7 +52,7 @@ export const postService = (
       dateFrom,
       dateTo,
       breed,
-      ownerName,
+
       dogName,
       location,
       weight,

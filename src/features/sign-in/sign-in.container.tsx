@@ -27,7 +27,7 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
     const emailMask = [
         {
             regexp: /^[\w\-_.]+$/,
-            placeholder: 'email',
+            placeholder: 'Email',
         },
         { fixed: '@' },
         {
@@ -97,7 +97,7 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
                             value={password}
                             type='password'
                             name="password"
-                            reverse placeholder="password"
+                            reverse placeholder="Password"
 
                         />
                     </FormField>

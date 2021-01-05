@@ -5,8 +5,7 @@ import CustomButton from '../shared/custom-button/custom-button.component';
 import Notification, { Status } from '../shared/custom-notification/custom-notification.component';
 import './stripe.styles.scss';
 
-const StripeCheckoutButton = () => {
-    const publishableKey = 'pk_test_51I5qbsAzH5WZ6wWk5bFSySgNcJhsoMBalUfRP92hvr9lT2TnxrjnQn8TZqiMeyOUnL1ULpq0KYTiCXQcPAoZPxTZ00253Mx3bz';
+const StripeCheckoutButton = ({ donation }) => {
 
     const [notification, isNotificationVisible] = useState(false);
 
@@ -14,19 +13,25 @@ const StripeCheckoutButton = () => {
         isNotificationVisible(true);
     }
 
+    const publishableKey = 'pk_test_51I5qbsAzH5WZ6wWk5bFSySgNcJhsoMBalUfRP92hvr9lT2TnxrjnQn8TZqiMeyOUnL1ULpq0KYTiCXQcPAoZPxTZ00253Mx3bz';
+    const donationStripe = donation * 100;
+
+
     return (
         <div className='donate'>
-            <StripeCheckout
-                image="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg"
-                name="Oh My Dog"
-                description="Please help us improve our website"
-                label="Donate £1"
-                panelLabel="Donate"
-                amount={100}
-                currency="GBP"
-                stripeKey={publishableKey}
-                token={onToken}>
-            </StripeCheckout>
+            <CustomButton>
+                <StripeCheckout
+                    image="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg"
+                    name="Oh My Dog"
+                    description={`You are donating £${donation}`}
+                    label='Donate'
+                    panelLabel="Donate"
+                    amount={donationStripe}
+                    currency="GBP"
+                    stripeKey={publishableKey}
+                    token={onToken}>
+                </StripeCheckout>
+            </CustomButton>
             {notification ? (
                 <Notification
                     status={Status.SUCCESS}

@@ -106,7 +106,7 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
         return (
             <div className="chat">
                 <div className="messages-container">
-                    <Box
+                    <Box border={{ color: 'brand', size: 'medium' }}
                         fill>
                         <Box
                             className='messages-box'
@@ -148,6 +148,7 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
                             justify="end"
                             direction="row"
                             align="center"
+
                         >
                             <Box
                                 width="large"
@@ -163,7 +164,7 @@ class Messages extends React.Component<{}, { textArea: string, messagesThread: a
                     </Box>
                 </div>
                 <div className='messages-preview'>
-                    <Box fill>
+                    <Box border={{ color: 'brand', size: 'medium' }} fill>
                         <Box
                             direction="row"
                             align="center"

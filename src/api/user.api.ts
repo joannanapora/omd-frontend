@@ -8,7 +8,7 @@ export const getUser = (): Promise<any> => {
 };
 
 
-export const patchUser = (name: string, surname: string, phoneNumber: number, postCode: string): Promise<any> => {
+export const patchUser = (name: string, surname: string, phoneNumber: string, postCode: string): Promise<any> => {
     const config = {
         headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
     };

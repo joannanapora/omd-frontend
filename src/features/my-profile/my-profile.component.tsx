@@ -1,166 +1,130 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './my-profile.component.scss'
 
-import { FormEdit, FormCheckmark } from 'grommet-icons';
-import { Box, Form, FormField, Text } from 'grommet';
+import { Box, Form, FormField, TextInput } from 'grommet';
+import { FormCheckmark, FormEdit, Phone, ContactInfo, Home } from 'grommet-icons';
 
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 
 import { patchUser, getUser } from '../../api';
 
+interface IPersonalDetails {
+    name: string;
+    surname: string;
+    postCode: string;
+    phoneNumber: string;
+}
+
+const MyProfile = () => {
+    const [newPersonalDetails, setPersonalDetails]: [IPersonalDetails, any] = useState({
+        name: '',
+        surname: '',
+        postCode: '',
+        phoneNumber: '',
+    });
+
+    const [notification, showNotification] = useState(false);
+    const [isReadOnly, setIsReadOnly] = useState(false);
 
 
-class MyProfile extends React.Component<{}, {
-    phoneNumber: any, postCode: any, showNotification: boolean, name: string,
-    surname: string, value: string, isReadOnly: boolean
-}> {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            name: "",
-            surname: "",
-            postCode: "",
-            phoneNumber: "",
-            isReadOnly: false,
-            showNotification: false,
-            value: "",
-        }
-    }
-
-
-    componentDidMount() {
+    useEffect(() => {
         getUser().then((response) => {
-            this.setState({ isReadOnly: true });
-            this.setState({ name: response.data.name });
-            this.setState({ surname: response.data.surname });
-            this.setState({ phoneNumber: response.data.phoneNumber });
-            this.setState({ postCode: response.data.postCode });
+            setIsReadOnly(true);
+            setPersonalDetails({
+                name: response.data.name,
+                surname: response.data.surname,
+                postCode: response.data.postCode,
+                phoneNumber: response.data.phoneNumber
+            });
         }).catch(error => {
             console.log(error);
-        });
-    }
-
-    handleSubmit = () => {
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('accessToken') }
-        };
-
-        patchUser(this.state.name, this.state.surname, this.state.phoneNumber, this.state.postCode).then(() => {
-            this.setState({ isReadOnly: true, showNotification: true })
-        }).catch(e => {
-            console.log(e);
         })
+    },
+        []);
+
+    const handleSubmit = () => {
+        patchUser(newPersonalDetails.name, newPersonalDetails.surname, newPersonalDetails.phoneNumber, newPersonalDetails.postCode).then(() => {
+            setIsReadOnly(true);
+            showNotification(true)
+        })
+            .catch(e => {
+                console.log(e);
+            })
     };
 
-    handleEdit = () => {
-        this.setState({ isReadOnly: false });
-        this.setState({ showNotification: false });
-    }
-
-    handleChange = (event) => {
-        if (event.target.name === "name") {
-            this.setState({
-                name: event.target.value
-            }
-            )
-        } if (event.target.name === "surname") {
-            this.setState({
-                surname: event.target.value
-            }
-            )
-        } if (event.target.name === "postCode") {
-            this.setState({
-                postCode: event.target.value
-            }
-            )
-        } if (event.target.name === "phoneNumber") {
-            this.setState({
-                phoneNumber: event.target.value
-            }
-            )
-        }
-    }
-
-    FormFieldLabel = props => {
-        const { required, label, ...rest } = props;
-        return (
-            <FormField
-                label={
-                    required ? (
-                        <Box direction="row">
-                            <Text>{label}</Text>
-                            <Text color="status-critical">*</Text>
-                        </Box>
-                    ) : (
-                            label
-                        )
-                }
-                required={required}
-                {...rest}
-            />
-        );
+    const handleEdit = () => {
+        setIsReadOnly(false);
+        showNotification(false);
     };
 
+    const handleChange = (event) => {
+        setPersonalDetails({ ...newPersonalDetails, [event.target.name]: event.target.value })
+    }
 
-
-    render() {
-        return (
-            <Box className="my-profile" background="white" border gap="medium" pad="large" width="medium">
-                <h1>My profile</h1>
-                <Form onSubmit={this.handleSubmit} className='my-profile-form'>
-                    <this.FormFieldLabel label="Name" required
-                        onChange={this.handleChange}
-                        className="form-input"
-                        id="10"
-                        value={this.state.name}
+    return (
+        <Box className="my-profile" background="white" border={{ color: 'brand', size: 'medium' }} gap="medium" pad="large" width="medium">
+            <h1>My profile</h1>
+            <Form onSubmit={handleSubmit} className='my-profile-form'>
+                <FormField>
+                    <TextInput
+                        icon={< ContactInfo />}
+                        reverse placeholder='Name'
+                        onChange={event => handleChange(event)}
+                        value={newPersonalDetails.name}
                         name="name"
-                        message="string"
-                        disabled={this.state.isReadOnly}>
-                    </this.FormFieldLabel>
-                    <this.FormFieldLabel label="Surname" required
-                        onChange={this.handleChange}
-                        className="form-input"
-                        id="20"
-                        value={this.state.surname}
+                        disabled={isReadOnly}>
+                    </TextInput>
+                </FormField>
+                <FormField>
+                    <TextInput
+                        icon={< ContactInfo />}
+                        reverse placeholder='Surname'
+                        onChange={event => handleChange(event)}
+                        value={newPersonalDetails.surname}
                         name="surname"
-                        disabled={this.state.isReadOnly}>
-                    </this.FormFieldLabel>
-                    <this.FormFieldLabel label="Post Code" required
-                        onChange={this.handleChange}
-                        className="form-input"
-                        id="30"
-                        value={this.state.postCode}
+                        disabled={isReadOnly}>
+                    </TextInput>
+                </FormField>
+                <FormField>
+                    <TextInput
+                        icon={< Home />}
+                        reverse placeholder='Post Code'
+                        onChange={event => handleChange(event)}
+                        value={newPersonalDetails.postCode}
                         name="postCode"
-                        disabled={this.state.isReadOnly}>
-                    </this.FormFieldLabel>
-                    <this.FormFieldLabel label="Phone Number" required
-                        value={this.state.phoneNumber}
-                        onChange={this.handleChange}
-                        className="form-input"
-                        id="40"
+                        disabled={isReadOnly}>
+                    </TextInput>
+                </FormField>
+                <FormField>
+                    <TextInput
+                        reverse placeholder='Phone Number'
+                        value={newPersonalDetails.phoneNumber}
+                        icon={< Phone />}
+                        onChange={event => handleChange(event)}
                         name="phoneNumber"
-                        disabled={this.state.isReadOnly}>
-                    </this.FormFieldLabel>
-                    <div className='my-profile-buttons'>
-                        <CustomButton secondary icon={<FormEdit />} label='Edit' onClick={this.handleEdit} />
-                        <CustomButton primary icon={<FormCheckmark />} label='Save' disabled={!(this.state.surname && this.state.name && this.state.phoneNumber && this.state.postCode) || this.state.isReadOnly} type='submit' onClick={this.handleSubmit} />
-                    </div>
-                    {
-                        this.state.showNotification ?
-                            <Notification
-                                status={Status.SUCCESS}
-                                text={"Information saved."}>
-                            </Notification>
-                            :
-                            null
-                    }
-                </Form>
-            </Box>
-        );
-    }
+                        disabled={isReadOnly}>
+                    </TextInput>
+                </FormField>
+                <div className='my-profile-buttons'>
+                    <CustomButton secondary icon={<FormEdit />} label='Edit' onClick={handleEdit} />
+                    <CustomButton primary icon={<FormCheckmark />} label='Save'
+                        disabled={!(newPersonalDetails.surname && newPersonalDetails.surname &&
+                            newPersonalDetails.phoneNumber && newPersonalDetails.postCode) ||
+                            isReadOnly} type='submit' onClick={handleSubmit} />
+                </div>
+                {
+                    notification ?
+                        <Notification
+                            status={Status.SUCCESS}
+                            text={"Information saved."}>
+                        </Notification>
+                        :
+                        null
+                }
+            </Form>
+        </Box>
+    );
 };
 
 export default MyProfile;
-

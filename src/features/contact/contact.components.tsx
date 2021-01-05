@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, FormField, Select, TextArea } from "grommet";
+import { Box, TextArea, Button, Form, TextInput, FormField, Grommet, Select } from 'grommet';
 import { Send } from "grommet-icons";
 import './contact.styles.scss'
 
@@ -59,37 +59,34 @@ const Contact = () => {
         border={{ color: 'brand', size: 'medium' }}
         gap="medium"
         pad="medium"
-        width="30rem"
+        width="25rem"
         height="24rem"
       >
         <h1 className="contact-box"> Contact Us </h1>
-        <FormField>
-          <Select
-            name="select"
-            placeholder="Select Subject"
-            open={isSelectOpen}
-            value={selectedOption}
-            options={options}
-            onChange={({ option }) => setSelectedOption(option)}
-          />
-        </FormField>
-        <TextArea
-          className='text-area'
-          resize={false}
-          size='large'
-          onChange={(event) => setMessage(event.target.value)}
-          value={message}
+        <Select
+          placeholder="Select Subject"
+          open={isSelectOpen}
+          value={selectedOption}
+          options={options}
+          onChange={({ option }) => setSelectedOption(option)}
+          plain
         />
-        <CustomButton
-          disabled={!(message && selectedOption)}
-          primary
-          onClick={onSubmit}
-          icon={<Send />}
-          label="Send"
-        >
-          Send Message
-          </CustomButton>
-
+        <FormField>
+          <TextArea
+            className='text-area'
+            resize={false}
+            size='large'
+            onChange={(event) => setMessage(event.target.value)}
+            value={message}
+          /></FormField>
+        <div className='contact-button'>
+          <CustomButton
+            disabled={!(message && selectedOption)}
+            primary
+            onClick={onSubmit}
+            icon={<Send />}
+            label="Send"
+          /></div>
         {showOKNotification ? (
           <Notification
             status={Status.SUCCESS}
