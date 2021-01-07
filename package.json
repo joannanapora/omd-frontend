@@ -11,7 +11,7 @@
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
     "add": "^2.0.6",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "grommet": "^2.16.2",
     "grommet-icons": "^4.5.0",
