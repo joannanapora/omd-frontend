@@ -1,0 +1,79 @@
+
+.add-photo-headers {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}  
+
+
+.remove-update-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    height: 3rem;}
+
+.description-data-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.add-photos-header {
+    margin-bottom: 20px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+        flex:1 
+    }
+}
+
+.photo-box {
+    display: block;
+    flex-direction: column;
+}
+
+.add-photo-form {
+    display: block;
+    width: 100%;
+    justify-content: space-evenly;
+    line-height: 2,5;
+}
+
+.photo-description {
+    justify-content: center;
+    width: 100%;
+}
+
+.add-service-right {
+    width: 50%;
+}
+
+.upload__image-wrapper {
+    justify-content: center;
+    display: flex;
+}
+
+.add-photo-left {
+    padding: 1.5rem;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.add-photo-inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.add-photo-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+}
+
+.add-photo-headers {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}  

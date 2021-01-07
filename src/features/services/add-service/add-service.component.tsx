@@ -5,17 +5,16 @@ import { withRouter } from 'react-router-dom'
 import ImageUploading from 'react-images-uploading'
 
 import { Box, DateInput, FormField, Select, TextArea, TextInput } from 'grommet';
-import { Erase, Tag, List, Map, Image, Certificate } from 'grommet-icons';
+import { Erase, Tag, List, Map, Image, Certificate, Close } from 'grommet-icons';
 
+import { postService, getTemplate } from '../../../api';
+
+import CustomButton from '../../../shared/custom-button/custom-button.component';
+import CustomCheckBox from '../../../shared/custom-checkbox/custom-checkbox.component';
+import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
+import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../../models/enums';
 
 import './add-service.styles.scss';
-import CustomButton from '../../shared/custom-button/custom-button.component';
-import CustomCheckBox from '../../shared/custom-checkbox/custom-checkbox.component';
-import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
-import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
-
-import { postService, getTemplate } from '../../api/';
-import { ReactComponent } from '*.svg';
 
 interface INewService {
     name: string;
@@ -29,7 +28,7 @@ interface INewService {
     image: any;
 }
 
-const AddService = ({ history }) => {
+const AddService = ({ history, onClose }) => {
     let location = ['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east'];
     let weight = ['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg'];
 
@@ -46,11 +45,11 @@ const AddService = ({ history }) => {
     });
 
 
-    const [showNotification, handleShowNotification] = useState(false);
+    const [okNotification, showOkNotification] = useState(false);
     const [isReadOnly, setIsReadOnly] = useState(false);
     const [isSelectOpen] = useState(false);
     const [image, setImage]: [any, any] = useState(null);
-
+    const [errorNotification, showErrorNotification] = useState(false);
 
 
     useEffect(() => {
@@ -80,11 +79,11 @@ const AddService = ({ history }) => {
     };
 
     const handleSubmit = () => {
-        handleShowNotification(false)
+        showOkNotification(false)
         postService(newService.message, newService.dateFrom, newService.dateTo, newService.breed, newService.name, mapOptionsToLocation(newService.selectedLocation),
             mapOptionsToWeight(newService.selectedWeight), newService.checked)
             .then(() => {
-                handleShowNotification(true)
+                showOkNotification(true)
                 if (!newService.checked) {
                     setNewService({
                         name: '',
@@ -96,20 +95,15 @@ const AddService = ({ history }) => {
                         selectedLocation: null,
                         selectedWeight: null,
                     });
-                    handleShowNotification(false)
                 } else {
-                    setIsReadOnly(true)
                     setNewService({
                         ...newService,
                         dateFrom: '',
                         dateTo: ''
                     })
                 }
-                if (!newService.checked) {
-                    setIsReadOnly(false);
-                }
-            }).catch(error => {
-                console.log(error);
+            }).catch(() => {
+                showErrorNotification(true)
             })
     };
 
@@ -126,13 +120,13 @@ const AddService = ({ history }) => {
     };
 
     const handleDateChange = (event, name) => {
-        console.log(event)
         setNewService({ ...newService, [name]: event.value })
     };
 
     const handleChecked = (event) => {
         setNewService({ ...newService, checked: event.target.checked })
     };
+
 
     const renderImageDropbox = () => {
         return (
@@ -157,7 +151,6 @@ const AddService = ({ history }) => {
                         onImageUpload,
                         onImageUpdate,
                         onImageRemove,
-                        isDragging,
                         dragProps,
                     }) => (
                         <div className="upload__image-wrapper">
@@ -174,7 +167,7 @@ const AddService = ({ history }) => {
                             {imageList.map((image, index) => (
                                 <div key={index} className="image-item">
                                     <img src={image['data_url']} alt="" width="250" />
-                                    <div className="image-item__btn-wrapper">
+                                    <div className="remove-update-buttons">
                                         <CustomButton secondary onClick={() => onImageUpdate(index)}>Update</CustomButton>
                                         <CustomButton secondary onClick={() => onImageRemove(index)}>Remove</CustomButton>
                                     </div>
@@ -206,7 +199,7 @@ const AddService = ({ history }) => {
                         {imageList.map((image, index) => (
                             <div key={index} className="image-item">
                                 <img src={image['data_url']} alt="" width="250" />
-                                <div className="image-item__btn-wrapper">
+                                <div className="remove-update-buttons">
                                     <CustomButton secondary onClick={() => onImageUpdate(index)}>Update</CustomButton>
                                     <CustomButton secondary onClick={() => onImageRemove(index)}>Remove</CustomButton>
                                 </div>
@@ -220,7 +213,11 @@ const AddService = ({ history }) => {
 
     return (
         <Box className="service-box" border={{ color: 'brand', size: 'medium' }} gap="xsmall" pad="medium" width="large" >
-            <h1>Add Service</h1>
+            <div className='add-service-headers'>
+                <div className='paw'><img alt='paw' src="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg" /></div>
+                <div><h1>Add Service</h1></div>
+                <div><CustomButton onClick={onClose} secondary icon={<Close />} /></div>
+            </div>
             <Box className='add-service-form' direction="row" flex background="white" >
                 <div className='add-service-left'>
                     <FormField><DateInput format="dd/mm/yyyy" value={newService.dateFrom} onChange={(event) => handleDateChange(event, "dateFrom")} name="dateFrom" /></FormField>
@@ -289,10 +286,19 @@ const AddService = ({ history }) => {
                 <CustomButton label="Clear" primary icon={<Erase />} onClick={clearAllFilters}></CustomButton>
             </div>
             {
-                showNotification ?
+                showOkNotification ?
                     <Notification
                         status={Status.SUCCESS}
                         text={"New service has been added."}>
+                    </Notification>
+                    :
+                    null
+            }
+            {
+                showErrorNotification ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"You have to be logged in to Add Service."}>
                     </Notification>
                     :
                     null

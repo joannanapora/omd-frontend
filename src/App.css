@@ -1,7 +1,14 @@
 html, body, #root, #app>div {
-  height: 100%;
   background: white;
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background: url('http://farm1.staticflickr.com//447//19585243302_fae38fd86f_o.jpg');
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .container {

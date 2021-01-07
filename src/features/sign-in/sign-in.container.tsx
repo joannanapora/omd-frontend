@@ -19,7 +19,7 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showFailureNotification, setNotification] = useState(false);
-    const [reveal, setReveal] = React.useState(false);
+
     const redirectToUserLoggedIn = () => {
         if (history) history.push('/services');
     };

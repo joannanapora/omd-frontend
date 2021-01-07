@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
-import { Box, DateInput, TextInput, DataTable, } from 'grommet';
+import { Box, DateInput, TextInput, DataTable, FormField } from 'grommet';
 import { NewWindow, SearchAdvanced, Erase } from 'grommet-icons';
 
-import { IServiceFilters } from '../../store/filters/filter.reducer';
 import { setUserFilters } from '../../store/filters';
 import { createStructuredSelector } from 'reselect';
 import { selectUserFilters } from '../../store/filters/filter.selectors';
@@ -23,9 +23,11 @@ import { mapLocationsToOptions, mapWeightToOptions } from '../../models/enums';
 import { IService } from '../../models/interfaces';
 
 import { getServices } from '../../api/';
+import AddService from './add-service/add-service.component';
+import { selectCurrentUser } from '../../store/user/user.selectors';
 
 
-const Services = ({ history, filters, dispatchSetUserFilters }) => {
+const Services = ({ filters, user, dispatchSetUserFilters, }) => {
 
     const columns = [
         { header: "Name", property: 'dogName' },
@@ -35,22 +37,18 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
         { header: "From", property: "dateFrom" },
         { header: "To", property: "dateTo" },
     ];
-
+    const [errorNotification, showErrorNotification] = useState(false);
     const [services, setServices]: [IService[], any] = useState([]);
     const [sidebar, isSidebarVisible] = useState(false);
-    const [showNotification, setShowNotification] = useState(false);
+    const [modalIsOpen, setIsOpen] = React.useState(false);
 
-
-    const redirectToAddService = () => {
-        if (history) history.push('/add-service');
-    };
 
     useEffect(() => {
         filterServices();
     }, []);
 
-    const handleDateChange = ({ event, name }) => {
-        dispatchSetUserFilters({ [name]: event.target.value });
+    const handleDateChange = (event, name) => {
+        dispatchSetUserFilters({ [name]: event.value });
     };
 
     const handleInputsChange = (event) => {
@@ -66,6 +64,7 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
 
     const clearAllFilters = () => {
         dispatchSetUserFilters({ dogName: "", breed: "", location: [], dateFrom: "", dateTo: "", weight: [] });
+        filterServices();
     };
 
 
@@ -83,7 +82,8 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
 
                 setServices(services)
 
-            }).catch(error => {
+            }).catch(() => {
+                showErrorNotification(true)
             });
     };
 
@@ -91,50 +91,81 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
         isSidebarVisible(!sidebar);
     };
 
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            border: 'none'
+        }
+    };
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
     return (
         <div className='services'>
             <div className='services-buttons'>
-                <CustomButton label="Add Service" primary icon={<NewWindow
-                />} onClick={redirectToAddService} />
+                <CustomButton label="Add Service" disabled={!user} primary icon={<NewWindow
+                />} onClick={openModal} />
+                {modalIsOpen ?
+                    <Modal
+                        isOpen={modalIsOpen}
+                        style={customStyles}
+                        contentLabel="Example Modal"
+                    >
+                        <AddService onClose={closeModal} />
+                    </Modal>
+                    :
+                    null
+                }
                 <CustomButton label="Filters" primary icon={<SearchAdvanced />} onClick={setSidebar} />
             </div>
             {sidebar && (
                 <Box
-                    height="27rem"
+                    width='xlarge'
+                    height="xsmall"
                     className="sidebar-box"
                     background="white"
                     animation={[
                         { type: 'fadeIn', duration: 300 },
-                        { type: 'slideUp', size: 'large', duration: 100 },
+                        { type: 'slideUp', duration: 200 },
                     ]}
                 >
-                    <Box className="filter-box" pad="small">
-                        <div className='input-filters'>
-                            <TextInput className='filter-input' value={filters?.dogName} onChange={event => handleInputsChange(event)}
-                                placeholder="Name" name="dogName" />
-                            <TextInput value={filters?.breed} onChange={handleInputsChange}
-                                className='filter-input' placeholder="Breed" name="breed" />
-                        </div>
-                        <div className='select-filters'>
-                            <div className='select-filters-left'>
+                    <Box className="filter-box" pad="medium">
+                        <div className='filter-categories'>
+                            <FormField>
+                                <TextInput className='filter-input' value={filters?.dogName} onChange={event => handleInputsChange(event)}
+                                    placeholder="Name" name="dogName" />
+                            </FormField>
+                            <FormField>
+                                <TextInput value={filters?.breed} onChange={handleInputsChange}
+                                    className='filter-input' placeholder="Breed" name="breed" />
+                            </FormField>
+                            <FormField>
                                 <CustomFilter className='filter-select' selectedOptions={filters?.weight} name="weight" onChange={handleSelectsChange}
                                     options={['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg']} placeholder="Weight" />
-                            </div>
-                            <div className='select-filters-right'>
+                            </FormField>
+                            <FormField>
                                 <CustomFilter className='filter-select' selectedOptions={filters?.location} name="location" onChange={handleSelectsChange}
                                     options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location" />
-                            </div>
-                        </div>
-                        <div className='date-inputs'>
-                            <DateInput format="dd/mm/yyyy" value={filters?.dateFrom} onChange={(event) => handleDateChange} name="dateFrom" />
-                            <DateInput format="dd/mm/yyyy" value={filters?.dateTo} onChange={(event) => handleDateChange} name="dateTo" />
-                        </div>
-                        <div className='clear-button'><CustomButton label="Clear" primary icon={<Erase />} onClick={clearAllFilters} /></div>
+                            </FormField>
+                            <FormField><DateInput format="dd/mm/yyyy" value={filters?.dateFrom} onChange={(event) => handleDateChange(event, "dateFrom")} name="dateFrom" /></FormField>
+                            <FormField><DateInput format="dd/mm/yyyy" value={filters?.dateTo} onChange={(event) => handleDateChange(event, "dateTo")} name="dateTo" /></FormField>
+                            <CustomButton className='clear-button' label="Clear" secondary icon={<Erase />} onClick={clearAllFilters} /></div>
                     </Box>
                 </Box >
             )
             }
-            <Box className='services-table' overflow='auto' height='100%' gridArea="main" >
+            <Box className='services-table' width="xlarge" overflow='auto' height='100%' gridArea="main" >
                 <DataTable
                     primaryKey='id'
                     columns={columns}
@@ -151,7 +182,7 @@ const Services = ({ history, filters, dispatchSetUserFilters }) => {
                 />
             </Box>
             {
-                showNotification ?
+                errorNotification ?
                     <Notification
                         status={Status.FAILURE}
                         text={"Ooops, something went wrong."}>
@@ -169,6 +200,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = createStructuredSelector({
+    user: selectCurrentUser,
     filters: selectUserFilters
 });
 

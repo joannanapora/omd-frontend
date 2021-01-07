@@ -1,66 +1,23 @@
 
-
-.services {
-        display: flex;
-        flex-direction: column;
-        min-width: 65%;
-        height: 100%;
-    }
-
     .services-buttons {
-        margin: 5px, 5px;
         display: flex;
         justify-content: space-evenly;
-        height: 5rem;
-        padding: 1rem;
-    }
-
-    .clear-button {
-        margin: 5px, 5px;
-        display: flex;
-        justify-content: center;
         height: 5rem;
         padding: 1rem;
     }
 
     .filter-box {
-        min-width: 100%;
+        min-width: 75%;
         display: flex;
-        flex-direction: column;
     }
-    
-    .input-filters {
+
+    .filter-categories{
         display: flex;
-        flex-direction: row;
-    }
-    
-    .select-filters {
-        display: flex;
-        flex-direction: row;
-    }
-    .date-inputs {
-        display: flex;
-        flex-direction: row;
+        max-width: 100%;
         justify-content: space-evenly;
     }
-    
-    .select-filters-left {
-        width: 50%;
-        button {
-            min-width: 100%;
-            padding: 3px;
-                }
-        
-    }
-
-    
-    .select-filters-right {
-        width: 50%;
-        button {
-            min-width: 100%;
-            padding: 3px;
-
-        }
-    
+  
+    .clear-button {
+        margin-left: 1rem;
     }
     

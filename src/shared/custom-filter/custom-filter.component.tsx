@@ -12,8 +12,6 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.state = {
             name: props.name,
             placeholder: props.placeholder,
@@ -64,8 +62,8 @@ class CustomFilter extends React.Component<{ className: any, selectedOptions: an
     render() {
         return (
             <Select
+                plain
                 alignSelf="start"
-                size="small"
                 placeholder={this.props.placeholder}
                 name={this.props.name}
                 closeOnChange={false}

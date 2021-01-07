@@ -14,3 +14,14 @@
 .filter-cards {
     width: 20%;
 }
+.filter-buttons {
+    display: flex;
+    justify-content: space-between;
+   justify-self: center;
+}
+
+.filter-button {
+    width: 100%;
+    height: 100%;
+    
+}

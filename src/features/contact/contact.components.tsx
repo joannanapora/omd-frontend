@@ -43,39 +43,30 @@ const Contact = () => {
   return (
     <div className='contact'>
       <Box
+        height='28rem'
+        width='large'
         background="white"
         border={{ color: 'brand', size: 'medium' }}
         gap="medium"
-        width="medium"
-        height="medium"
-      >
-        <div className="dog-image">
-          <img
-            src="https://i0.wp.com/bestlifeonline.com/wp-content/uploads/2019/09/bulldog.jpg?resize=1024%2C1024&ssl=1"
-            alt='dog'></img></div>
-      </Box>
-      <Box
-        background="white"
-        border={{ color: 'brand', size: 'medium' }}
-        gap="medium"
-        pad="medium"
-        width="25rem"
-        height="24rem"
+        pad="large"
       >
         <h1 className="contact-box"> Contact Us </h1>
-        <Select
-          placeholder="Select Subject"
-          open={isSelectOpen}
-          value={selectedOption}
-          options={options}
-          onChange={({ option }) => setSelectedOption(option)}
-          plain
-        />
+        <FormField>
+          <Select
+            placeholder="Select Subject"
+            open={isSelectOpen}
+            value={selectedOption}
+            options={options}
+            onChange={({ option }) => setSelectedOption(option)}
+            plain
+          />
+        </FormField>
         <FormField>
           <TextArea
+            placeholder='Message...'
+            fill
             className='text-area'
             resize={false}
-            size='large'
             onChange={(event) => setMessage(event.target.value)}
             value={message}
           /></FormField>

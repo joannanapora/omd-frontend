@@ -65,7 +65,11 @@ const theme = {
     },
 
     disabled: {
-      opacity: 0.3,
+      primary: {
+        color: 'white',
+        background: 'grey',
+      },
+      opacity: 1,
       secondary: {
         active: "#d6702b",
         border: { color: "text-weak" },
@@ -98,7 +102,7 @@ const theme = {
     }
   },
   input: {
-    background: "white",
+    background: { color: "white" },
     color: "black",
     active: {
       border: {

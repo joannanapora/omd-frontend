@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Box } from 'grommet';
-import GalleryCard from './gallery-card.component';
+import { Add, Gallery } from 'grommet-icons';
+import GalleryCard from './gallery-card/gallery-card.component';
+import AddPhoto from './add-photo/add-photo.component';
 import './gallery.styles.scss'
 import CustomFilterInput from '../../shared/custom-filter-input/custom-filter-input.component';
+import CustomButton from '../../shared/custom-button/custom-button.component';
+import Modal from 'react-modal';
+import MyGallery from './my-gallery/my-gallery.component';
 
-const Gallery = () => {
-
+const GalleryPage = ({ history }) => {
     let cardList = [
         {
             title: "Aron",
@@ -63,7 +67,21 @@ const Gallery = () => {
         },
     ];
 
+
     const [searchInput, handleSearchInput] = useState("")
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+
+    const redirectToMyGallery = () => {
+        if (history) history.push('/gallery/my-gallery');
+    };
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     const handleChange = (event) => {
         handleSearchInput(event.target.value)
@@ -77,6 +95,19 @@ const Gallery = () => {
     };
 
     cardList = filteredCardList();
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            border: 'none'
+
+        }
+    };
 
     return (
         <div className='gallery'>
@@ -113,12 +144,31 @@ const Gallery = () => {
                 pad="xxsmall"
                 gap="small">
                 <div className="search-box">
-                    <div className="filter-cards">
-                        <CustomFilterInput onChange={handleChange} /></div>
+                    <div className='filter-button'>
+                        <CustomButton onClick={openModal} label="Add Photo" icon={<Add />} primary />
+                        {modalIsOpen ?
+                            <div>
+                                <button onClick={openModal}>Open Modal</button>
+                                <Modal
+                                    isOpen={modalIsOpen}
+                                    onRequestClose={closeModal}
+                                    style={customStyles}
+                                    appElement={document.getElementById('root')}
+                                    contentLabel="Example Modal"
+                                >
+                                    <AddPhoto onClose={closeModal} />
+                                </Modal>
+                            </div>
+                            :
+                            null
+                        }
+                    </div>
+                    <CustomFilterInput name='search-images' onChange={handleChange} />
+                    <div className='filter-button'><CustomButton onClick={redirectToMyGallery} label="My Gallery" icon={<Gallery />} primary /></div>
                 </div>
             </Box>
-        </div>
+        </div >
     )
 }
 
-export default Gallery;
+export default GalleryPage;

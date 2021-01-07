@@ -16,11 +16,6 @@ const INITIAL_STATE = {
             url: "/gallery",
         },
         {
-            name: "Messages",
-            id: 3,
-            url: "/messages",
-        },
-        {
             name: "My Profile",
             id: 4,
             url: "/my-profile",

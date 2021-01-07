@@ -32,11 +32,11 @@ const DonatePage = () => {
             <br />
             <Box direction='row' className="my-profile" background="white" pad="small" width="medium">
                 <FormField className='donate-input' width='small'>
-                    <TextInput size='small' icon={<Money />} value={amount} name='amount' reverse placeholder='GPB' onChange={handleInputChange}></TextInput>
+                    <TextInput type='number' size='small' icon={<Money />} value={amount} name='amount' reverse placeholder='GPB' onChange={handleInputChange}></TextInput>
                 </FormField>
                 <div className='stripe' ><StripeCheckoutButton donation={amount} /></div>
             </Box>
-            <h6 style={{ color: '#d6702b' }}>Use the following credit card details:
+            <h6 style={{ color: '#d6702b' }}>Please, use these credit card details:
             <br />4242 4242 4242 4242 || exp: 02/22 || cvv: 123 </h6>
         </Box >
     )

@@ -25,8 +25,12 @@
     width: 100%;
 }
 
+.upload__image-wrapper {
+    justify-content: center;
+    display: flex;
+}
+
 .add-service-right {
-    padding: 4rem;
     width: 50%;
 }
 
@@ -35,3 +39,14 @@
     justify-content: space-evenly;
     padding: 1rem;
 }
+
+.add-service-headers {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}  
+
+.remove-update-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    height: 3rem;}
