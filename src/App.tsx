@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import HomePage from "./homepage/homepage.container";
-import { Grommet } from "grommet";
+import HomePage from './main/homepage/homepage.container';
+import { Grommet, ThemeType } from "grommet";
 
 const theme = {
   global: {
@@ -38,10 +38,6 @@ const theme = {
       active: "#d6702b",
       background: { color: "white" },
       color: "black",
-      padding: {
-        horizontal: "0.6rem",
-        vertical: "0.2rem"
-      },
     },
     primary: {
       border: { color: "#d6702b" },
@@ -180,6 +176,18 @@ const theme = {
       },
     },
     round: '4px',
+  },
+  table: {
+    header: {
+      background: {
+        color: 'background',
+      },
+    },
+    footer: {
+      background: {
+        color: 'background-back',
+      },
+    },
   },
 };
 

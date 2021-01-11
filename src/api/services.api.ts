@@ -32,11 +32,8 @@ export const getServices = (queryParams?: any): Promise<any> => {
 };
 
 export const postService = (
-  message: string,
   dateFrom: string,
-  dateTo: string,
   breed: string,
-
   dogName: string,
   location: Location,
   weight: Weight,
@@ -48,11 +45,8 @@ export const postService = (
   return axios.post(
     process.env.REACT_APP_API_URL + "/services",
     {
-      message,
       dateFrom,
-      dateTo,
       breed,
-
       dogName,
       location,
       weight,
