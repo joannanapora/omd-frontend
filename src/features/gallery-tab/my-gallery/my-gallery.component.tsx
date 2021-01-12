@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import Modal from 'react-modal';
 
 import { format } from 'date-fns'
 import { createStructuredSelector } from 'reselect';
 
-import { Box } from 'grommet';
+import { Box, Text } from 'grommet';
 import { Gallery, Previous } from 'grommet-icons';
 
 import { getGallery } from '../../../api';
@@ -16,12 +17,14 @@ import CustomButton from '../../../shared/custom-button/custom-button.component'
 import Spinner from '../../../shared/spinner/spinner.component';
 import './my-gallery.styles.scss'
 import { selectCurrentUser } from '../../../store/user/user.selectors';
+import CustomModal from '../../../shared/custom-modal/custom-modal.component';
 
 const MyGallery = ({ history, user }) => {
 
     const [searchInput, setSearchInput] = useState("")
     const [cardList, setCardList] = useState([]);
     const [loading, setLoading]: [boolean, any] = useState(true);
+    const [modalIsOpen, openModal]: [boolean, any] = useState(false);
 
     useEffect(() => {
         filterMyGallery();
@@ -68,6 +71,14 @@ const MyGallery = ({ history, user }) => {
             });
     };
 
+    const setModal = () => {
+        openModal(true)
+    }
+
+    const closeModal = () => {
+        openModal(false);
+    }
+
     const renderCards = () => {
         return (cardList.length > 0 ?
             <Box
@@ -78,11 +89,14 @@ const MyGallery = ({ history, user }) => {
                 gap="small">
                 {cardList.map(element => (
                     <GalleryCard
+                        displayImageActions
+                        onClick={setModal}
                         id={element.key}
                         date={element.date}
                         title={element.title}
                         description={element.description}
                         image={element.image}
+
                     />
                 ))}
             </Box> :
@@ -92,7 +106,7 @@ const MyGallery = ({ history, user }) => {
                 pad="medium" align='center' background="white" round gap="small">
                 <div className="no-image">
                     No Results
-                                </div>
+                </div>
             </Box>)
             ;
     }
@@ -107,13 +121,23 @@ const MyGallery = ({ history, user }) => {
                 gap="small">
                 <div className="search-box">
                     <div className='filter-button'>
-                        <CustomButton onClick={redirectToGalleryPage} label="Add Photo" icon={<Previous />} primary />
+                        <CustomButton onClick={redirectToGalleryPage} label="Go Back" icon={<Previous />} primary />
                     </div>
                     <CustomFilterInput value={searchInput} name='search-images' onChange={handleSearchInput} />
                     <div className='filter-button'><CustomButton disabled label="My Gallery" icon={<Gallery />} primary /></div>
+
+                    {modalIsOpen && (<CustomModal
+                        modalIsOpen={modalIsOpen}
+                        content={
+                            <div className='modal-confirmation-buttons'>
+                                <Text>Are you sure you want to delete this photo?</Text>
+                                <CustomButton onClick={closeModal} label="No" icon={<Gallery />} primary />
+                                <CustomButton onClick={closeModal} label="Yes" icon={<Gallery />} primary />
+                            </div>}
+                    />)}
                 </div>
             </Box>
-        </div >
+        </div>
     );
 };
 

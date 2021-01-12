@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-
+import Spinner from '../../../shared/spinner/spinner.component';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,6 +9,8 @@ import { NewWindow, SearchAdvanced, Erase } from 'grommet-icons';
 
 import { setUserFilters } from '../../../store/filters';
 import { createStructuredSelector } from 'reselect';
+
+import { selectCurrentUser } from '../../../store/user/user.selectors';
 import { selectUserFilters } from '../../../store/filters/filter.selectors';
 
 import { format } from 'date-fns'
@@ -17,6 +18,8 @@ import { format } from 'date-fns'
 import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
 import CustomFilter from '../../../shared/custom-filter/custom-filter.component';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
+import CustomModal from '../../../shared/custom-modal/custom-modal.component';
+
 import './services.styles.scss';
 
 import { mapLocationsToOptions, mapWeightToOptions } from '../../../models/enums';
@@ -24,7 +27,6 @@ import { IService } from '../../../models/interfaces';
 
 import { getServices } from '../../../api';
 import AddService from '../add-service/add-service.component';
-import { selectCurrentUser } from '../../../store/user/user.selectors';
 
 
 const Services = ({ filters, user, dispatchSetUserFilters, }) => {
@@ -39,7 +41,8 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
     const [errorNotification, showErrorNotification] = useState(false);
     const [services, setServices]: [IService[], any] = useState([]);
     const [sidebar, isSidebarVisible] = useState(false);
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -68,6 +71,7 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
 
 
     const filterServices = (params?: any) => {
+        setLoading(true);
         getServices(params)
             .then((response) => {
                 const services = response.data.map(element => ({
@@ -78,28 +82,16 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
                     location: mapLocationsToOptions(element.location),
                     dateFrom: format(new Date(element.dateFrom), 'dd/MM/yyyy'),
                 }));
-
                 setServices(services)
-
+                setLoading(false);
             }).catch(() => {
                 showErrorNotification(true)
+                setLoading(false)
             });
     };
 
     const setSidebar = () => {
         isSidebarVisible(!sidebar);
-    };
-
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            border: 'none'
-        }
     };
 
     function openModal() {
@@ -116,17 +108,11 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
             <div className='services-buttons'>
                 <CustomButton label="Add Service" disabled={!user} primary icon={<NewWindow
                 />} onClick={openModal} />
-                {modalIsOpen ?
-                    <Modal
-                        isOpen={modalIsOpen}
-                        style={customStyles}
-                        contentLabel="Example Modal"
-                        appElement={document.getElementById('root')}
-                    >
-                        <AddService onClose={closeModal} />
-                    </Modal>
-                    :
-                    null
+                {modalIsOpen &&
+                    (<CustomModal
+                        modalIsOpen={modalIsOpen}
+                        content={<AddService onClose={closeModal} />}
+                    />)
                 }
                 <CustomButton label="Filters" primary icon={<SearchAdvanced />} onClick={setSidebar} />
             </div>
@@ -172,20 +158,24 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
                 height='75%'
                 align="center"
                 width='inherit'>
-                <DataTable
-                    pin="header"
-                    primaryKey="id"
-                    columns={columns}
-                    data={services}
-                    step={11}
-                    background={{
-                        header: 'dark-3',
-                        body: ['light-1', 'light-3'],
-                        footer: 'dark-3',
-                    }}
-                    border={{ body: 'bottom' }}
-                    rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
-                />
+                {loading ?
+                    <Spinner />
+                    :
+                    <DataTable
+                        pin={modalIsOpen ? false : 'header'}
+                        primaryKey="id"
+                        columns={columns}
+                        data={services}
+                        step={11}
+                        background={{
+                            header: 'dark-3',
+                            body: ['light-1', 'light-3'],
+                            footer: 'dark-3',
+                        }}
+                        border={{ body: 'bottom' }}
+                        rowProps={{ Eric: { background: 'accent-2', pad: 'large' } }}
+                    />
+                }
             </Box>
             {
                 errorNotification ?

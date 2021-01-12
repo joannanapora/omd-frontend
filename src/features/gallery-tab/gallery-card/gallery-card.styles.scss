@@ -1,12 +1,3 @@
-.card-footer {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-title {
-    color: #d6702b;
-    font-weight: bold;
-}
 
 .dog-image-card {
     position: relative;
@@ -19,4 +10,28 @@
 
 .gallery-card {
     padding: 0 1rem;
+}
+
+.description-trash {
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+.trash {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.photo-buttons {
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-stack {
+    div {
+        width: 100%;
+    }
 }

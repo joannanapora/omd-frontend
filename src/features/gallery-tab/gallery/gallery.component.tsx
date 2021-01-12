@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box } from 'grommet';
 import { Add, Gallery } from 'grommet-icons';
-import GalleryCard from './gallery-card/gallery-card.component';
-import AddPhoto from './add-photo/add-photo.component';
+import GalleryCard from '../gallery-card/gallery-card.component';
+import AddPhoto from '../add-photo/add-photo.component';
 import './gallery.styles.scss'
-import CustomFilterInput from '../../shared/custom-filter-input/custom-filter-input.component';
-import CustomButton from '../../shared/custom-button/custom-button.component';
+import CustomFilterInput from '../../../shared/custom-filter-input/custom-filter-input.component';
+import CustomButton from '../../../shared/custom-button/custom-button.component';
 import Modal from 'react-modal';
-import { getGallery } from '../../api';
+import { getGallery } from '../../../api';
 import { format } from 'date-fns'
-import Spinner from '../../shared/spinner/spinner.component';
+import Spinner from '../../../shared/spinner/spinner.component';
+import CustomModal from '../../../shared/custom-modal/custom-modal.component';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../../store/user/user.selectors';
 
 
-const GalleryPage = ({ history }) => {
+
+
+
+const GalleryPage = ({ user, history }) => {
 
     const [searchInput, setSearchInput] = useState("")
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -39,7 +47,7 @@ const GalleryPage = ({ history }) => {
                     title: image.dogName,
                     date: format(new Date(image.date), 'dd/MM/yyyy'),
                     key: image.id,
-                    image: image.url
+                    image: image.url,
                 }));
                 setCardList(filteredGallery);
                 setLoading(false);
@@ -70,6 +78,7 @@ const GalleryPage = ({ history }) => {
         return loading ? <Spinner /> : renderCards();
     }
 
+
     const renderCards = () => {
         return (cardList.length > 0 ?
             <Box
@@ -80,6 +89,9 @@ const GalleryPage = ({ history }) => {
                 gap="small">
                 {cardList.map(element => (
                     <GalleryCard
+
+                        onClick
+                        displayImageActions={false}
                         id={element.key}
                         date={element.date}
                         title={element.title}
@@ -99,18 +111,6 @@ const GalleryPage = ({ history }) => {
             ;
     }
 
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            border: 'none'
-
-        }
-    };
 
     return (
 
@@ -124,26 +124,16 @@ const GalleryPage = ({ history }) => {
                 <div className="search-box">
                     <div className='filter-button'>
                         <CustomButton onClick={openModal} label="Add Photo" icon={<Add />} primary />
-                        {modalIsOpen ?
-                            <div>
-                                <button onClick={openModal}>Open Modal</button>
-                                <Modal
-                                    isOpen={modalIsOpen}
-                                    onRequestClose={closeModal}
-                                    style={customStyles}
-                                    appElement={document.getElementById('root')}
-                                    contentLabel="Example Modal"
-                                >
-                                    <AddPhoto onClose={closeModal} />
-                                </Modal>
-                            </div>
-                            :
-                            null
-                        }
                     </div>
+                    {modalIsOpen &&
+                        (<CustomModal
+                            modalIsOpen={modalIsOpen}
+                            content={<AddPhoto onClose={closeModal} />}
+                        />)
+                    }
                     <CustomFilterInput value={searchInput} name='search-images' onChange={handleSearchInput} />
                     <div className='filter-button'>
-                        <CustomButton onClick={redirectToMyGallery} label="My Gallery" icon={<Gallery />} primary />
+                        <CustomButton onClick={redirectToMyGallery} disabled={!user} label="My Gallery" icon={<Gallery />} primary />
                     </div>
                 </div>
             </Box>
@@ -151,4 +141,11 @@ const GalleryPage = ({ history }) => {
     );
 };
 
-export default GalleryPage;
+const mapStateToProps = createStructuredSelector({
+    user: selectCurrentUser,
+});
+
+export default withRouter(connect(
+    mapStateToProps,
+    null)
+    (GalleryPage));

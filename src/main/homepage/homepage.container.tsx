@@ -12,7 +12,7 @@ import MyProfile from "../../features/my-profile-tab/my-profile.component";
 import Register from "../../features/sign-up-tab/register/register.container";
 import SignIn from "../../features/sign-in-tab/sign-in.container";
 import AccountCreated from "../../features/sign-up-tab/account-created/account-created.component";
-import GalleryPage from '../../features/gallery-tab/gallery.component';
+import GalleryPage from '../../features/gallery-tab/gallery/gallery.component';
 import DonatePage from '../../features/donate-tab/donate.component';
 import MyGallery from '../../features/gallery-tab/my-gallery/my-gallery.component';
 import { createStructuredSelector } from 'reselect';

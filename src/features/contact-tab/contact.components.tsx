@@ -7,6 +7,8 @@ import { postContact } from "../../api";
 
 import Notification, { Status } from "../../shared/custom-notification/custom-notification.component";
 import CustomButton from "../../shared/custom-button/custom-button.component";
+import Spinner from '../../shared/spinner/spinner.component';
+
 import { mapOptionsToContactSubject } from "../../models/enums";
 import './contact.styles.scss'
 
@@ -27,17 +29,19 @@ const Contact = () => {
   const [okNotification, setOkNotification] = useState(false);
   const [errorNotification, setErrorNotification] = useState(false);
   const [charactersLeft, setCharactersLeft] = useState(MESSAGE_MAX_CHARACTERS);
-
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
     console.log(event.target.value.length);
     setCharactersLeft(MESSAGE_MAX_CHARACTERS - event.target.value.length)
     setOkNotification(false);
+    setErrorNotification(false);
   }
 
 
   const onSubmit = () => {
+    setLoading(true);
     postContact(
       message,
       mapOptionsToContactSubject(selectedSubject)
@@ -47,9 +51,13 @@ const Contact = () => {
         setSelectedSubject('');
         setMessage('');
         setCharactersLeft(MESSAGE_MAX_CHARACTERS)
+        setLoading(false);
+
       })
       .catch(() => {
         setErrorNotification(true);
+        setLoading(false);
+
       });
   }
 
@@ -82,13 +90,17 @@ const Contact = () => {
         </Box>
         <h6 className='contact-char-left'>Characters Left: {charactersLeft}</h6>
         <div className='contact-button'>
-          <CustomButton
-            disabled={!(message && selectedSubject)}
-            primary
-            onClick={onSubmit}
-            icon={<Send />}
-            label="Send" dsffds
-          /></div>
+          {loading ?
+            <Spinner />
+            :
+            <CustomButton
+              disabled={!(message && selectedSubject)}
+              primary
+              onClick={onSubmit}
+              icon={<Send />}
+              label="Send" dsffds
+            />}
+        </div>
         {okNotification ? (
           <Notification
             status={Status.SUCCESS}

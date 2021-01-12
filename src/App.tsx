@@ -26,9 +26,8 @@ const theme = {
     },
   },
   card: {
-    container: {
-      elevation: 'large',
-    },
+    elevation: 'none',
+    background: 'light-2',
     footer: {
       pad: 'medium',
     },
@@ -38,6 +37,7 @@ const theme = {
       active: "#d6702b",
       background: { color: "white" },
       color: "black",
+      pad: "4px",
     },
     primary: {
       border: { color: "#d6702b" },
