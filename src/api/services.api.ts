@@ -3,28 +3,30 @@ import axios from "axios";
 import { Location, Weight } from "../models/enums";
 
 export const getServices = (queryParams?: any): Promise<any> => {
-
-  let url = process.env.REACT_APP_API_URL + "/services";
+  console.log(queryParams)
+  let url = process.env.REACT_APP_API_URL + "/services?";
 
   if (queryParams) {
     if (queryParams.dogName) {
-      url = url + "?dogName=" + queryParams.dogName + "&";
+      url = url + "dogName=" + queryParams.dogName + "&";
     }
 
     if (queryParams.breed) {
-      url = url + "?breed=" + queryParams.breed + "&";
+      url = url + "breed=" + queryParams.breed + "&";
     }
 
     if (queryParams.location) {
       queryParams.location.forEach((l) => {
-        url = url + "?locations=" + l + "&";
+        url = url + "locations=" + l + "&";
       });
     }
 
     if (queryParams.weight) {
-      queryParams.location.forEach((l) => {
-        url = url + "?weights=" + l + "&";
+      queryParams.weight.forEach((w) => {
+        url = url + "weights=" + w + "&";
       });
+
+      console.log(url)
     }
   }
 

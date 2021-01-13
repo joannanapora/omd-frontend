@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 
 const CustomModal = ({ content, modalIsOpen }: any) => {
 
-
     const modalStyles = {
         content: {
             top: '50%',

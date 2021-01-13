@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import { Box, TextArea, Select } from 'grommet';
 import { Send } from "grommet-icons";
 
-import { postContact } from "../../api";
-
 import Notification, { Status } from "../../shared/custom-notification/custom-notification.component";
 import CustomButton from "../../shared/custom-button/custom-button.component";
-import Spinner from '../../shared/spinner/spinner.component';
-
 import { mapOptionsToContactSubject } from "../../models/enums";
+import Spinner from '../../shared/spinner/spinner.component';
 import './contact.styles.scss'
+
+import { postContact } from "../../api";
 
 const MESSAGE_MAX_CHARACTERS = 450;
 
@@ -23,17 +22,16 @@ const Contact = () => {
     "Other issue",
   ];
 
-  const [message, setMessage] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [isSubjectSelectOpen] = useState(false);
-  const [okNotification, setOkNotification] = useState(false);
-  const [errorNotification, setErrorNotification] = useState(false);
-  const [charactersLeft, setCharactersLeft] = useState(MESSAGE_MAX_CHARACTERS);
-  const [loading, setLoading] = useState(false);
+  const [message, setMessage]: [string, any] = useState('');
+  const [selectedSubject, setSelectedSubject]: [string, any] = useState('');
+  const [isSubjectSelectOpen]: [boolean, any] = useState(false);
+  const [okNotification, setOkNotification]: [boolean, any] = useState(false);
+  const [errorNotification, setErrorNotification]: [boolean, any] = useState(false);
+  const [charactersLeft, setCharactersLeft]: [number, any] = useState(MESSAGE_MAX_CHARACTERS);
+  const [loading, setLoading]: [boolean, any] = useState(false);
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
-    console.log(event.target.value.length);
     setCharactersLeft(MESSAGE_MAX_CHARACTERS - event.target.value.length)
     setOkNotification(false);
     setErrorNotification(false);
@@ -73,6 +71,7 @@ const Contact = () => {
       >
         <h1 className="contact-header"> Contact Us </h1>
         <Select
+          disabled={loading}
           placeholder="Select Subject"
           open={isSubjectSelectOpen}
           value={selectedSubject}
@@ -86,7 +85,7 @@ const Contact = () => {
           placeholder='Message...'
           border={{ color: 'brand', size: 'xsmall' }}
         >
-          <TextArea size='small' maxLength={MESSAGE_MAX_CHARACTERS} resize={false} value={message} onChange={handleInputChange} fill />
+          <TextArea disabled={loading} size='small' maxLength={MESSAGE_MAX_CHARACTERS} resize={false} value={message} onChange={handleInputChange} fill />
         </Box>
         <h6 className='contact-char-left'>Characters Left: {charactersLeft}</h6>
         <div className='contact-button'>

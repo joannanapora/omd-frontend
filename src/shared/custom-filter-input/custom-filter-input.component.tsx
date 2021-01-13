@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Search } from 'grommet-icons';
 import { Box, TextInput } from 'grommet';
+
 import './custom-filter-input.styles.scss';
 
 

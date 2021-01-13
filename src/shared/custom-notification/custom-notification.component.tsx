@@ -1,77 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Layer, Box, Button, Text } from 'grommet';
-import { FormClose, StatusGood, } from 'grommet-icons';
+import { Alert, FormCheckmark, FormClose, StatusGood, } from 'grommet-icons';
 
 export enum Status {
     "SUCCESS",
     "FAILURE"
 }
 
-class Notification extends React.Component<{ text: string, status: Status }, { isOpen: boolean }> {
-    _isMounted = false;
+const Notification = ({ text, status }: { text: string, status: Status }) => {
 
-    constructor(props) {
-        super(props);
+    const [isOpen, setIsOpen]: [boolean, any] = useState(false);
 
-
-        this.state = {
-            isOpen: false
-        }
-    };
-
-    onPopUpClose = () => {
-        this.setState({ isOpen: false })
-    };
-
-    componentDidMount() {
-        this._isMounted = true;
-
-        this.setState({ isOpen: true })
+    useEffect(() => {
+        setIsOpen(true);
         setTimeout(() => {
-            if (this._isMounted) {
-                this.setState({ isOpen: false });
-            }
+            setIsOpen(false)
         }, 5000);
-    }
+    }, [])
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
 
-    render() {
 
-        return (
-            <div className='notification'>
-                {this.state.isOpen && (
-                    <Layer
-                        position="bottom"
-                        modal={false}
-                        margin={{ vertical: 'medium', horizontal: 'small' }}
-                        onEsc={this.onPopUpClose}
-                        responsive={false}
-                        plain
+    const onPopUpClose = () => {
+        setIsOpen(false);
+    };
+
+
+    return (
+        <div className='notification'>
+            {isOpen && (
+                <Layer
+                    position="bottom"
+                    modal={false}
+                    margin={{ vertical: 'medium', horizontal: 'small' }}
+                    onEsc={onPopUpClose}
+                    responsive={false}
+                    plain
+                >
+                    <Box
+                        align="center"
+                        direction="row"
+                        gap="small"
+                        justify="center"
+                        round="medium"
+                        elevation="medium"
+                        pad={{ vertical: 'small', horizontal: 'small' }}
+                        background={status === Status.FAILURE ? '#696969' : '#d6702b'}
                     >
-                        <Box
-                            align="center"
-                            direction="row"
-                            gap="small"
-                            justify="center"
-                            round="medium"
-                            elevation="medium"
-                            pad={{ vertical: 'small', horizontal: 'small' }}
-                            background={this.props.status === Status.FAILURE ? 'red' : '#d6702b'}
-                        >
-                            <Box justify='center' align="center" direction="row" gap="xsmall">
-                                {this.props.status === Status.FAILURE ? null : <StatusGood />}
-                                <Text>{this.props.text}</Text>
-                            </Box>
-                            <Button icon={<FormClose />} onClick={this.onPopUpClose} plain />
+                        <Box justify='center' align="center" direction="row" gap="xsmall">
+                            {status === Status.FAILURE ? <Alert /> : <FormCheckmark />}
+                            <Text color='black'>{text}</Text>
                         </Box>
-                    </Layer>
-                )}
-            </div>
-        )
-    }
+                        <Button icon={<FormClose />} onClick={onPopUpClose} plain />
+                    </Box>
+                </Layer>
+            )}
+        </div>
+    )
 }
 
 export default Notification;

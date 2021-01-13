@@ -18,7 +18,6 @@ export const getGallery = (queryParams?: any): Promise<any> => {
         return axios.get(url);
     };
 
-
     return axios.get(url);
 };
 

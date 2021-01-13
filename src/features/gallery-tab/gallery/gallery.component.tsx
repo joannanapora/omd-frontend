@@ -1,33 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Box } from 'grommet';
-import { Add, Gallery } from 'grommet-icons';
-import GalleryCard from '../gallery-card/gallery-card.component';
-import AddPhoto from '../add-photo/add-photo.component';
-import './gallery.styles.scss'
-import CustomFilterInput from '../../../shared/custom-filter-input/custom-filter-input.component';
-import CustomButton from '../../../shared/custom-button/custom-button.component';
-import Modal from 'react-modal';
-import { getGallery } from '../../../api';
-import { format } from 'date-fns'
-import Spinner from '../../../shared/spinner/spinner.component';
-import CustomModal from '../../../shared/custom-modal/custom-modal.component';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
+
+import { Add, Gallery } from 'grommet-icons';
+import { Box } from 'grommet';
+
+import CustomFilterInput from '../../../shared/custom-filter-input/custom-filter-input.component';
+import CustomButton from '../../../shared/custom-button/custom-button.component';
+import CustomModal from '../../../shared/custom-modal/custom-modal.component';
+import GalleryCard from '../gallery-card/gallery-card.component';
+import Spinner from '../../../shared/spinner/spinner.component';
+import { ICardDetails } from '../../../models/interfaces/index';
+import AddPhoto from '../add-photo/add-photo.component';
+import './gallery.styles.scss'
+
+import { getGallery } from '../../../api';
+
+import { format } from 'date-fns'
+
 import { selectCurrentUser } from '../../../store/user/user.selectors';
-
-
-
+import { createStructuredSelector } from 'reselect';
 
 
 const GalleryPage = ({ user, history }) => {
 
-    const [searchInput, setSearchInput] = useState("")
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [cardList, setCardList] = useState([]);
+    const [searchInput, setSearchInput]: [string, any] = useState("")
+    const [modalIsOpen, setIsOpen]: [boolean, any] = useState(false);
+    const [cardList, setCardList]: [ICardDetails[], any] = useState([]);
     const [loading, setLoading]: [boolean, any] = useState(true);
-
-
 
     useEffect(() => {
         filterGallery();
@@ -37,9 +37,9 @@ const GalleryPage = ({ user, history }) => {
         if (history) { history.push('/my-gallery') };
     };
 
-    const filterGallery = (params?: any) => {
-        setLoading(true);
 
+    const filterGallery = (params?: any) => {
+        setLoading(true)
         getGallery(params)
             .then((response) => {
                 const filteredGallery = response.data.map(image => ({
@@ -51,9 +51,7 @@ const GalleryPage = ({ user, history }) => {
                 }));
                 setCardList(filteredGallery);
                 setLoading(false);
-
             }).catch((error) => {
-                console.log(error);
                 setLoading(false);
             });
     };
@@ -78,10 +76,11 @@ const GalleryPage = ({ user, history }) => {
         return loading ? <Spinner /> : renderCards();
     }
 
-
     const renderCards = () => {
+
         return (cardList.length > 0 ?
             <Box
+                className="smooth-image-wrapper"
                 height="80%"
                 overflow={{ horizontal: "auto", vertical: "hidden" }}
                 direction="row"
@@ -89,16 +88,17 @@ const GalleryPage = ({ user, history }) => {
                 gap="small">
                 {cardList.map(element => (
                     <GalleryCard
-
+                        key={element.key}
                         onClick
                         displayImageActions={false}
-                        id={element.key}
                         date={element.date}
                         title={element.title}
                         description={element.description}
                         image={element.image}
                     />
                 ))}
+
+
             </Box> :
             <Box
                 height="80%"
@@ -108,12 +108,9 @@ const GalleryPage = ({ user, history }) => {
                     No Results
                                 </div>
             </Box>)
-            ;
     }
 
-
     return (
-
         <div className='gallery'>
             {renderSpinnerOrCards()}
             <Box className='search'

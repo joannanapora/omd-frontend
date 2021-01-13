@@ -1,23 +1,24 @@
 import React from "react";
-import "./homepage.container.scss";
 import { connect } from 'react-redux';
 
 import { Switch, Route, withRouter } from "react-router-dom";
-import { setCurrentUser } from '../../store/user';
 
-import SideBar from "../sidebar/sidebar.component";
-import Services from '../../features/services-tab/services/services.component';
-import Contact from "../../features/contact-tab/contact.components";
-import MyProfile from "../../features/my-profile-tab/my-profile.component";
-import Register from "../../features/sign-up-tab/register/register.container";
-import SignIn from "../../features/sign-in-tab/sign-in.container";
 import AccountCreated from "../../features/sign-up-tab/account-created/account-created.component";
-import GalleryPage from '../../features/gallery-tab/gallery/gallery.component';
-import DonatePage from '../../features/donate-tab/donate.component';
 import MyGallery from '../../features/gallery-tab/my-gallery/my-gallery.component';
-import { createStructuredSelector } from 'reselect';
+import GalleryPage from '../../features/gallery-tab/gallery/gallery.component';
+import Register from "../../features/sign-up-tab/register/register.container";
+import AllDogs from '../../features/services-tab/services/services.component';
+import MyProfile from "../../features/my-profile-tab/my-profile.component";
+import Contact from "../../features/contact-tab/contact.components";
+import DonatePage from '../../features/donate-tab/donate.component';
+import SignIn from "../../features/sign-in-tab/sign-in.container";
+import SideBar from "../sidebar/sidebar.component";
+import "./homepage.container.scss";
+
 import { selectHomePageTabs } from '../../store/homepage/homepage.selectors';
 import { selectCurrentUser } from '../../store/user/user.selectors';
+import { createStructuredSelector } from 'reselect';
+import { setCurrentUser } from '../../store/user';
 
 
 const HomePage = ({ dispatchSetCurrentUser, tabs, currentUser }) => {
@@ -54,7 +55,8 @@ const HomePage = ({ dispatchSetCurrentUser, tabs, currentUser }) => {
       </div>
       <div className="homepage-right">
         <Switch>
-          <Route path="/services" component={Services} />
+          <Route exact path='/' component={AllDogs} />
+          <Route path="/all-dogs" component={AllDogs} />
           <Route path="/my-profile" component={MyProfile} />
           <Route path='/contact-us' component={Contact} />
           <Route path="/sign-in" component={SignIn} />

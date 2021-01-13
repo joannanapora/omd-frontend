@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
-
 import ImageUploading from 'react-images-uploading'
 
 import { Box, FormField, DateInput, TextArea, TextInput } from 'grommet';
 import { Image, Close } from 'grommet-icons';
 
-import { postImage, postGallery } from '../../../api';
-
-import Spinner from '../../../shared/spinner/spinner.component';
-import CustomButton from '../../../shared/custom-button/custom-button.component';
 import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
+import CustomButton from '../../../shared/custom-button/custom-button.component';
+import Spinner from '../../../shared/spinner/spinner.component';
 import './add-photo.styles.scss';
 
+import { postImage, postGallery } from '../../../api';
 
 const AddPhoto = ({ onClose }) => {
-    const [okNotification, showOkNotification]: [boolean, any] = useState(false);
     const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
-    const [loading, setLoading]: [boolean, any] = useState(false);
-
+    const [okNotification, showOkNotification]: [boolean, any] = useState(false);
+    const [isNewPhotoAdded, setNewPhotoAdded]: [boolean, any] = useState(false)
     const [description, setDescription]: [string, any] = useState("");
+    const [loading, setLoading]: [boolean, any] = useState(false);
+    const [imageList, setImageList]: [[], any] = useState([]);
+    const [imageId, setImageId]: [string, any] = useState("");
     const [dogName, setDogName]: [string, any] = useState("");
     const [date, setDate]: [any, any] = useState(null);
-    const [imageId, setImageId]: [string, any] = useState("");
 
-    const [imageList, setImageList]: [[], any] = useState([]);
-
-    const [isNewPhotoAdded, setNewPhotoAdded] = useState(false)
 
     const onSelectImage = (imageList: any[]) => {
         if (imageList.length === 0) {
@@ -40,7 +36,6 @@ const AddPhoto = ({ onClose }) => {
                     setLoading(false);
                 }
                 ).catch(error => {
-                    console.log(error)
                     if (error.status === 404) {
                         showErrorNotification(true)
                         setLoading(false);
@@ -65,7 +60,7 @@ const AddPhoto = ({ onClose }) => {
             setDogName('');
             setImageList([]);
         }).catch(error => {
-            console.log(error)
+            showErrorNotification(true);
         })
     }
 
@@ -114,7 +109,6 @@ const AddPhoto = ({ onClose }) => {
                                     {...dragProps}
                                     color='grey'
                                 ></CustomButton>
-
                             &nbsp;
                                 {imageList.map((image, index) => (
                                     <div key={index} className="image-item">

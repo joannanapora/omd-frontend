@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import './my-profile.component.scss'
 
-import { Box, Form, FormField, TextInput } from 'grommet';
 import { FormCheckmark, FormEdit, Phone, ContactInfo, Home } from 'grommet-icons';
+import { Box, Form, FormField, TextInput } from 'grommet';
 
 import Notification, { Status } from '../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../shared/custom-button/custom-button.component';
 import { IPersonalDetails } from '../../models/interfaces/index';
-import { patchUser, getUser } from '../../api';
 import Spinner from '../../shared/spinner/spinner.component';
+import './my-profile.component.scss'
 
+import { patchUser, getUser } from '../../api';
 
 const MyProfile = () => {
     const [newPersonalDetails, setPersonalDetails]: [IPersonalDetails, any] = useState({
         name: '',
         surname: '',
         postCode: '',
-        phoneNumber: '',
+        phoneNumber: null,
     });
 
-    const [okNotification, showOkNotification] = useState(false);
-    const [errorNotification, showErrorNotification] = useState(false);
-    const [isReadOnly, setIsReadOnly] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [okNotification, showOkNotification]: [boolean, any] = useState(false);
+    const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
+    const [isReadOnly, setIsReadOnly]: [boolean, any] = useState(false);
+    const [loading, setLoading]: [boolean, any] = useState(true);
 
 
     useEffect(() => {
@@ -42,13 +42,16 @@ const MyProfile = () => {
         []);
 
     const handleSubmit = () => {
-        patchUser(newPersonalDetails.name, newPersonalDetails.surname, newPersonalDetails.phoneNumber, newPersonalDetails.postCode)
+        setLoading(true)
+        patchUser(newPersonalDetails.name, newPersonalDetails.surname, newPersonalDetails.phoneNumber.toString(), newPersonalDetails.postCode)
             .then(() => {
                 setIsReadOnly(true);
                 showOkNotification(true)
+                setLoading(false)
             })
             .catch(error => {
                 showErrorNotification(true)
+                setLoading(false)
             })
     };
 
@@ -58,7 +61,7 @@ const MyProfile = () => {
     };
 
     const handleChange = (event) => {
-        if (event.target.name === 'phoneNumber' && event.target.value.length === 13) {
+        if (event.target.name === 'phoneNumber' && event.target.value.length === 12) {
             return;
         }
         if (event.target.name === 'phoneNumber' && event.target.value[0] !== '0') {

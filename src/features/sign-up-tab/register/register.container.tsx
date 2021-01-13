@@ -4,16 +4,17 @@ import { withRouter } from 'react-router-dom';
 import { Box, MaskedInput, Form, FormField, TextInput } from 'grommet';
 import { MailOption, License } from 'grommet-icons';
 
-import { postSignUp } from '../../../api';
-
-import { validateEmail } from '../../../shared/index';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
+import { emailMask } from '../../../shared/masked-input/masked-email';
+import { validateEmail } from '../../../shared/index';
 import './register.container.scss';
 
+import { postSignUp } from '../../../api';
+
 const Register = ({ history }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [email, setEmail]: [string, any] = useState("");
+    const [password, setPassword]: [string, any] = useState("");
+    const [confirmPassword, setConfirmPassword]: [string, any] = useState("");
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -29,15 +30,14 @@ const Register = ({ history }) => {
         }
 
         postSignUp(email, password)
-            .then((data) => {
+            .then(() => {
                 setEmail('')
                 setPassword('')
                 setConfirmPassword('')
                 redirectToAccountCreated();
             })
-            .catch(error => { alert("Something went wrong") })
+            .catch(error => { alert("Probobly password is too weak. Plese use at least 1 capital letter and 1 special character") })
     };
-
 
     const redirectToAccountCreated = () => {
         if (history) history.push('/confirmation')
@@ -55,24 +55,6 @@ const Register = ({ history }) => {
             setConfirmPassword(event.target.value)
         }
     };
-
-
-    const emailMask = [
-        {
-            regexp: /^[\w\-_.]+$/,
-            placeholder: 'Email',
-        },
-        { fixed: '@' },
-        {
-            regexp: /^[\w]+$/,
-            placeholder: 'gmail',
-        },
-        { fixed: '.' },
-        {
-            regexp: /^[\w]+$/,
-            placeholder: 'com',
-        },
-    ];
 
     return (
         <div className='register'>

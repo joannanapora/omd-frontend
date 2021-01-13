@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import HomePage from './main/homepage/homepage.container';
-import { Grommet, ThemeType } from "grommet";
+import { Grommet } from "grommet";
 
 const theme = {
   global: {
@@ -143,31 +143,7 @@ const theme = {
         color: 'text-weak'
       }
     },
-    error: {
-      background: {
-        color: { light: '#FF404033', dark: '#FF40404D' },
-      },
-      size: 'xsmall',
-      color: 'text-weak',
-      margin: {
-        start: 'none',
-      },
-    },
-    help: {
-      size: 'xsmall',
-      color: 'text-weak',
-      margin: {
-        start: 'none',
-        bottom: 'xsmall',
-      },
-    },
-    info: {
-      size: 'xsmall',
-      color: 'text-weak',
-      margin: {
-        start: 'none',
-      },
-    },
+
     label: {
       size: 'medium',
       color: 'black',

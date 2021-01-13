@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+
 import { Box, FormField, Text, TextInput } from 'grommet';
 import { CreditCard, } from 'grommet-icons';
+
 import StripeCheckoutButton from '../../stripe/stripe.component';
 import './donate.styles.scss';
 
 const DonatePage = () => {
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount]: [string, any] = useState('');
 
     const handleInputChange = (event) => {
         if (event.target.value === '0') {
@@ -23,8 +25,7 @@ const DonatePage = () => {
         <Box className="donate-box" background="white" border={{ color: 'brand', size: 'medium' }} gap="small" pad="large" width="medium">
             <h1>Oh My Dog!</h1>
             <Text>
-                Thanks to our free platform, we connect dog owners with dog walkers. You can add service and undertake it yourself.
-                When the owner chooses you to take care of his dog, we will enable you to contact each other!
+                Thanks to our free platform, we help find a home for all signed up dogs.
         </Text>
             <Text>Join our Community today!</Text>
             <br />

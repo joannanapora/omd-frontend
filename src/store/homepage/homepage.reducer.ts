@@ -6,9 +6,9 @@ const INITIAL_STATE = {
             url: "/donate",
         },
         {
-            name: "Services",
+            name: "All Dogs",
             id: 1,
-            url: "/services",
+            url: "/all-dogs",
         },
         {
             name: "Gallery",

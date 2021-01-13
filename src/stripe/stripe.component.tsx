@@ -1,18 +1,18 @@
-import { TextInput } from 'grommet';
 import React, { useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
-import CustomButton from '../shared/custom-button/custom-button.component';
+
+
 import Notification, { Status } from '../shared/custom-notification/custom-notification.component';
+import CustomButton from '../shared/custom-button/custom-button.component';
 import './stripe.styles.scss';
 
 const StripeCheckoutButton = ({ donation, cleanAmount }) => {
 
     const [notification, isNotificationVisible] = useState(false);
 
-    const handleToken = token => {
+    const handleToken = () => {
         isNotificationVisible(true);
     }
-
 
     const publishableKey = 'pk_test_51I5qbsAzH5WZ6wWk5bFSySgNcJhsoMBalUfRP92hvr9lT2TnxrjnQn8TZqiMeyOUnL1ULpq0KYTiCXQcPAoZPxTZ00253Mx3bz';
     const donationStripe = donation * 100;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Spinner from '../../../shared/spinner/spinner.component';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -7,11 +6,10 @@ import { connect } from 'react-redux';
 import { Box, DateInput, TextInput, DataTable, FormField } from 'grommet';
 import { NewWindow, SearchAdvanced, Erase } from 'grommet-icons';
 
+import { selectUserFilters } from '../../../store/filters/filter.selectors';
+import { selectCurrentUser } from '../../../store/user/user.selectors';
 import { setUserFilters } from '../../../store/filters';
 import { createStructuredSelector } from 'reselect';
-
-import { selectCurrentUser } from '../../../store/user/user.selectors';
-import { selectUserFilters } from '../../../store/filters/filter.selectors';
 
 import { format } from 'date-fns'
 
@@ -19,30 +17,30 @@ import Notification, { Status } from '../../../shared/custom-notification/custom
 import CustomFilter from '../../../shared/custom-filter/custom-filter.component';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
 import CustomModal from '../../../shared/custom-modal/custom-modal.component';
-
+import Spinner from '../../../shared/spinner/spinner.component';
+import AddService from '../add-service/add-service.component';
 import './services.styles.scss';
 
 import { mapLocationsToOptions, mapWeightToOptions } from '../../../models/enums';
 import { IService } from '../../../models/interfaces';
 
 import { getServices } from '../../../api';
-import AddService from '../add-service/add-service.component';
 
 
-const Services = ({ filters, user, dispatchSetUserFilters, }) => {
+const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
 
     const columns = [
         { header: "Name", property: 'dogName' },
         { header: "Breed", property: 'breed' },
         { header: "Weight", property: "weight" },
-        { header: "Location", property: "location" },
-        { header: "Date", property: "dateFrom" },
+        { header: "London Location", property: "location" },
+        { header: "Date of Birth", property: "dateFrom" },
     ];
-    const [errorNotification, showErrorNotification] = useState(false);
+    const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
     const [services, setServices]: [IService[], any] = useState([]);
-    const [sidebar, isSidebarVisible] = useState(false);
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [sidebar, isSidebarVisible]: [boolean, any] = useState(false);
+    const [modalIsOpen, setIsOpen]: [boolean, any] = useState(false);
+    const [loading, setLoading]: [boolean, any] = useState(true);
 
 
     useEffect(() => {
@@ -61,6 +59,9 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
     }
 
     const handleSelectsChange = (filter: { name: string; value: number[]; }) => {
+        filterServices({
+            ...filters, [filter.name]: filter.value
+        });
         dispatchSetUserFilters({ [filter.name]: filter.value });
     };
 
@@ -106,7 +107,7 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
     return (
         <div className='services'>
             <div className='services-buttons'>
-                <CustomButton label="Add Service" disabled={!user} primary icon={<NewWindow
+                <CustomButton label="Add" disabled={!user} primary icon={<NewWindow
                 />} onClick={openModal} />
                 {modalIsOpen &&
                     (<CustomModal
@@ -181,8 +182,7 @@ const Services = ({ filters, user, dispatchSetUserFilters, }) => {
                 errorNotification ?
                     <Notification
                         status={Status.FAILURE}
-                        text={"Ooops, something went wrong."}>
-                    </Notification>
+                        text={"Ooops, something went wrong."} />
                     :
                     null
             }
@@ -203,4 +203,4 @@ const mapStateToProps = createStructuredSelector({
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps)
-    (Services));
+    (AllDogs));

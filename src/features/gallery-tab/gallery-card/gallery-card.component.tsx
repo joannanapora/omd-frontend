@@ -1,39 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Text, Card, CardBody, CardHeader, Image, Stack, Button, } from 'grommet';
-
-import Modal from 'react-modal';
-
-import './gallery-card.styles.scss'
 
 import { Trash } from 'grommet-icons';
 
-const GalleryCard = ({ onClick, id, image, date, description, title, displayImageActions }) => {
+import './gallery-card.styles.scss'
+import Spinner from '../../../shared/spinner/spinner.component';
 
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            border: 'none'
 
-        }
-    };
+const GalleryCard = ({ onClick, image, date, description, title, displayImageActions }) => {
+    const [imageLoaded, setImageLoaded] = React.useState(false);
+
+    const onImageLoad = () => {
+        setImageLoaded(true);
+    }
 
     return (
-        <Box width={{ max: 'medium', min: '18vw' }} height={{ max: 'medium', min: 'medium' }} className='gallery-card-box'
+        <Box
+            width={{ max: 'medium', min: '18vw' }}
+            height={{ max: 'medium', min: 'medium' }}
             align='center' background="white" round gap="small">
             <Card border={{ color: 'brand', size: 'medium' }}>
-                <Stack className="header-stack" anchor="bottom-left">
-                    <CardBody height="medium">
+                <Stack
+                    className="header-stack"
+                    anchor="bottom-left">
+                    <CardBody
+                        className={`smooth-image image-${imageLoaded ? 'visible' : 'hidden'}`}
+                        height="medium">
                         <Image
-                            key={id}
+                            onLoad={onImageLoad}
                             fit="cover"
                             src={image}
                             alt='dog' />
                     </CardBody>
+
+                    {!imageLoaded && (
+                        <CardBody height="medium">
+                            <Spinner />
+                        </CardBody>
+                    )}
+
                     <CardHeader
                         pad={{ horizontal: 'small', vertical: 'small' }}
                         background="#000000A0"
@@ -56,7 +61,13 @@ const GalleryCard = ({ onClick, id, image, date, description, title, displayImag
                         </Box>
 
                     </CardHeader>
+
+
+
                 </Stack>
+
+
+
             </Card >
         </Box >
     )

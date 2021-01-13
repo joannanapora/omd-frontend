@@ -1,34 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Modal from 'react-modal';
 
-import { format } from 'date-fns'
+import { selectCurrentUser } from '../../../store/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
+import { format } from 'date-fns'
 
+import { Gallery, Previous, FormClose, FormCheckmark } from 'grommet-icons';
 import { Box, Text } from 'grommet';
-import { Gallery, Previous } from 'grommet-icons';
 
 import { getGallery } from '../../../api';
 
-import GalleryCard from '../gallery-card/gallery-card.component';
 import CustomFilterInput from '../../../shared/custom-filter-input/custom-filter-input.component';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
-import Spinner from '../../../shared/spinner/spinner.component';
-import './my-gallery.styles.scss'
-import { selectCurrentUser } from '../../../store/user/user.selectors';
 import CustomModal from '../../../shared/custom-modal/custom-modal.component';
+import GalleryCard from '../gallery-card/gallery-card.component';
+import Spinner from '../../../shared/spinner/spinner.component';
+import { ICardDetails } from '../../../models/interfaces/index';
+import './my-gallery.styles.scss'
+
 
 const MyGallery = ({ history, user }) => {
-
-    const [searchInput, setSearchInput] = useState("")
-    const [cardList, setCardList] = useState([]);
+    const [searchInput, setSearchInput]: [string, any] = useState("")
+    const [cardList, setCardList]: [ICardDetails[], any] = useState([]);
     const [loading, setLoading]: [boolean, any] = useState(true);
     const [modalIsOpen, openModal]: [boolean, any] = useState(false);
 
     useEffect(() => {
         filterMyGallery();
-    }, []);
+    });
 
     const handleSearchInput = (event) => {
         setSearchInput(event.target.value);
@@ -66,7 +66,6 @@ const MyGallery = ({ history, user }) => {
                 setLoading(false);
 
             }).catch((error) => {
-                console.log(error);
                 setLoading(false);
             });
     };
@@ -89,9 +88,9 @@ const MyGallery = ({ history, user }) => {
                 gap="small">
                 {cardList.map(element => (
                     <GalleryCard
+                        key={element.key}
                         displayImageActions
                         onClick={setModal}
-                        id={element.key}
                         date={element.date}
                         title={element.title}
                         description={element.description}
@@ -129,10 +128,13 @@ const MyGallery = ({ history, user }) => {
                     {modalIsOpen && (<CustomModal
                         modalIsOpen={modalIsOpen}
                         content={
-                            <div className='modal-confirmation-buttons'>
-                                <Text>Are you sure you want to delete this photo?</Text>
-                                <CustomButton onClick={closeModal} label="No" icon={<Gallery />} primary />
-                                <CustomButton onClick={closeModal} label="Yes" icon={<Gallery />} primary />
+                            <div className='modal-confirmation'>
+                                <div>
+                                    <Text>Are you sure you want to delete this photo?</Text></div>
+                                <div className='confirmation-buttons'>
+                                    <CustomButton onClick={closeModal} label="No" icon={<FormClose />} primary />
+                                    <CustomButton onClick={closeModal} label="Yes" icon={<FormCheckmark />} primary />
+                                </div>
                             </div>}
                     />)}
                 </div>

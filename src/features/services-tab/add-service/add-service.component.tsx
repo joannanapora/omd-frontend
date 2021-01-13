@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
-
 import { withRouter } from 'react-router-dom'
 
-
-import { Box, DateInput, FormField, Select, TextArea, TextInput } from 'grommet';
+import { Box, DateInput, FormField, Select, TextInput } from 'grommet';
 import { Erase, Tag, List, Map, Certificate, Close } from 'grommet-icons';
 
-import { postService, getTemplate, postImage } from '../../../api';
-
-import CustomButton from '../../../shared/custom-button/custom-button.component';
-import CustomCheckBox from '../../../shared/custom-checkbox/custom-checkbox.component';
-import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
 import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../../models/enums';
-
-import './add-service.styles.scss';
+import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
+import CustomCheckBox from '../../../shared/custom-checkbox/custom-checkbox.component';
+import CustomButton from '../../../shared/custom-button/custom-button.component';
 import { INewService } from '../../../models/interfaces/index';
+import './add-service.styles.scss';
+
+import { postService, getTemplate } from '../../../api';
 
 
 const AddService = ({ onClose }) => {
+
     let location = ['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east'];
     let weight = ['< 4kg', '4-10kg', '11-18kg', '19-34kg', ' > 35kg'];
+    const isSelectOpen: boolean = false
 
     const [newService, setNewService]: [INewService, any] = useState({
         name: '',
@@ -31,12 +30,10 @@ const AddService = ({ onClose }) => {
         selectedWeight: null,
     });
 
-
-    const [okNotification, showOkNotification] = useState(false);
-    const [isReadOnly, setIsReadOnly] = useState(false);
-    const [isSelectOpen] = useState(false);
-    const [imageList, setImageList]: [any, any] = useState([]);
-    const [isNewServiceAdded, setNewServiceAdded] = useState(false)
+    const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
+    const [okNotification, showOkNotification]: [boolean, any] = useState(false);
+    const [isReadOnly, setIsReadOnly]: [boolean, any] = useState(false);
+    const [isNewServiceAdded, setNewServiceAdded]: [boolean, any] = useState(false)
 
     useEffect(() => {
         getTemplate().then((response) => {
@@ -47,6 +44,7 @@ const AddService = ({ onClose }) => {
         })
             .catch(error => {
                 setIsReadOnly(false)
+                showErrorNotification(true)
             });
     }, []);
 
@@ -59,7 +57,6 @@ const AddService = ({ onClose }) => {
             selectedLocation: null,
             selectedWeight: null,
         })
-        setImageList([])
     };
 
     const handleSubmit = () => {
@@ -88,33 +85,6 @@ const AddService = ({ onClose }) => {
             })
     };
 
-    const onSelectImage = (imageList: any[]) => {
-        if (imageList.length === 0) {
-            setImageList(imageList)
-            return;
-        }
-        // @TODO
-        // setSpinner until image shown
-        postImage(imageList[0].file)
-            .then((result) => {
-                console.log(result)
-                // @TODO
-                // unset Spinner
-                setImageList(imageList)
-            }
-            ).catch(error => {
-                // @TODO
-                // unset Spinner
-
-                // 400
-                // show wrong format
-
-                // other
-                // api error
-                console.log(error)
-            }
-            )
-    };
 
     const handleInputChange = (event) => {
         setNewService({ ...newService, [event.target.name]: event.target.value })
@@ -134,7 +104,7 @@ const AddService = ({ onClose }) => {
 
     const onHandleClose = () => {
         onClose(isNewServiceAdded);
-    }
+    };
 
 
     return (
@@ -209,9 +179,15 @@ const AddService = ({ onClose }) => {
                 okNotification ?
                     <Notification
                         status={Status.SUCCESS}
-                        text={"New service has been added."}>
-                    </Notification>
+                        text={"New service has been added."} />
                     :
+                    null
+            }
+            {
+                errorNotification ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"Ooops, something went wrong"} /> :
                     null
             }
         </Box >
