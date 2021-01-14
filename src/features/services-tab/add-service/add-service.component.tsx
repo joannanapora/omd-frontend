@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom'
 
 import { Box, DateInput, FormField, Select, TextInput } from 'grommet';
-import { Erase, Tag, List, Map, Certificate, Close } from 'grommet-icons';
+import { Erase, Tag, List, Map, Certificate, Close, Phone } from 'grommet-icons';
 
 import { mapOptionsToWeight, mapOptionsToLocation, mapLocationsToOptions, mapWeightToOptions } from '../../../models/enums';
 import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
@@ -24,7 +24,7 @@ const AddService = ({ onClose }) => {
         name: '',
         breed: '',
         dateFrom: '',
-        dateTo: '',
+        phoneNumber: '',
         checked: false,
         selectedLocation: null,
         selectedWeight: null,
@@ -33,7 +33,7 @@ const AddService = ({ onClose }) => {
     const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
     const [okNotification, showOkNotification]: [boolean, any] = useState(false);
     const [isReadOnly, setIsReadOnly]: [boolean, any] = useState(false);
-    const [isNewServiceAdded, setNewServiceAdded]: [boolean, any] = useState(false)
+    const [isNewServiceAdded, setNewServiceAdded]: [boolean, any] = useState(false);
 
     useEffect(() => {
         getTemplate().then((response) => {
@@ -62,7 +62,7 @@ const AddService = ({ onClose }) => {
     const handleSubmit = () => {
         showOkNotification(false)
         postService(newService.dateFrom, newService.breed, newService.name, mapOptionsToLocation(newService.selectedLocation),
-            mapOptionsToWeight(newService.selectedWeight), newService.checked)
+            mapOptionsToWeight(newService.selectedWeight), newService.phoneNumber, newService.checked)
             .then(() => {
                 setNewServiceAdded(true);
                 if (!newService.checked) {
@@ -73,6 +73,7 @@ const AddService = ({ onClose }) => {
                         checked: false,
                         selectedLocation: null,
                         selectedWeight: null,
+                        phoneNumber: '',
                     });
                     showOkNotification(true)
                 } else {
@@ -87,6 +88,12 @@ const AddService = ({ onClose }) => {
 
 
     const handleInputChange = (event) => {
+        if (event.target.name === 'phoneNumber' && event.target.value.length === 12) {
+            return;
+        }
+        if (event.target.name === 'phoneNumber' && event.target.value[0] !== '0') {
+            event.target.value = '0' + event.target.value
+        }
         setNewService({ ...newService, [event.target.name]: event.target.value })
     };
 
@@ -128,6 +135,20 @@ const AddService = ({ onClose }) => {
                             options={location}
                             onChange={handleSelectChange}
                         />
+                    </FormField>
+                    <FormField>
+                        <TextInput
+                            maxLength={11}
+                            max={9999999999}
+                            reverse placeholder='Phone Number'
+                            value={newService.phoneNumber}
+                            icon={< Phone />}
+                            onChange={handleInputChange}
+                            name="phoneNumber"
+                            disabled={isReadOnly}
+                            type='number'
+                        >
+                        </TextInput>
                     </FormField>
                     <FormField required={false}>
                         <TextInput

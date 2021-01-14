@@ -5,4 +5,5 @@ export interface INewService {
     checked: boolean;
     selectedLocation: string;
     selectedWeight: string;
+    phoneNumber: string;
 }

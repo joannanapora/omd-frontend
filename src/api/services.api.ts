@@ -3,8 +3,7 @@ import axios from "axios";
 import { Location, Weight } from "../models/enums";
 
 export const getServices = (queryParams?: any): Promise<any> => {
-  console.log(queryParams)
-  let url = process.env.REACT_APP_API_URL + "/services?";
+  let url = process.env.REACT_APP_API_URL + "/services?page=1&limit=10";
 
   if (queryParams) {
     if (queryParams.dogName) {
@@ -25,8 +24,6 @@ export const getServices = (queryParams?: any): Promise<any> => {
       queryParams.weight.forEach((w) => {
         url = url + "weights=" + w + "&";
       });
-
-      console.log(url)
     }
   }
 
@@ -39,6 +36,7 @@ export const postService = (
   dogName: string,
   location: Location,
   weight: Weight,
+  phoneNumber: string,
   saveAsTemplate: boolean
 ): Promise<any> => {
   const config = {
@@ -53,6 +51,7 @@ export const postService = (
       location,
       weight,
       saveAsTemplate,
+      phoneNumber
     },
     config
   );

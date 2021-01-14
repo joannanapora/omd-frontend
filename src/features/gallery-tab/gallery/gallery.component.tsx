@@ -101,9 +101,10 @@ const GalleryPage = ({ user, history }) => {
 
             </Box> :
             <Box
+                width='auto'
                 height="80%"
                 justify="center"
-                pad="medium" align='center' background="white" round gap="small">
+                pad="medium" align='center' border={{ color: 'brand', size: 'medium' }} background="white" round gap="small">
                 <div className="no-image">
                     No Results
                                 </div>

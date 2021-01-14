@@ -16,10 +16,11 @@ const GalleryCard = ({ onClick, image, date, description, title, displayImageAct
 
     return (
         <Box
-            width={{ max: 'medium', min: '18vw' }}
-            height={{ max: 'medium', min: 'medium' }}
-            align='center' background="white" round gap="small">
-            <Card border={{ color: 'brand', size: 'medium' }}>
+            border={{ color: 'brand', size: 'medium' }}
+            width={{ max: '25vw', min: '25vw' }}
+            height={{ max: '35vw', min: '25vw' }}
+            align='center' background="transparent" round gap="small">
+            <Card >
                 <Stack
                     className="header-stack"
                     anchor="bottom-left">

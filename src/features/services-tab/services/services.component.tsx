@@ -75,7 +75,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
         setLoading(true);
         getServices(params)
             .then((response) => {
-                const services = response.data.map(element => ({
+                const services = response.data.data.map(element => ({
                     id: element.id,
                     dogName: element.dogName,
                     breed: element.breed,
