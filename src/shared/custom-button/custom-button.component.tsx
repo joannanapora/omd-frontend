@@ -9,5 +9,4 @@ const CustomButton = ({ children, ...otherProps }: any) => (
   </Button>
 );
 
-
 export default CustomButton;

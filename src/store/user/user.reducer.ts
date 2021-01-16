@@ -4,6 +4,7 @@ interface IState {
     currentUser: {
         email: string;
         name: string;
+        userId: string;
     }
 }
 

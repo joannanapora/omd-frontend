@@ -1,0 +1,52 @@
+.add-services-header {
+    margin-bottom: 20px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+        flex:1 
+    }
+}
+
+.service-box {
+    display: block;
+    flex-direction: column;
+}
+
+.add-service-form {
+    display: block;
+    width: 100%;
+    justify-content: space-evenly;
+    line-height: 2,5;
+}
+
+.service-description {
+    justify-content: center;
+    width: 100%;
+}
+
+.upload__image-wrapper {
+    justify-content: center;
+    display: flex;
+}
+
+.add-service-right {
+    width: 50%;
+}
+
+.add-service-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+}
+
+.add-service-headers {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}  
+
+.remove-update-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    height: 3rem;}

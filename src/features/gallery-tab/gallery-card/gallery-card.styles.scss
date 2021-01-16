@@ -1,0 +1,47 @@
+
+.dog-image-card {
+    position: relative;
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.gallery-card {
+    padding: 0 1rem;
+}
+
+.description-trash {
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+.trash {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.photo-buttons {
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-stack {
+    div {
+        width: 100%;
+    }
+}
+
+.smooth-image {
+    transition: opacity 1s;
+  }
+.image-visible {
+opacity: 1;
+}
+.image-hidden {
+opacity: 0;
+}

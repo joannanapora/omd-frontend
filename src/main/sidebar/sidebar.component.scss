@@ -1,0 +1,26 @@
+
+
+.menu-button {
+    display:flex;
+    flex-direction: flex-end;
+    width: 100%;
+
+    &:focus {
+        box-shadow: none !important;
+    }
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+.box-menu {
+    display:flex;
+    flex-direction: flex-end;
+    outline: none;
+    width: 0%;
+}
+
+
+.paw {
+    height: 50px;
+    width: 50px;
+}
