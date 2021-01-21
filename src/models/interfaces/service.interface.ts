@@ -8,4 +8,6 @@ export interface IService {
     dateFrom: string;
     dateTo: string;
     weight: string;
+    phoneNumber: string;
+    showPhoneNumber: boolean;
 }

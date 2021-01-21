@@ -18,7 +18,6 @@ const GalleryCard = ({ onClick, image, date, description, title, displayImageAct
         <Box
             border={{ color: 'brand', size: 'medium' }}
             width={{ max: '25vw', min: '25vw' }}
-            height={{ max: '35vw', min: '25vw' }}
             align='center' background="transparent" round gap="small">
             <Card >
                 <Stack
@@ -43,7 +42,7 @@ const GalleryCard = ({ onClick, image, date, description, title, displayImageAct
                     <CardHeader
                         pad={{ horizontal: 'small', vertical: 'small' }}
                         background="#000000A0"
-                        width="medium"
+                        width="100%"
                         justify="start">
                         <Box width="100%">
                             <div className='photo-buttons'>

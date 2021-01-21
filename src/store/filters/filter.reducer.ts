@@ -7,6 +7,8 @@ export interface IServiceFilters {
     dateFrom: string;
     dateTo: string;
     weight: number[];
+    page: number;
+    phoneNumber: string;
 }
 
 interface IState {
@@ -14,7 +16,7 @@ interface IState {
 }
 
 const INITIAL_STATE: IState = {
-    currentFilters: { dogName: "", breed: "", location: [], dateFrom: "", dateTo: "", weight: [] }
+    currentFilters: { dogName: "", phoneNumber: "", breed: "", location: [], dateFrom: "", dateTo: "", weight: [], page: 1 }
 }
 const filtersReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {

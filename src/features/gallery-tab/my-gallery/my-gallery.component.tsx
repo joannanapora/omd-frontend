@@ -45,13 +45,12 @@ const MyGallery = ({ history, user }) => {
     }
 
     const filterMyGallery = (params?: any) => {
+
         if (!params) {
             params = { userId: user.userId }
         } else {
             params = { ...params, userId: user.userId }
         }
-
-        setLoading(true);
         getGallery(params)
             .then((response) => {
                 const filteredGallery = response.data.map(image => ({
@@ -61,9 +60,8 @@ const MyGallery = ({ history, user }) => {
                     key: image.id,
                     image: image.url,
                 }));
-
-                setCardList(filteredGallery);
                 setLoading(false);
+                setCardList(filteredGallery);
 
             }).catch((error) => {
                 setLoading(false);
@@ -98,7 +96,8 @@ const MyGallery = ({ history, user }) => {
 
                     />
                 ))}
-            </Box> :
+            </Box>
+            :
             <Box
                 height="80%"
                 justify="center"
@@ -107,8 +106,7 @@ const MyGallery = ({ history, user }) => {
                     No Results
                 </div>
             </Box>)
-            ;
-    }
+    };
 
     return (
         <div className='gallery'>
@@ -124,7 +122,6 @@ const MyGallery = ({ history, user }) => {
                     </div>
                     <CustomFilterInput value={searchInput} name='search-images' onChange={handleSearchInput} />
                     <div className='filter-button'><CustomButton disabled label="My Gallery" icon={<Gallery />} primary /></div>
-
                     {modalIsOpen && (<CustomModal
                         modalIsOpen={modalIsOpen}
                         content={

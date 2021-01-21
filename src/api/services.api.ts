@@ -2,8 +2,9 @@ import axios from "axios";
 
 import { Location, Weight } from "../models/enums";
 
+
 export const getServices = (queryParams?: any): Promise<any> => {
-  let url = process.env.REACT_APP_API_URL + "/services?page=1&limit=10";
+  let url = process.env.REACT_APP_API_URL + "/services?page=1&limit=20&";
 
   if (queryParams) {
     if (queryParams.dogName) {

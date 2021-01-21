@@ -59,9 +59,11 @@ const SignIn = ({ dispatchSetCurrentUser, history }) => {
 
     const handleChange = (event) => {
         if (event.target.name === "email") {
-            setEmail(event.target.value)
+            setEmail(event.target.value);
+            setNotification(false);
         } else {
-            setPassword(event.target.value)
+            setPassword(event.target.value);
+            setNotification(false);
         }
     };
 

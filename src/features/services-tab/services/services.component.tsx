@@ -34,14 +34,16 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
         { header: "Breed", property: 'breed' },
         { header: "Weight", property: "weight" },
         { header: "London Location", property: "location" },
+        { header: "PhoneNumber", property: "phoneNumber" },
         { header: "Date of Birth", property: "dateFrom" },
     ];
     const [errorNotification, showErrorNotification]: [boolean, any] = useState(false);
     const [services, setServices]: [IService[], any] = useState([]);
+
     const [sidebar, isSidebarVisible]: [boolean, any] = useState(false);
     const [modalIsOpen, setIsOpen]: [boolean, any] = useState(false);
     const [loading, setLoading]: [boolean, any] = useState(true);
-
+    const [showPN, setShowPN]: [boolean, any] = useState(false);
 
     useEffect(() => {
         filterServices();
@@ -76,6 +78,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
         getServices(params)
             .then((response) => {
                 const services = response.data.data.map(element => ({
+                    phoneNumber: element.s_phoneNumber,
                     id: element.id,
                     dogName: element.dogName,
                     breed: element.breed,
@@ -128,7 +131,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
                         { type: 'slideUp', duration: 200 },
                     ]}
                 >
-                    <Box className="filter-box" alignSelf='center' pad='small'>
+                    <Box className="filter-box" alignSelf='center' width="100%" pad='small'>
                         <div className='filter-categories'>
                             <FormField>
                                 <TextInput className='filter-input' value={filters?.dogName} onChange={event => handleInputsChange(event)}

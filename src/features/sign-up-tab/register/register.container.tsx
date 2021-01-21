@@ -7,6 +7,7 @@ import { MailOption, License } from 'grommet-icons';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
 import { emailMask } from '../../../shared/masked-input/masked-email';
 import { validateEmail } from '../../../shared/index';
+import { validatePassword } from '../../../shared/index';
 import './register.container.scss';
 
 import { postSignUp } from '../../../api';
@@ -20,12 +21,22 @@ const Register = ({ history }) => {
         event.preventDefault();
 
         if (!validateEmail(email)) {
-            alert("email is wrong");
+            alert("Email is wrong");
             return;
         }
 
         if (password !== confirmPassword) {
-            alert("passwords don't match");
+            alert("Passwords don't match");
+            return;
+        }
+
+        if (password.length < 8) {
+            alert("Password is too short.");
+            return;
+        }
+
+        if (!validateEmail(password)) {
+            alert("Password is too weak.(It must include: 1 capital letter, 1 special sign)");
             return;
         }
 
