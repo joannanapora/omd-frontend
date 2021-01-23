@@ -4,7 +4,7 @@ import { Location, Weight } from "../models/enums";
 
 
 export const getServices = (queryParams?: any): Promise<any> => {
-  let url = process.env.REACT_APP_API_URL + "/services?page=1&limit=20&";
+  let url = process.env.REACT_APP_API_URL + "/services?";
 
   if (queryParams) {
     if (queryParams.dogName) {
@@ -25,6 +25,10 @@ export const getServices = (queryParams?: any): Promise<any> => {
       queryParams.weight.forEach((w) => {
         url = url + "weights=" + w + "&";
       });
+    }
+
+    if (queryParams.sort) {
+      url = url + "sort=" + queryParams.sort;
     }
   }
 

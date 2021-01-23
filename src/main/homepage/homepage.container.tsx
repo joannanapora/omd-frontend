@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 
 import { Switch, Route, withRouter } from "react-router-dom";
 
-import AccountCreated from "../../features/sign-up-tab/account-created/account-created.component";
+import AccountCreated from "../../features/register-tab/account-created/account-created.component";
 import MyGallery from '../../features/gallery-tab/my-gallery/my-gallery.component';
 import GalleryPage from '../../features/gallery-tab/gallery/gallery.component';
-import Register from "../../features/sign-up-tab/register/register.container";
+import Register from "../../features/register-tab/register/register.container";
 import AllDogs from '../../features/services-tab/services/services.component';
 import MyProfile from "../../features/my-profile-tab/my-profile.component";
 import Contact from "../../features/contact-tab/contact.components";
 import DonatePage from '../../features/donate-tab/donate.component';
-import SignIn from "../../features/sign-in-tab/sign-in.container";
+import SignIn from "../../features/login-tab/sign-in.container";
 import SideBar from "../sidebar/sidebar.component";
 import "./homepage.container.scss";
 

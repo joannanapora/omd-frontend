@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Box, DropButton, Header, Nav, ResponsiveContext } from "grommet";
 import { IMenuList } from '../../models/interfaces/index';
 
-import SidebarButton from "../sidebar-button/sidebar-button.component";
+import SidebarButton from "./sidebar-button/sidebar-button.component";
 import "./sidebar.component.scss";
 
 const SideBar = ({ menuList }: { menuList: IMenuList[] }) => {

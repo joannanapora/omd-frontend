@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 
 import { Box, DateInput, TextInput, DataTable, FormField } from 'grommet';
-import { NewWindow, SearchAdvanced, Erase } from 'grommet-icons';
+import { NewWindow, SearchAdvanced, Erase, Unsorted } from 'grommet-icons';
 
 import { selectUserFilters } from '../../../store/filters/filter.selectors';
 import { selectCurrentUser } from '../../../store/user/user.selectors';
@@ -43,11 +43,11 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
     const [sidebar, isSidebarVisible]: [boolean, any] = useState(false);
     const [modalIsOpen, setIsOpen]: [boolean, any] = useState(false);
     const [loading, setLoading]: [boolean, any] = useState(true);
-    const [showPN, setShowPN]: [boolean, any] = useState(false);
+    const [sort, setSort]: [string, any] = useState('ASC');
 
     useEffect(() => {
-        filterServices();
-    }, []);
+        filterServices({ ...filters, sort });
+    }, [sort]);
 
     const handleDateChange = (event, name) => {
         dispatchSetUserFilters({ [name]: event.value });
@@ -73,12 +73,12 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
     };
 
 
-    const filterServices = (params?: any) => {
+    const filterServices = (params: any = {}) => {
         setLoading(true);
-        getServices(params)
+        getServices({ ...params, sort })
             .then((response) => {
-                const services = response.data.data.map(element => ({
-                    phoneNumber: element.s_phoneNumber,
+                const services = response.data.map(element => ({
+                    phoneNumber: element.phoneNumber,
                     id: element.id,
                     dogName: element.dogName,
                     breed: element.breed,
@@ -86,11 +86,11 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
                     location: mapLocationsToOptions(element.location),
                     dateFrom: format(new Date(element.dateFrom), 'dd/MM/yyyy'),
                 }));
-                setServices(services)
+                setServices(services);
                 setLoading(false);
             }).catch(() => {
-                showErrorNotification(true)
-                setLoading(false)
+                showErrorNotification(true);
+                setLoading(false);
             });
     };
 
@@ -105,6 +105,12 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
     const closeModal = () => {
         setIsOpen(false);
         filterServices();
+    }
+
+    const handleSort = (e) => {
+        setSort(
+            sort === 'ASC' ? 'DESC' : 'ASC'
+        );
     }
 
     return (
@@ -149,7 +155,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
                                 <CustomFilter className='filter-select' selectedOptions={filters?.location} name="location" onChange={handleSelectsChange}
                                     options={['north', 'north-west', 'north-east', 'west', 'east', 'south', 'south-west', 'south-east']} placeholder="Location" />
                             </FormField>
-                            <FormField><DateInput format="dd/mm/yyyy" value={filters?.dateFrom} onChange={(event) => handleDateChange(event, "dateFrom")} name="dateFrom" /></FormField>
+                            <CustomButton className='sort-button' reverse icon={< Unsorted />} default onClick={handleSort} label="Date"></CustomButton>
                             <CustomButton className='clear-button' icon={<Erase />} default onClick={clearAllFilters} /></div>
                     </Box>
                 </Box >

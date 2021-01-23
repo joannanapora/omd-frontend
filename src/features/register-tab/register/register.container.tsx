@@ -4,10 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { Box, MaskedInput, Form, FormField, TextInput } from 'grommet';
 import { MailOption, License } from 'grommet-icons';
 
+import Notification, { Status } from '../../../shared/custom-notification/custom-notification.component';
 import CustomButton from '../../../shared/custom-button/custom-button.component';
 import { emailMask } from '../../../shared/masked-input/masked-email';
-import { validateEmail } from '../../../shared/index';
 import { validatePassword } from '../../../shared/index';
+import { validateEmail } from '../../../shared/index';
 import './register.container.scss';
 
 import { postSignUp } from '../../../api';
@@ -16,27 +17,31 @@ const Register = ({ history }) => {
     const [email, setEmail]: [string, any] = useState("");
     const [password, setPassword]: [string, any] = useState("");
     const [confirmPassword, setConfirmPassword]: [string, any] = useState("");
+    const [tooWeakNotification, showTooWeakNotification]: [boolean, any] = useState(false);
+    const [tooShortNotification, showTooShortNotification]: [boolean, any] = useState(false);
+    const [dontMatchNotification, showDontMatchNotification]: [boolean, any] = useState(false);
+    const [wrongEmail, showWrongEmail]: [boolean, any] = useState(false);
 
     const handleSubmit = async event => {
         event.preventDefault();
 
         if (!validateEmail(email)) {
-            alert("Email is wrong");
+            showWrongEmail(true);
             return;
         }
 
         if (password !== confirmPassword) {
-            alert("Passwords don't match");
+            showDontMatchNotification(true);
             return;
         }
 
         if (password.length < 8) {
-            alert("Password is too short.");
+            showTooShortNotification(true);
             return;
         }
 
-        if (!validateEmail(password)) {
-            alert("Password is too weak.(It must include: 1 capital letter, 1 special sign)");
+        if (!validatePassword(password)) {
+            showTooWeakNotification(true);
             return;
         }
 
@@ -65,6 +70,19 @@ const Register = ({ history }) => {
         if (event.target.name === "confirmPassword") {
             setConfirmPassword(event.target.value)
         }
+        if (tooWeakNotification) {
+            showTooWeakNotification(false)
+        };
+        if (dontMatchNotification) {
+            showDontMatchNotification(false)
+        };
+        if (tooShortNotification) {
+            showTooShortNotification(false)
+        };
+        if (wrongEmail) {
+            showWrongEmail(false)
+        };
+
     };
 
     return (
@@ -110,6 +128,38 @@ const Register = ({ history }) => {
                         type='submit' />
                 </Box>
             </Form>
+            {
+                wrongEmail ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"Email is wrong"} />
+                    :
+                    null
+            }
+            {
+                tooWeakNotification ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"Password is too weak"} />
+                    :
+                    null
+            }
+            {
+                tooShortNotification ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"Password is too short"} />
+                    :
+                    null
+            }
+            {
+                dontMatchNotification ?
+                    <Notification
+                        status={Status.FAILURE}
+                        text={"Passwords don't match"} />
+                    :
+                    null
+            }
         </div >
     )
 };
