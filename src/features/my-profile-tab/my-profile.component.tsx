@@ -16,7 +16,7 @@ const MyProfile = () => {
         name: '',
         surname: '',
         postCode: '',
-        phoneNumber: null,
+        phoneNumber: '',
     });
 
     const [okNotification, showOkNotification]: [boolean, any] = useState(false);
@@ -29,10 +29,10 @@ const MyProfile = () => {
         setLoading(true);
         getUser().then((response) => {
             setPersonalDetails({
-                name: response.data.name,
-                surname: response.data.surname,
-                postCode: response.data.postCode,
-                phoneNumber: response.data.phoneNumber
+                name: response.data.name || "",
+                surname: response.data.surname || "",
+                postCode: response.data.postCode || "",
+                phoneNumber: response.data.phoneNumber || ""
             });
             setLoading(false)
         }).catch(error => {

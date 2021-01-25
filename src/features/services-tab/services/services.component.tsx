@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
-import { Box, DateInput, TextInput, DataTable, FormField } from 'grommet';
+import { Box, TextInput, DataTable, FormField } from 'grommet';
 import { NewWindow, SearchAdvanced, Erase, Unsorted } from 'grommet-icons';
 
 import { selectUserFilters } from '../../../store/filters/filter.selectors';
@@ -47,11 +47,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
 
     useEffect(() => {
         filterServices({ ...filters, sort });
-    }, [sort]);
-
-    const handleDateChange = (event, name) => {
-        dispatchSetUserFilters({ [name]: event.value });
-    };
+    }, [sort, filters]);
 
     const handleInputsChange = (event) => {
         filterServices({
@@ -75,7 +71,7 @@ const AllDogs = ({ filters, user, dispatchSetUserFilters, }) => {
 
     const filterServices = (params: any = {}) => {
         setLoading(true);
-        getServices({ ...params, sort })
+        getServices(params)
             .then((response) => {
                 const services = response.data.map(element => ({
                     phoneNumber: element.phoneNumber,

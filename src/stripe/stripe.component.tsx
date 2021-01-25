@@ -3,10 +3,9 @@ import StripeCheckout from 'react-stripe-checkout';
 
 
 import Notification, { Status } from '../shared/custom-notification/custom-notification.component';
-import CustomButton from '../shared/custom-button/custom-button.component';
 import './stripe.styles.scss';
 
-const StripeCheckoutButton = ({ donation, cleanAmount }) => {
+const StripeCheckoutButton = ({ donation }) => {
 
     const [notification, isNotificationVisible] = useState(false);
 
@@ -20,19 +19,17 @@ const StripeCheckoutButton = ({ donation, cleanAmount }) => {
 
     return (
         <div className='donate' >
-            <CustomButton onClick={cleanAmount}>
-                <StripeCheckout
-                    image="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg"
-                    name="Oh My Dog"
-                    description={`You are donating £${donation}`}
-                    label='Donate'
-                    panelLabel="Donate"
-                    amount={donationStripe}
-                    currency="GBP"
-                    stripeKey={publishableKey}
-                    token={handleToken}>
-                </StripeCheckout>
-            </CustomButton>
+            <StripeCheckout
+                image="https://www.flaticon.com/svg/static/icons/svg/676/676163.svg"
+                name="Oh My Dog"
+                description={`You are donating £${donation}`}
+                label='Donate'
+                panelLabel="Donate"
+                amount={donationStripe}
+                currency="GBP"
+                stripeKey={publishableKey}
+                token={handleToken}>
+            </StripeCheckout>
             {notification ? (
                 <Notification
                     status={Status.SUCCESS}

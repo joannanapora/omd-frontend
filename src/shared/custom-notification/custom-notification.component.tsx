@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Layer, Box, Button, Text } from 'grommet';
-import { Alert, FormCheckmark, FormClose, StatusGood, } from 'grommet-icons';
+import { Alert, FormCheckmark, FormClose } from 'grommet-icons';
 
 export enum Status {
     "SUCCESS",
@@ -9,14 +9,20 @@ export enum Status {
 }
 
 const Notification = ({ text, status }: { text: string, status: Status }) => {
-
+    let mounted = useRef(true);
     const [isOpen, setIsOpen]: [boolean, any] = useState(false);
+
 
     useEffect(() => {
         setIsOpen(true);
+
         setTimeout(() => {
-            setIsOpen(false)
+            if (mounted.current) {
+                setIsOpen(false);
+            }
         }, 5000);
+
+        return () => mounted.current = false;
     }, [])
 
 

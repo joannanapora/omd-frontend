@@ -17,10 +17,6 @@ const DonatePage = () => {
         }
     }
 
-    const cleanAmount = () => {
-        setAmount('')
-    }
-
     return (
         <Box className="donate-box" background="white" border={{ color: 'brand', size: 'medium' }} gap="small" pad="large" width="medium">
             <h1>Oh My Dog!</h1>
@@ -34,7 +30,7 @@ const DonatePage = () => {
                     <TextInput min='1' type='number' maxLength={7} size='small' icon={<CreditCard />} value={amount} name='amount' reverse placeholder='GPB' onChange={handleInputChange}></TextInput>
                 </FormField>
                 <div className='stripe' >
-                    <StripeCheckoutButton cleanAmount={cleanAmount} donation={amount} />
+                    <StripeCheckoutButton donation={amount} />
                 </div>
             </Box>
             <h6 style={{ color: '#d6702b' }}> Please, use FAKE CARD details:

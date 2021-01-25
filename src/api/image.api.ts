@@ -9,7 +9,7 @@ export const postImage = (
     };
 
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("file", image);
 
     return axios.post(
         process.env.REACT_APP_API_URL + "/images/upload",
